@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src"],
+      "@components/*": ["src/components"],
+      "@views/*": ["src/views"]
+    },
+    // использование более строгого вывода типов для свойств данных в `this`
+    "jsx": "preserve",
+    "moduleResolution": "node"
+  }
+}

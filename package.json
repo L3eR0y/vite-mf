@@ -1,0 +1,41 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Webpack5 Module Federation",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack -c configurations/webpack/production.js",
+    "dev": "webpack serve -c configurations/webpack/development.js"
+  },
+  "author": "VKovalev",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.22.5",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-env": "^7.22.5",
+    "@vue/compiler-sfc": "^3.3.4",
+    "babel-loader": "^9.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "node-sass": "^9.0.0",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^8.5.1",
+    "pug": "^3.0.2",
+    "pug-plain-loader": "^1.1.0",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.3",
+    "typescript": "^5.1.3",
+    "vue-loader": "^17.0.1",
+    "webpack": "^5.88.0",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "vue": "^3.2.36",
+    "vue-router": "^4.2.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
