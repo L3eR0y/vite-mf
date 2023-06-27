@@ -2,7 +2,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const webpack = require('webpack')
 const path = require('path')
 
 module.exports = {
@@ -38,7 +37,6 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: `src/index.html`,

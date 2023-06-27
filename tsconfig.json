@@ -9,6 +9,8 @@
       "@views/*": ["src/views"]
     },
     // использование более строгого вывода типов для свойств данных в `this`
+    "strict": true,
+    "noImplicitAny": false,
     "jsx": "preserve",
     "moduleResolution": "node"
   }
