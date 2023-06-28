@@ -1,11 +1,13 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin")
 
 const path = require('path')
 
 module.exports = {
     mode: 'development',
+    devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: true,
         static: {
@@ -35,14 +37,6 @@ module.exports = {
     experiments: {
         outputModule: true
     },
-    plugins: [
-        new VueLoaderPlugin(),
-        new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            template: `src/index.html`,
-            filename: 'index.html'
-        }),
-    ],
     resolve: {
         extensions: [".ts", ".tsx", ".js"],
         alias: {
@@ -97,5 +91,21 @@ module.exports = {
             },
            
         ]
-    }
+    },
+    plugins: [
+        new VueLoaderPlugin(),
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: `src/index.html`,
+            filename: 'index.html'
+        }),
+        new ModuleFederationPlugin({
+            name: 'main',
+            filename: 'main.mf.js',
+            remotes: {
+                AppOne: "AppOne@http://localhost:3031/appOne.entry.js"
+            },
+            exposes: {}
+        })
+    ],
 }

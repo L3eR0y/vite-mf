@@ -7,6 +7,8 @@
 </template>
 
 <script setup lang="ts">
+    import AppOne from 'AppOne'
+
     const props = defineProps({
         first_simple_prop: {
             type: String,
