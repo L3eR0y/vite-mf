@@ -7,38 +7,19 @@ const path = require('path')
 
 module.exports = {
     mode: 'development',
-    devtool: 'inline-source-map',
-    devServer: {
-        historyApiFallback: true,
-        static: {
-            directory: path.join(__dirname, '../../dist')
-        },
-        open: false,
-        compress: true,
-        hot: true,
-        port: 3030
+    cache: false,
+    devtool: 'source-map',
+    optimization: {
+        minimize: false,
     },
-    entry: {
-        main: path.resolve(__dirname, '../../src/main.ts')
-    },
+    target: 'web',
+    entry: path.resolve(__dirname, '../../src/index.js'),
     output: {
-        path: path.resolve(__dirname, '../../dist'),
-        filename: '[name].bundle.js',
-        publicPath: '/',
-        module: true,
+        publicPath: 'auto',
         clean: true,
-        environment: {
-            arrowFunction: true,
-            forOf: true,
-            destructuring: true,
-            const: true,
-        }
-    },
-    experiments: {
-        outputModule: true
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js"],
+        extensions: ['.vue', '.ts', '.tsx', '.jsx', '.js', '.json' ],
         alias: {
             "@": path.resolve(__dirname, "../../src/"),
             "@components": path.resolve(__dirname, "../../src/components"),
@@ -93,19 +74,29 @@ module.exports = {
         ]
     },
     plugins: [
-        new VueLoaderPlugin(),
-        new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            template: `src/index.html`,
-            filename: 'index.html'
-        }),
         new ModuleFederationPlugin({
             name: 'main',
-            filename: 'main.mf.js',
             remotes: {
-                AppOne: "AppOne@http://localhost:3031/appOne.entry.js"
+                app2: "app2@http://localhost:5050/app2.entry.js"
             },
-            exposes: {}
-        })
+            exposes: {},
+        }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, '../../src/index.html'),
+        }),
+        new VueLoaderPlugin()        
     ],
+    devServer: {
+        static: {
+          directory: path.join(__dirname),
+        },
+        compress: true,
+        port: 3030,
+        hot: true,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+          'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+        },
+    },
 }

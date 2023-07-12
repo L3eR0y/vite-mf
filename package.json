@@ -1,9 +1,8 @@
 {
-  "name": "package",
+  "name": "vue-ts-host",
   "version": "1.0.0",
   "private": true,
   "description": "Webpack5 Module Federation",
-  "main": "index.js",
   "scripts": {
     "build": "webpack -c configurations/webpack/production.js",
     "dev": "webpack serve -c configurations/webpack/development.js"

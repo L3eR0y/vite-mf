@@ -1,29 +1,12 @@
 <template lang="pug">
 .app-wrapper
-    .app-wrapper--side_bar
-        router-link(to="/home") Home
-    .app-wrapper--view-container
-        router-view
+    div 
+        h1 TS-HOST
+    div
+        remote-app
 </template>
 
 <script setup lang="ts">
-    import AppOne from 'AppOne'
-
-    const props = defineProps({
-        first_simple_prop: {
-            type: String,
-            required: false
-        },
-        second_simple_prop: {
-            type: Number,
-            required: false
-        },
-        third_simple_prop: {
-            type: [Array, Object],
-            required: false,
-            default: () => ([1,2,3])
-        }
-    })
 </script>
 
 <style scoped lang="scss">
