@@ -5,13 +5,13 @@ import App from './App.vue'
 import '@/styles/normalize.scss'
 import '@/styles/app.scss'
 
-const RemoteApp = defineAsyncComponent(() => import('app2/app'))
-
-// const app = createApp(App)
-
+const RemoteButton = defineAsyncComponent(() => import('app2/RemoteButton'))
+// const HostApp = defineAsyncComponent(() => import('./views/Home.vue'))
 
 const app = createApp(App);
 
-app.component('remote-app', RemoteApp)
+app.component('remote-button', RemoteButton)
 
-app.use(router).mount('#app');
+app
+  .use(router)
+  .mount('#app');

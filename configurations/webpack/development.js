@@ -80,6 +80,14 @@ module.exports = {
                 app2: "app2@http://localhost:5050/app2.entry.js"
             },
             exposes: {},
+            shared: {
+                vue: {
+                    singleton: true
+                },
+                "vue-router": {
+                    singleton: true
+                }
+            }
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../../src/index.html'),
@@ -90,6 +98,7 @@ module.exports = {
         static: {
           directory: path.join(__dirname),
         },
+        historyApiFallback: true,
         compress: true,
         port: 3030,
         hot: true,
