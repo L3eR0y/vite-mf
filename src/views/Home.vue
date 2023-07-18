@@ -13,12 +13,14 @@
 <script setup lang="ts">
 import NavigationBar from '../components/NavigationBar/index.vue'
 import { useRouter } from 'vue-router'
+import { inject } from 'vue'
 
 const router = useRouter()
 
 function onRLinkClick(name: string) {
     router.push({name})
 }
+
 </script>
     
 <style scoped lang="scss">

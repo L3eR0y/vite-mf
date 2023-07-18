@@ -33,6 +33,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "keycloak-js": "^22.0.1",
     "vue": "^3.2.36",
     "vue-router": "^4.2.2",
     "webpack-cli": "^5.1.4"
