@@ -1,6 +1,7 @@
 <template lang="pug">
 .navigation-bar.navigation-bar__wrapper 
   h1 TS-HOST HEADER
+  h1 AUTH: {{ $keycloak.authenticated }}
 </template>
   
 <script setup lang="ts">
@@ -17,6 +18,7 @@
   .navigation-bar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     height: 3.5rem;
     

@@ -3,11 +3,13 @@ router-view
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, inject} from 'vue'
 import { useRouter } from 'vue-router'
 
+const keycloak = inject('keycloak')
+
 onMounted(() => {
-    // console.log('Init auth')
+    console.log('Init auth', keycloak)
     // keycloak?.init?.({ onLoad: 'login-required' }).then((auth: Boolean) => {
     //     if (!auth) {
     //         console.log('AUTH: ', auth)
