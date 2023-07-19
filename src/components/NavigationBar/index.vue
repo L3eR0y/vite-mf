@@ -1,6 +1,8 @@
 <template lang="pug">
-.navigation-bar.navigation-bar__wrapper 
-  h1 TS-HOST HEADER
+.navigation-bar.navigation-bar__wrapper
+  .logo-container
+    img.logo(src="../../assets/images/connect.svg" alt="My Happy SVG")
+    .label MF-HOST
   .user-avatar
     <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="17.5" cy="17.5" r="17.5" fill="#DE0A26"/>
@@ -45,6 +47,23 @@
       box-shadow: 0 .125rem 1rem 0 rgba(0,0,0,.05);
       padding-left: 1.5rem;
       padding-right: 1.5rem;
+
+      .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & .logo {
+          height: 32px;
+          width: 32px;
+        }
+
+        & .label {
+          color: #2f3c43;
+          font-size: 24px;
+          font-weight: bold;
+          padding-left: 10px;
+        }
+      }
 
       .user-avatar {
         height: 32px;

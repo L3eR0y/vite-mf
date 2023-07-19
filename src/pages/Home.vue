@@ -40,6 +40,7 @@ function onRLinkClick(name: string) {
             display: flex;
             height: 100%;
             background-color: rgb(245, 245, 245);
+            z-index: 850;
     
             & .side_bar {
                 width: 17.5rem;
@@ -49,6 +50,7 @@ function onRLinkClick(name: string) {
                 padding: 1rem 0 1rem 1rem;
                 box-shadow: 0 10px 10px rgba(0,0,0,.05);
                 background-color: rgb(255, 255, 255);
+                z-index: 849;
 
                 &__rlink {
                     width: 100%;
