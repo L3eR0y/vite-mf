@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { defineAsyncComponent } from "vue"
 
-// const RemoteButton = defineAsyncComponent(() => import('app2/RemoteButton'))
-// const HostApp = defineAsyncComponent(() => import('./views/Home.vue'))
 
 export default createRouter({
   history: createWebHistory(),
@@ -10,7 +7,7 @@ export default createRouter({
     {
       path: '/',
       name: 'index',
-      component: () => import('./views/Home.vue'),
+      component: () => import('@pages/Home.vue'),
       children: [
         {
           path: '/app1',
@@ -20,7 +17,7 @@ export default createRouter({
         {
           path: '/remote-app',
           name: 'remote-app',
-          component: () => import('./pages/RemoteApp/RemoteApp.vue')
+          component: () => import('@pages/RemoteApp/RemoteApp.vue')
         },
       ]
     },

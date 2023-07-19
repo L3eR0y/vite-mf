@@ -1,5 +1,6 @@
 import Keycloak from 'keycloak-js'
-import * as Vue from 'vue'
+import { isAuthenticated, setUser } from './keycloak.state'
+
 
 const keycloak_config: Keycloak.KeycloakConfig = {
   url: 'https://authdev2.synergy.ru/auth',
@@ -20,12 +21,22 @@ function createKeycloak(): Keycloak {
   return $keycloak
 }
 
-async function initKeycloak(): Promise<boolean | undefined> {
-  const _auth = await $keycloak?.init(init_options)
-  return _auth
+async function initKeycloak(): Promise<void> {
+  try {
+    let _authenticated = await $keycloak?.init(init_options)
+    isAuthenticated(_authenticated || false)
+    $keycloak?.idTokenParsed && setUser($keycloak?.idTokenParsed)
+  } catch(error: any) {
+    isAuthenticated(false)
+  }
+}
+
+function getKeycloak(): Keycloak | undefined {
+  return $keycloak
 }
 
 export {
   createKeycloak,
-  initKeycloak
+  initKeycloak,
+  getKeycloak
 }

@@ -2,8 +2,8 @@ import { createApp, defineAsyncComponent } from "vue"
 import router from './routes'
 import App from './App.vue'
 
-import '@/styles/normalize.scss'
-import '@/styles/app.scss'
+import '@src/styles/normalize.scss'
+import '@src/styles/app.scss'
 
 import keycloakPlugin from './plugins/keycloakPlugin'
 

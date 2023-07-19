@@ -4,9 +4,10 @@
     "module": "ES2022",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src"],
+      "@src/*": ["src"],
+      "@types/*": ["types"],
       "@components/*": ["src/components"],
-      "@views/*": ["src/views"]
+      "@pages/*": ["src/pages"]
     },
     // использование более строгого вывода типов для свойств данных в `this`
     "strict": true,

@@ -1,26 +1,17 @@
 <template lang="pug">
-router-view
+template(v-if="!isAuthenticated")
+    div {{ isAuthenticated }}
+template(v-else)
+    router-view
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted, inject} from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import { useKeycloak } from './auth/keycloak.composable'
 
-const keycloak = inject('keycloak')
+const { isAuthenticated } = useKeycloak()
 
-onMounted(() => {
-    console.log('Init auth', keycloak)
-    // keycloak?.init?.({ onLoad: 'login-required' }).then((auth: Boolean) => {
-    //     if (!auth) {
-    //         console.log('AUTH: ', auth)
-    //     } else {
-    //         console.log('AUTH: ', auth)
-    //         useRouter().push({
-    //             name: 'index'
-    //         })
-    //     }
-    // })
-})
+onMounted(() => {})
 </script>
 
 <style scoped lang="scss"></style>

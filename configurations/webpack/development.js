@@ -21,7 +21,9 @@ module.exports = {
     resolve: {
         extensions: ['.vue', '.ts', '.tsx', '.jsx', '.js', '.json' ],
         alias: {
-            "@": path.resolve(__dirname, "../../src/"),
+            "@src": path.resolve(__dirname, "../../src"),
+            "@types": path.resolve(__dirname, "../types"),
+            "@pages": path.resolve(__dirname, "../../src/pages"),
             "@components": path.resolve(__dirname, "../../src/components"),
             "@views": path.resolve(__dirname, "../../src/views")
         }
