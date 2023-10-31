@@ -14,5 +14,6 @@ export const getters = {
 
 export const actions = {
   set_user: (user: User): void => { state.user = user },
-  increment: (count: number = 0) => { state.counter += count}
+  increment: (count: number = 0) => { state.counter += count},
+  decrement: (count: number = 0) => { state.counter -= count},
 }

@@ -8,6 +8,11 @@
             .side_bar__rlink(@click="onRLinkClick('remote-app')") REMOTE APP
             .side_bar__rlink(@click="onRLinkClick('test')") TEST
             .side_bar__rlink(@click="onRLinkClick('expirements')") EXP
+            .side_bar__container
+                .abtn.abtn-inc(@click="onIncrement1Click") +
+                .abtn.abtn-inc(@click="onIncrement2Click") +
+                .abtn.abtn-dec(@click="onDecrement1Click") -
+                .abtn.abtn-dec(@click="onDecrement2Click") -
         .main
             router-view
 </template>
@@ -15,11 +20,31 @@
 <script setup lang="ts">
 import NavigationBar from '../components/NavigationBar/index.vue'
 import { useRouter } from 'vue-router'
+import { useExpirements } from '../composables'
+
+// const { actions, getters } = useMainStore()
+const { actions, getters } = useExpirements()
 
 const router = useRouter()
 
 function onRLinkClick(name: string = 'index') {
     router.push({name})
+}
+
+function onIncrement1Click() {
+    actions?.i1(7)
+}
+
+function onIncrement2Click() {
+    actions?.i2(10)
+}
+
+function onDecrement1Click() {
+    actions?.d1(3)
+}
+
+function onDecrement2Click() {
+    actions?.d2(1)
 }
 
 </script>
@@ -70,6 +95,26 @@ function onRLinkClick(name: string = 'index') {
                     font-weight: bold;
                     cursor: pointer;
                 }
+
+                &__container{
+                    width: 100%;
+                    display: flex;
+                    font-size: .88rem;
+                    gap: 4px;
+                    margin-right: 1rem;
+                    
+
+                    .abtn {
+                        background-color: #fff2f3;
+                        color: #de0a26;
+                        padding: 1rem 1.5rem;
+                        box-sizing: border-box;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-weight: bold;
+                        user-select: none; 
+                    }
+                }
             }
 
             & .main {
@@ -84,9 +129,7 @@ function onRLinkClick(name: string = 'index') {
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-    
-    
+        } 
     
         &--view-container {
             width: 90%;

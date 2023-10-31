@@ -1,15 +1,19 @@
 <template lang="pug">
-div Expirements
+div {{ c1 }} {{ c2 }}
 </template>
   
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useMainStore } from '../../composables'
+import { onMounted, computed } from 'vue'
+import { useExpirements } from '../../composables'
 
-const state = useMainStore()
+const { actions, getters } = useExpirements()
 
-onMounted(() => {
-    console.log('EXP STATE: ', state)
+const c1 = computed(() => {
+  return getters?.ex1?.() || 0
+})
+
+const c2 = computed(() => {
+  return getters?.ex2?.() || 0
 })
 </script>
 

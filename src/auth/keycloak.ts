@@ -1,5 +1,5 @@
 import Keycloak from 'keycloak-js'
-import { isAuthenticated, setUser } from '../stores/keycloack/keycloak.state'
+import { isAuthenticated, setUser } from '../stores/keycloack/state'
 
 
 const keycloak_config: Keycloak.KeycloakConfig = {
