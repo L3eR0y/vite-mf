@@ -1,4 +1,4 @@
-import { KeycloakState, KeycloakTokenParsed } from '../../types/keycloak'
+import { KeycloakState, KeycloakTokenParsed } from '../../../types/keycloak'
 import { reactive } from 'vue'
 
 export const state = reactive<KeycloakState>({

@@ -7,11 +7,15 @@ template(v-else)
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useKeycloak } from './auth/keycloak.composable'
+import { useMainStore, useKeycloak } from './composables'
 
 const { isAuthenticated } = useKeycloak()
+const state = useMainStore()
 
-onMounted(() => {})
+
+onMounted(() => {
+    console.log('APP STATE: ', state)
+})
 </script>
 
 <style scoped lang="scss"></style>

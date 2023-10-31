@@ -7,7 +7,7 @@ import '@src/styles/app.scss'
 
 import keycloakPlugin from './plugins/keycloakPlugin'
 
-const RemoteButton = defineAsyncComponent(() => import('app2/RemoteButton'))
+const RemoteButton = defineAsyncComponent(() => import('templateRemoteEntry/AdministrationView'))
 // const HostApp = defineAsyncComponent(() => import('./views/Home.vue'))
 
 const app = createApp(App);

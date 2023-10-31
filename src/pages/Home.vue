@@ -6,6 +6,8 @@
         .side_bar
             .side_bar__rlink(@click="onRLinkClick('app1')") Все доступные сервисы
             .side_bar__rlink(@click="onRLinkClick('remote-app')") REMOTE APP
+            .side_bar__rlink(@click="onRLinkClick('test')") TEST
+            .side_bar__rlink(@click="onRLinkClick('expirements')") EXP
         .main
             router-view
 </template>
@@ -13,11 +15,10 @@
 <script setup lang="ts">
 import NavigationBar from '../components/NavigationBar/index.vue'
 import { useRouter } from 'vue-router'
-import { inject } from 'vue'
 
 const router = useRouter()
 
-function onRLinkClick(name: string) {
+function onRLinkClick(name: string = 'index') {
     router.push({name})
 }
 

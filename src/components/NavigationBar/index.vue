@@ -19,7 +19,7 @@
   
 <script setup lang="ts">
   import { onMounted, computed } from 'vue'
-  import { useKeycloak } from '../../auth/keycloak.composable'
+  import { useKeycloak } from '../../composables'
 
   const { isAuthenticated, user,  } = useKeycloak()
 

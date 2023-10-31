@@ -37,7 +37,7 @@ module.exports = {
                 exclude: /node_modules/
             },
              // CSS, PostCSS, Sass
-             {
+            {
                 test: /\.(c|sa|sc)ss$/i,
                 use: [
                   'style-loader',
@@ -79,7 +79,7 @@ module.exports = {
         new ModuleFederationPlugin({
             name: 'main',
             remotes: {
-                app2: "app2@http://localhost:5050/app2.entry.js"
+                templateRemoteEntry: "templateRemoteEntry@http://localhost:5050/templateRemoteEntry.entry.js"
             },
             exposes: {},
             shared: {
