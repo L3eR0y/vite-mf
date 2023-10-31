@@ -9,11 +9,11 @@ import { useExpirements } from '../../composables'
 const { actions, getters } = useExpirements()
 
 const c1 = computed(() => {
-  return getters?.ex1?.() || 0
+  return getters?.ex1() || 0
 })
 
 const c2 = computed(() => {
-  return getters?.ex2?.() || 0
+  return getters?.ex2() || 0
 })
 </script>
 
