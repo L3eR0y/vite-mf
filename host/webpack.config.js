@@ -1,0 +1,52 @@
+const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  mode: 'development',
+  entry: path.resolve(__dirname, './index.js'),
+  output: {
+    filename: 'index.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+  }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.pug$/,
+        loader: 'pug-plain-loader'
+      },
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    }),
+    new VueLoaderPlugin()
+  ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname),
+    },
+    historyApiFallback: true,
+      compress: true,
+      port: 3030,
+      hot: true,
+    }
+}

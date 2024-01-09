@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "isolatedModules": true,
+    "paths": {
+      "@/*": ["src"],
+      "@types/*": ["types"],
+      "@components/*": ["src/components"],
+      "@pages/*": ["src/pages"]
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
+    // "target": "ES2022",
+    // "module": "ES2022",
+    
+
+    // // использование более строгого вывода типов для свойств данных в `this`
+    // "strict": true,
+    // "noImplicitAny": false,
+    // "jsx": "preserve",
+    // "moduleResolution": "node"
+  }
+}
