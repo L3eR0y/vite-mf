@@ -1,6 +1,7 @@
 const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin")
 
 module.exports = {
   mode: 'development',
@@ -35,6 +36,19 @@ module.exports = {
     ]
   },
   plugins: [
+    new ModuleFederationPlugin({
+      name: 'host',
+      filename: 'hostRemoteEntry.entry.js',
+      exposes: {},
+      shared: {
+          vue: {
+              singleton: true
+          },
+          "vue-router": {
+              singleton: true
+          }
+      }
+    }),
     new HtmlWebpackPlugin({
       template: './index.html'
     }),

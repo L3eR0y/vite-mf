@@ -4,6 +4,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import App from './src/App.vue'
 
+//Plugins
+import RemoteLoaderPlugin from './src/plugins/remote-loader'
+
 const routes = []
 
 const router = createRouter({
@@ -15,5 +18,6 @@ const app = createApp(App);
 
 app.use(router)
 app.use(pinia)
+app.use(RemoteLoaderPlugin, { router })
 
 app.mount('#app');
