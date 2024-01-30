@@ -2,18 +2,25 @@
   <div v-if="visible" class="sidebar-container" :class="{ minimized: isMinimized }">
     <div class="sidebar-main">
       <CustomScrollbar class="sidebar-menu-container d-flex flex-column align-content-start pl-3 py-3">
-        <BaseSidebarMenuItem
+        <SidebarItem
           v-for="(item, index) in options"
           :key="`${item.route} ${index}`"
           :item="item"
-          :is-minimized="visible"
+          :minimized="visible"
         />
       </CustomScrollbar>
-      <BaseSidebarMenuItem
+      <div>Hello World</div>
+      <!-- <SidebarItem
+        :minimized="false"
+        :item="{}"
+      >
+        <div>Hello World</div>
+      </SidebarItem> -->
+      <!-- <SidebarItem
         style="padding-left: 1rem; padding-top: 16px; padding-bottom: 16px"
         :key="`sidebar-feedback-button`"
         :item="{}"
-        :is-minimized="visible"
+        :minimized="visible"
       >
         <div
           class="feedback-link"
@@ -26,20 +33,22 @@
           <div>Обратная связь</div>
           <a ref="feedback-link" style="display: none" href="mailto:lms@synergy.ru" to="mailto:lms@synergy.ru"></a>
         </div>
-      </BaseSidebarMenuItem>
+      </SidebarItem> -->
     </div>
     <div class="mobile-background" @click="toggleMenu()" />
   </div>
 </template>
 
 <script>
-import Icon from '@/components/Icon/Icon.vue'
-import CustomScrollbar from '@/components/CustomScrollbar/CustomScrollbar.vue'
+import Icon from '@components/Icon/Icon.vue'
+import CustomScrollbar from '@components/CustomScrollbar/CustomScrollbar.vue'
+import SidebarItem from '@components/SidebarItem/SidebarItem.vue'
 
 export default {
   components: {
     Icon,
-    CustomScrollbar
+    CustomScrollbar,
+    SidebarItem
   },
   props: {
     options: {

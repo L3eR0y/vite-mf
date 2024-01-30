@@ -1,20 +1,20 @@
 <template>
   <div :class="{ 'mb-1': isExpanded }" class="sidebar-menu-item">
     <slot v-bind="this">
-      <SideBarAccordion
-        :expand="expanded && !isMinimized"
+      <!-- <SideBarAccordion
+        :expand="expanded && !minimized"
         :expanded-from-left-transition.sync="expandedFromLeftTransition"
       >
         <template #head>
-          <NavItem :item="item" :is-minimized="isMinimized" @click.native="handleMenuItemClick" />
+          <NavItem :item="item" :is-minimized="minimized" @click.native="handleMenuItemClick" />
         </template>
 
         <template #body>
-          <div class="submenu-container ml-3 px-3">
+          <div class="submenu-container ml-3 px-3" v-if="item.submenu">
             <NavItem
               v-for="(submenuItem, index) in item.submenu"
               :key="submenuItem.route + index"
-              :is-minimized="isMinimized"
+              :is-minimized="minimized"
               is-submenu-item
               class="submenu-item"
               :item="submenuItem"
@@ -22,16 +22,19 @@
             />
           </div>
         </template>
-      </SideBarAccordion>
+      </SideBarAccordion> -->
     </slot>
   </div>
 </template>
 
 <script>
+import SideBarAccordion from '@components/SidebarAccordion/SidebarAccordion.vue'
+import NavItem from '@components/NavItem/NavItem.vue'
+
 export default {
   components: {
-    SideBarAccordion: () => import('~/components/ui/SideBarAccordion'),
-    NavItem: () => import('~/components/BaseComponents/BaseNavItem'),
+    SideBarAccordion,
+    NavItem,
   },
 
   props: {
@@ -39,7 +42,7 @@ export default {
       type: Object,
       required: true,
     },
-    isMinimized: {
+    minimized: {
       type: Boolean,
       required: true,
     },
@@ -96,21 +99,7 @@ export default {
         this.item?.action()
       }
 
-      this.$nuxt.$emit('collapse-all-menu-items', this.item)
-
-      // if (!this.item.submenu?.length) {
-      //   this.minimizeIfRequired()
-      //   return
-      // }
-
-      // if (this.isMinimized) {
-      //   this.$nuxt.$emit('minimizemenu', false)
-
-      //   this.expandedFromLeftTransition = true
-      //   this.isExpanded = true
-
-      //   return
-      // }
+      // this.$nuxt.$emit('collapse-all-menu-items', this.item)
 
       this.isExpanded = !this.isExpanded
     },
@@ -131,20 +120,20 @@ export default {
   },
 
   created() {
-    this.$nuxt.$on('collapse-all-menu-items', (item) => {
-      if (item.route === this.item.route) {
-        return
-      }
+    // this.$nuxt.$on('collapse-all-menu-items', (item) => {
+    //   if (item.route === this.item.route) {
+    //     return
+    //   }
 
-      this.isExpanded = false
-    })
+    //   this.isExpanded = false
+    // })
 
-    this.$nuxt.$on('minimizemenu', (minimized) => {
-      if (minimized) {
-        return
-      }
-      this.expandedFromLeftTransition = true
-    })
+    // this.$nuxt.$on('minimizemenu', (minimized) => {
+    //   if (minimized) {
+    //     return
+    //   }
+    //   this.expandedFromLeftTransition = true
+    // })
   },
 }
 </script>
