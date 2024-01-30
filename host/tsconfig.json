@@ -3,12 +3,13 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "paths": {
-      "@/*": ["src"],
-      "@types/*": ["types"],
-      "@components/*": ["src/components"],
-      "@pages/*": ["src/pages"]
+      "@/*": ["src/*"],
+      "@types/*": ["types/*"],
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"]
     },
     "jsx": "preserve",
-    "jsxImportSource": "vue"
+    "jsxImportSource": "vue",
+    "allowJs": true
   }
 }

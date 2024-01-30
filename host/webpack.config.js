@@ -19,6 +19,26 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.scss$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          // 'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              additionalData: `
+                @import "@/assets/styles/scss/index.scss";
+              `
+            }
+          }
+        ],
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
         test: /\.tsx?$/,
         loader: 'ts-loader',
         options: {

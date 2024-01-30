@@ -1,10 +1,18 @@
 <template lang="pug">
-.app-warpper Hello World
+#__app
+  router-view
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-// import { useMainStore } from '@/stores/main'
-
-// const main_store = useMainStore()
 </script>
+
+<style lang="scss" scoped>
+#__app {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+</style>

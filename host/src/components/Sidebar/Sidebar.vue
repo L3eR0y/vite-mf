@@ -1,0 +1,189 @@
+<template>
+  <div v-if="visible" class="sidebar-container" :class="{ minimized: isMinimized }">
+    <div class="sidebar-main">
+      <CustomScrollbar class="sidebar-menu-container d-flex flex-column align-content-start pl-3 py-3">
+        <BaseSidebarMenuItem
+          v-for="(item, index) in options"
+          :key="`${item.route} ${index}`"
+          :item="item"
+          :is-minimized="visible"
+        />
+      </CustomScrollbar>
+      <BaseSidebarMenuItem
+        style="padding-left: 1rem; padding-top: 16px; padding-bottom: 16px"
+        :key="`sidebar-feedback-button`"
+        :item="{}"
+        :is-minimized="visible"
+      >
+        <div
+          class="feedback-link"
+          :class="{
+            'is-minimized': visible,
+          }"
+          @click="onFeedbackClick"
+        >
+          <Icon name="question" />
+          <div>Обратная связь</div>
+          <a ref="feedback-link" style="display: none" href="mailto:lms@synergy.ru" to="mailto:lms@synergy.ru"></a>
+        </div>
+      </BaseSidebarMenuItem>
+    </div>
+    <div class="mobile-background" @click="toggleMenu()" />
+  </div>
+</template>
+
+<script>
+import Icon from '@/components/Icon/Icon.vue'
+import CustomScrollbar from '@/components/CustomScrollbar/CustomScrollbar.vue'
+
+export default {
+  components: {
+    Icon,
+    CustomScrollbar
+  },
+  props: {
+    options: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+    visible: {
+      type: Boolean,
+      required: true,
+      default: true
+    }
+  },
+  data() {
+    return {
+      menuItems: [],
+      isMinimized: localStorage.getItem('minimized') === 'true',
+    }
+  },
+  computed: {},
+  methods: {
+    setIsMinimized(event) {
+      this.isMinimized = event
+    },
+    toggleMenu() {
+      localStorage.setItem('minimized', !this.isMinimized)
+      this.$nuxt.$emit('minimizemenu', !this.isMinimized)
+    },
+    onFeedbackClick() {
+      this.$refs?.['feedback-link'].click()
+    },
+  },
+  beforeDestroy() {},
+}
+</script>
+
+<style lang="scss" scoped>
+.sidebar-container {
+  width: $sidebar-width;
+  position: relative;
+  height: 100%;
+  transition: width 0.3s ease-out;
+  @include max(1199) {
+    position: fixed;
+    z-index: 1;
+  }
+}
+
+.sidebar-main {
+  display: flex;
+  flex-direction: column;
+  width: $sidebar-width;
+  position: fixed;
+  z-index: 100;
+  top: $navbar-height;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  height: calc(100% - #{$navbar-height});
+  background: $white-color;
+  transition: width 0.3s ease-out, left 0.3s 0.13s ease-out;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-menu-container {
+  width: 100%;
+  height: 100%;
+  background: $white-color;
+}
+
+.mobile-background {
+  @include max(1199) {
+    position: absolute;
+    width: 100vw;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    transition: opacity 0.25s ease-out;
+    height: 100vh;
+    opacity: 1;
+  }
+}
+
+.minimized {
+  .mobile-background {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease-out;
+  }
+
+  @media (max-width: 1199px) {
+    pointer-events: none;
+  }
+}
+
+.minimized .sidebar-main,
+.minimized {
+  width: $sidebar-width-minimized;
+  transition: width 0.3s ease-in-out, left 0.25s ease-in-out;
+  z-index: 0;
+}
+
+.minimized .sidebar-main {
+  @include max(1199) {
+    left: -$sidebar-width-minimized;
+  }
+}
+
+.custom-logo-object {
+  margin-left: -1rem;
+  max-width: 80%;
+  width: rem(120px);
+}
+
+.feedback-link {
+  transition: transform 0.15s 0.25s ease-out, opacity 0.15s 0.25s ease-out, font-size 0.01s 0.25s ease-out;
+  word-break: normal;
+  overflow-wrap: break-word;
+  font-weight: $font-weight-semibold;
+  padding: 1rem;
+  font-size: 0.88rem;
+  height: 3.3125rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 1rem;
+  color: #ff0a47;
+  border: 1px solid #ff0a47;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    &.is-minimized {
+      background-color: transparent;
+    }
+  }
+}
+
+.is-minimized {
+  opacity: 0;
+  font-size: 0;
+  pointer-events: none;
+  transform: translateX(-20px);
+  transition: transform 0.15s ease-out, font-size 0.01s 0.14s, opacity 0.12s ease-out;
+}
+</style>
