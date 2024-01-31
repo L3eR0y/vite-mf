@@ -1,30 +1,25 @@
-<template>
-  <div
-    class="navbar-nav flex-row align-items-center justify-content-end pr-4 ml-auto"
-    :class="{ 'mobile-hide': !isMinimized }"
-  >
-    <!-- <UserMenuSelector /> -->
-  </div>
+<template lang="pug">
+.navbar-nav.flex-row.align-items-center.justify-content-end.pr-4.ml-auto(:class="{ 'mobile-hide': !minimized }")
+  UserMenuSelector
 </template>
 
 <script>
-// import UserMenuSelector from '@/components/Navbar/UserMenuSelector.vue'
+import UserMenuSelector from '@components/Navbar/UserMenuSelector.vue'
+
 export default {
   components: {
-    // UserMenuSelector,
+    UserMenuSelector,
   },
 
   props: {
-    isMinimized: {
+    minimized: {
       type: Boolean,
+      required: true,
+      default: false
     },
   },
 
-  computed: {
-    // ...mapState("im", {
-    //   unreadMessages: "unreadMessages",
-    // }),
-  },
+  computed: {},
 };
 </script>
 

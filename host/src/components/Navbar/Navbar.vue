@@ -1,18 +1,20 @@
-<template>
-  <div class="navbar navbar-light justify-content-start flex-nowrap bg-white shadow p-0">
-    <Controls :minimized="!visible" @toggle-sidebar="onToggleSideBar"/>
-  </div>
+<template lang="pug">
+.navbar.navbar-light.justify-content-start.flex-nowrap.bg-white.shadow.p-0
+  SubSystemSelector(:minimized="minimized")
+  Controls(:minimized="minimized" @toggle-sidebar="onToggleSideBar")
+  UserMenu(:minimized="minimized")
 </template>
 
 <script>
 import { useMainStore }  from '@/stores/main.ts'
-import Controls from '@/components/Navbar/Controls.vue'
-import UserMenu from '@/components/Navbar/UserMenu.vue'
+import Controls from '@components/Navbar/Controls.vue'
+import UserMenu from '@components/Navbar/UserMenu.vue'
+import SubSystemSelector from '@components/Navbar/SubSystemSelector.vue'
 
 export default {
   name: 'NavbarComponent',
   components: {
-    // SubSystemSelector,
+    SubSystemSelector,
     Controls,
     UserMenu,
   },
@@ -22,7 +24,7 @@ export default {
     }
   },
   computed: {
-    visible() {
+    minimized() {
       return useMainStore().sidebar.minimized
     }
   },

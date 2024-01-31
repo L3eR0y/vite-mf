@@ -25,11 +25,13 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "keycloak-js": "^23.0.5",
     "normalize.css": "^8.0.1",
     "pinia": "^2.1.7",
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
     "vue": "^3.4.6",
+    "vue-i18n": "^9.9.1",
     "vue-router": "^4.2.5"
   }
 }

@@ -1,7 +1,7 @@
 <template>
-  <div :class="{ 'mb-1': isExpanded }" class="sidebar-menu-item">
-    <slot v-bind="this">
-      <!-- <SideBarAccordion
+  <div class="sidebar-menu-item" :class="{ 'mb-1': expanded }">
+    <slot>
+      <SideBarAccordion
         :expand="expanded && !minimized"
         :expanded-from-left-transition.sync="expandedFromLeftTransition"
       >
@@ -22,7 +22,7 @@
             />
           </div>
         </template>
-      </SideBarAccordion> -->
+      </SideBarAccordion>
     </slot>
   </div>
 </template>
@@ -73,9 +73,9 @@ export default {
      * И если ширина экрана менее 768
      */
     minimizeIfRequired() {
-      if (localStorage.getItem('minimized') === 'true' || document.body.clientWidth < 768) {
-        this.$nuxt.$emit('minimizemenu', true)
-      }
+      // if (localStorage.getItem('minimized') === 'true' || document.body.clientWidth < 768) {
+      //   this.$nuxt.$emit('minimizemenu', true)
+      // }
     },
 
     /**

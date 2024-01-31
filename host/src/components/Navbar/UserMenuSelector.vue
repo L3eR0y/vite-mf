@@ -1,11 +1,10 @@
 <template>
   <div
-    v-click-outside="close"
     class="dropdown d-flex align-items-center"
     data-cy="user-menu-dropdown"
     @click="show = !show"
   >
-    <Avatar :badge-state="$webSockets.state === STATE_OPEN" role="button" aria-haspopup="true" aria-expanded="false" />
+    <Avatar :badge-state="true" role="button" aria-haspopup="true" aria-expanded="false" />
 
     <transition name="nav-user-menu" mode="out-in">
       <div class="d-block dropdown-menu" :class="{ show }" aria-labelledby="dropdownMenuButton">
@@ -29,11 +28,11 @@
 </template>
 
 <script>
-import { STATE_OPEN } from '~/consts/socket-consts'
+import Avatar from '@components/Avatar/Avatar.vue'
 
 export default {
   components: {
-    Avatar: () => import('~/components/ui/Avatar'),
+    Avatar,
   },
 
   data() {
@@ -45,12 +44,13 @@ export default {
   methods: {
     logout() {
       // Workaround to clear the session data in browser after logging out.
-      this.$router.push({ path: '/logout' })
+      // this.$router.push({ path: '/logout' })
+      this.$keycloak.logout()
     },
 
     profile() {
       // this.$nuxt.$emit("open-profile", openSettings);
-      if (this.$route.name !== 'profile') this.$router.push({ name: 'profile' })
+      // if (this.$route.name !== 'profile') this.$router.push({ name: 'profile' })
     },
 
     close() {
@@ -59,7 +59,6 @@ export default {
   },
 
   created() {
-    this.STATE_OPEN = STATE_OPEN
   },
 }
 </script>

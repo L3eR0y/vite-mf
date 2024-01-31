@@ -23,10 +23,10 @@ export const useMainStore = defineStore('main', {
   },
   actions: {
     showSidebar() {
-      this.sidebar.minimized = true
+      this.sidebar.minimized = false
     },
     hideSidebar() {
-      this.sidebar.minimized = false
+      this.sidebar.minimized = true
     }
   }
 })

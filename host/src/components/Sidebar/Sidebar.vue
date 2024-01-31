@@ -1,31 +1,24 @@
 <template>
-  <div v-if="visible" class="sidebar-container" :class="{ minimized: isMinimized }">
+  <div class="sidebar-container" :class="{ minimized: minimized }">
     <div class="sidebar-main">
       <CustomScrollbar class="sidebar-menu-container d-flex flex-column align-content-start pl-3 py-3">
         <SidebarItem
           v-for="(item, index) in options"
           :key="`${item.route} ${index}`"
           :item="item"
-          :minimized="visible"
+          :minimized="minimized"
         />
       </CustomScrollbar>
-      <div>Hello World</div>
-      <!-- <SidebarItem
-        :minimized="false"
-        :item="{}"
-      >
-        <div>Hello World</div>
-      </SidebarItem> -->
-      <!-- <SidebarItem
+      <SidebarItem
         style="padding-left: 1rem; padding-top: 16px; padding-bottom: 16px"
         :key="`sidebar-feedback-button`"
         :item="{}"
-        :minimized="visible"
+        :minimized="false"
       >
-        <div
+        <div 
           class="feedback-link"
           :class="{
-            'is-minimized': visible,
+            'is-minimized': minimized,
           }"
           @click="onFeedbackClick"
         >
@@ -33,9 +26,9 @@
           <div>Обратная связь</div>
           <a ref="feedback-link" style="display: none" href="mailto:lms@synergy.ru" to="mailto:lms@synergy.ru"></a>
         </div>
-      </SidebarItem> -->
+      </SidebarItem>
     </div>
-    <div class="mobile-background" @click="toggleMenu()" />
+    <div class="mobile-background" @click="onMobileBackgroundClick()" />
   </div>
 </template>
 
@@ -56,7 +49,7 @@ export default {
       required: false,
       default: () => [],
     },
-    visible: {
+    minimized: {
       type: Boolean,
       required: true,
       default: true
@@ -65,17 +58,18 @@ export default {
   data() {
     return {
       menuItems: [],
-      isMinimized: localStorage.getItem('minimized') === 'true',
+      isMinimized: false,
     }
   },
-  computed: {},
+  computed: {
+    
+  },
   methods: {
     setIsMinimized(event) {
       this.isMinimized = event
     },
-    toggleMenu() {
-      localStorage.setItem('minimized', !this.isMinimized)
-      this.$nuxt.$emit('minimizemenu', !this.isMinimized)
+    onMobileBackgroundClick() {
+      this.$emit('toggle-sidebar')
     },
     onFeedbackClick() {
       this.$refs?.['feedback-link'].click()

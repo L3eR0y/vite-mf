@@ -10,6 +10,8 @@
     },
     "jsx": "preserve",
     "jsxImportSource": "vue",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "allowJs": true
   }
 }

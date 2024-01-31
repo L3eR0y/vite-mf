@@ -1,8 +1,7 @@
 <template>
   <div
-    v-click-outside="closeMenu"
     class="dropdown pl-4 pr-0 pr-sm-4 d-md-block user-select-none"
-    @click="subsystemLogoClickHandler"
+    @click="onSubsystemClick"
   >
     <button
       v-if="currentSubsystem"
@@ -10,7 +9,6 @@
       class="system-switcher d-flex align-items-center justify-content-start btn"
       aria-haspopup="true"
       aria-expanded="false"
-      @click="toggleMenu"
     >
       <object
         type="image/svg+xml"
@@ -20,76 +18,30 @@
       />
 
       <span
-        v-if="!$adaptive || !$adaptive.isTouchDevice"
         class="navbar-brand-name d-flex align-items-center"
         :class="{
-          'is-minimized': isMinimized,
+          'is-minimized': minimized,
         }"
       >
         <span class="navbar-brand d-flex align-items-center user-select-none">
-          <span v-if="!$appSettings.isSystemCustomized" class="default-system">
+          <span class="default-system">
             Synergy
           </span>
-          <strong :class="{ 'ml-1': !$appSettings.isSystemCustomized }">
+          <strong :class="{ 'ml-1': true }">
             <font :color="currentSubsystem.color">
               {{ currentSubsystem.name }}
             </font>
           </strong>
         </span>
-
-        <span
-          v-if="activeSubsystems.length"
-          class="dropdown-icon icons-outlined icon-muted user-select-none ml-auto"
-        >
-          <icon :icon="['fal', 'angle-down']" />
-        </span>
       </span>
     </button>
-
-    <transition
-      v-if="activeSubsystems.length && activeSubsystems.length > 0"
-      name="nav-subsystem"
-      mode="out-in"
-    >
-      <div
-        class="menu"
-        :class="{ 'dropdown-menu': availableSubsystems.length, show }"
-        aria-labelledby="dropdownMenuButton"
-      >
-        <n-link
-          v-for="subsystem in activeSubsystems"
-          :key="subsystem.name"
-          class="dropdown-item d-flex align-items-center"
-          :to="subsystem.link"
-        >
-          <div class="dropdown-logo mr-2">
-            <object type="image/svg+xml" :data="subsystem.icon" width="22" />
-          </div>
-          <span v-if="!$appSettings.isSystemCustomized" class="default-system">
-            Synergy
-          </span>
-          <span class="subsystem ml-1">
-            <font :color="subsystem.color">
-              {{ subsystem.name }}
-            </font>
-          </span>
-        </n-link>
-      </div>
-    </transition>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
-import {
-  getAvailableSubsystems,
-  getUserRights,
-} from '~/helpers/user-rights-helper'
-
 export default {
   props: {
-    isMinimized: {
+    minimized: {
       type: Boolean,
     },
   },
@@ -103,68 +55,23 @@ export default {
           name: 'LK',
           link: '/',
           color: '#DE0A26',
-          icon: require('assets/images/subsystems/connect.svg'),
+          icon: require('@/assets/images/subsystems/connect.svg'),
         },
       ],
     }
   },
 
   computed: {
-    ...mapState('user', ['flatRoutesMap']),
-
     currentSubsystem() {
-      const curSubSystem = this.subsystems.find(
-        (subsystem) =>
-          subsystem.name.toLowerCase() === this.currentSubsystemName
-      )
-      return curSubSystem
-    },
-
-    activeSubsystems() {
-      const activeSubsystems = this.subsystems.filter((subsystem) =>
-        this.availableSubsystems.includes(subsystem.name.toLowerCase())
-      )
-      return activeSubsystems
-    },
-
-    currentSubsystemName() {
-      return this.$route.path.startsWith('/erp')
-        ? 'erp'
-        : this.$route.path.startsWith('/studio')
-        ? 'studio'
-        : this.$route.path.startsWith('/lk')
-        ? 'lk'
-        : this.availableSubsystems.length
-        ? this.availableSubsystems[0]
-        : 'lk'
+      return this.subsystems[0]
     },
   },
 
-  created() {
-    this.availableSubsystems = getAvailableSubsystems(
-      getUserRights(this.$auth),
-      this.flatRoutesMap
-    )
-
-    this.availableSubsystems = this.availableSubsystems.filter((subsystem) => {
-      return subsystem !== this.currentSubsystemName
-    })
-  },
+  created() {},
   methods: {
-    subsystemLogoClickHandler() {
-      if (!this.availableSubsystems.length) {
-        if (this.currentSubsystem?.link) {
-          this.$router.push(this.currentSubsystem.link)
-        } else {
-          this.$router.push('/')
-        }
-      }
+    onSubsystemClick() {
+      this.$router.push(`${this.currentSubsystem.link || '/'}`)
     },
-
-    toggleMenu() {
-      this.show = !this.show
-    },
-
     closeMenu() {
       this.show = false
     },
