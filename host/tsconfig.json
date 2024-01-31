@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
+    "typeRoots": [
+      "src/types"
+    ],
     "isolatedModules": true,
     "paths": {
       "@/*": ["src/*"],

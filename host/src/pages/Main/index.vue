@@ -4,28 +4,32 @@
     Navbar(@toggle-sidebar="onToggleSideBar")
   .main-layout__wrapper
     .sidebar
-      Sidebar(:minimized="store.sidebar.minimized" @toggle-sidebar="onToggleSideBar")
+      Sidebar(:minimized="store.sidebar.minimized" @toggle-sidebar="onToggleSideBar" :options="sidebar_menu_items")
     .main-view
       router-view
 </template>
   
 <script setup lang="ts">
-  import { onMounted, getCurrentInstance } from 'vue'
+  import { onMounted, getCurrentInstance, reactive } from 'vue'
   import { useMainStore }  from '@/stores/main'
+  import type { SidebarMenu } from '@/types/sidebar.type'
   import Navbar from '../../components/Navbar/Navbar.vue'
   import Sidebar from '@/components/Sidebar/Sidebar.vue'
 
   const store = useMainStore()
   const app = getCurrentInstance()
 
-  function onToggleSideBar():void {
-    console.log(store.sidebar.minimized)
+  const sidebar_menu_items: SidebarMenu = reactive<SidebarMenu>([
+    {
+      id: '1',
+      route: '/',
+      title: 'Пункт бокового меню'
+    }
+  ])
+
+  function onToggleSideBar(): void {
     store.sidebar.minimized ? store.showSidebar() : store.hideSidebar()
   }
-
-  onMounted(() => {
-    console.log('Mounted: ', app)
-  })
 </script>
   
 <style lang="scss" scoped>
