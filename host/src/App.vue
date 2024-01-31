@@ -1,10 +1,13 @@
 <template lang="pug">
 #__app
-  router-view
+  div(v-if="!store.$auth.authenticated")
+  router-view(v-else)
 </template>
 
 <script setup lang="ts">
+  import { useMainStore }  from '@/stores/main'
 
+  const store = useMainStore()
 </script>
 
 <style lang="scss" scoped>

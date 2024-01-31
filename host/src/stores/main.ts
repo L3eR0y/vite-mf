@@ -1,24 +1,17 @@
 import { defineStore } from 'pinia'
+import Keycloak from 'keycloak-js'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
-    authentication: {},
-    user: {
-      first_name: 'ExampleFirstName',
-      second_name: 'ExampleSecondName',
-      middle_name: 'ExampleMiddleName'
-    },
+    $auth: {} as Keycloak,
+    user: {} as Keycloak.KeycloakProfile,
     sidebar: {
       minimized: false
     },
     ex_field: 'example string field',
   }),
   getters: {
-    auth: (state) => state.authentication,
-    first_name: (state) => state.user.first_name,
-    second_name: (state) => state.user.second_name,
-    middle_name: (state) => state.user.middle_name,
-    full_name: (state) => `${state.user.second_name} ${state.user.first_name} ${state.user.middle_name}`,
+    auth: (state) => state.$auth,
     sidebar_minimized: (state) => state.sidebar.minimized
   },
   actions: {

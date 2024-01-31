@@ -16,11 +16,16 @@ const init_options: Keycloak.KeycloakInitOptions = {
 export default {
   install: (app, options) => {
     const store = useMainStore()
+
     const _keycloak = new Keycloak(keycloak_config)
     _keycloak.init(init_options).then((auth: boolean) => {
       console.log('AUTH: ', _keycloak, store)
+      if(auth) {
+        store.$auth = _keycloak
+        _keycloak.loadUserInfo().then((user: Keycloak.KeycloakProfile)=>{
+          store.user = user
+        })
+      }
     })
-
-    app.config.globalProperties.$keycloak = _keycloak
   }
 }

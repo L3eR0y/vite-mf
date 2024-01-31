@@ -7,9 +7,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ruLocale from '@/locales/ru.json'
 import enLocale from '@/locales/en.json'
 
-// Stores
-// import { useMainStore } from './src/stores/main'
-
 // Styles
 import "./src/assets/styles/bootstrap.css"
 import "./src/assets/styles/app.scss"
@@ -17,8 +14,8 @@ import "./src/assets/styles/app.scss"
 // Routes
 import routes from  './src/routes/routes'
 
+// Pages
 import App from './src/App.vue'
-
 
 //Plugins
 // import RemoteLoaderPlugin from './src/plugins/remote-loader'
