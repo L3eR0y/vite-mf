@@ -19,7 +19,6 @@ export default {
 
     const _keycloak = new Keycloak(keycloak_config)
     _keycloak.init(init_options).then((auth: boolean) => {
-      console.log('AUTH: ', _keycloak, store)
       if(auth) {
         store.$auth = _keycloak
         _keycloak.loadUserInfo().then((user: Keycloak.KeycloakProfile)=>{

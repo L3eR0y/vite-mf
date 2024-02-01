@@ -12,7 +12,7 @@
       }"
       @click="onNavClick"
     >
-      <Icon :name="item.icon.name || 'services'" :color="activeClass ? '#FF0141' : item.icon.color" />
+      <Icon :name="item.icon && item.icon.name" :color="activeClass ? '#FF0141' : item.icon.color" />
       <!-- <template v-if="typeof item.icon === 'object'">
         <Icon :name="item.icon.name || 'services'" :color="activeClass ? '#FF0141' : item.icon.color" />
       </template>
@@ -72,11 +72,11 @@ export default {
     },
 
     translatedTitle() {
-      if (this.isSubmenuItem) {
-        return this.item.locale
-          ? this.$t(this.item.locale)
-          : this.$t(`pages.${this.item.route.toLowerCase().split('-').join('.')}.title`)
-      }
+      // if (this.isSubmenuItem) {
+      //   return this.item.locale
+      //     ? this.$t(this.item.locale)
+      //     : this.$t(`pages.${this.item.route.toLowerCase().split('-').join('.')}.title`)
+      // }
       return this.item.title
     },
 

@@ -25,7 +25,68 @@
       name: 'second',
       route: 'second',
       title: 'Первый пункт меню',
-      icon: {}
+      icon: {
+        name: 'services'
+      },
+      submenu: [
+        {
+          id: '11',
+          name: 'second11',
+          route: 'second11',
+          title: 'Подменю 1',
+          icon: {
+            
+          },
+        },
+        {
+          id: '12',
+          name: 'second12',
+          route: 'second11',
+          title: 'Подменю 2',
+          icon: {},
+        },
+        {
+          id: '13',
+          name: 'second13',
+          route: 'second11',
+          title: 'Подменю 3',
+          icon: {},
+        },
+      ]
+    },
+    {
+      id: '2',
+      name: 'third',
+      route: 'third',
+      title: 'Второй пункт меню',
+      icon: {
+        name: 'services'
+      },
+      submenu: [
+        {
+          id: '21',
+          name: 'second11',
+          route: 'second11',
+          title: 'Подменю 1',
+          icon: {
+            
+          },
+        },
+        {
+          id: '22',
+          name: 'second12',
+          route: 'second11',
+          title: 'Подменю 2',
+          icon: {},
+        },
+        {
+          id: '23',
+          name: 'second13',
+          route: 'second11',
+          title: 'Подменю 3',
+          icon: {},
+        },
+      ]
     }
   ])
 
@@ -62,7 +123,7 @@
 
   .main-view {
     @include scroll();
-    
+
     background-color: #f5f5f5;
     display: flex;
     justify-content: center;

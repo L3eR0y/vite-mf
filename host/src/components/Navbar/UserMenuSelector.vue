@@ -29,6 +29,7 @@
 
 <script>
 import Avatar from '@components/Avatar/Avatar.vue'
+import { useMainStore }  from '@/stores/main'
 
 export default {
   components: {
@@ -38,6 +39,7 @@ export default {
   data() {
     return {
       show: false,
+      store: null
     }
   },
 
@@ -45,7 +47,8 @@ export default {
     logout() {
       // Workaround to clear the session data in browser after logging out.
       // this.$router.push({ path: '/logout' })
-      this.$keycloak.logout()
+      // console.log('STORE: ', this.store)
+      this.store?.$auth?.logout?.()
     },
 
     profile() {
@@ -59,6 +62,7 @@ export default {
   },
 
   created() {
+    this.store = useMainStore()
   },
 }
 </script>

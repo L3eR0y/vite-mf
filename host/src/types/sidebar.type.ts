@@ -7,7 +7,8 @@ type SidebarMenuItem = {
     name?: string,
     [key: string]: any
   },
-  position?: number
+  position?: number,
+  submenu?: SidebarMenuItem[]
 }
 
 type SidebarMenu = SidebarMenuItem[]
