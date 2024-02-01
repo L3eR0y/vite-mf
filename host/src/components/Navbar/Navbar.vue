@@ -1,5 +1,5 @@
 <template lang="pug">
-.navbar.navbar-light.justify-content-start.flex-nowrap.bg-white.shadow.p-0
+.navbar.navbar-light.justify-content-start.flex-nowrap.bg-white.p-0
   SubSystemSelector(:minimized="minimized")
   Controls(:minimized="minimized" @toggle-sidebar="onToggleSideBar")
   UserMenu(:minimized="minimized")
@@ -20,18 +20,22 @@ export default {
   },
   data() {
     return {
+      store: null,
       isMinimized: false
     }
   },
   computed: {
     minimized() {
-      return useMainStore().sidebar.minimized
+      return this.store.sidebar.minimized
     }
   },
   methods: {
     onToggleSideBar() {
       this.$emit('toggle-sidebar')
     }
+  },
+  created() {
+    this.store = useMainStore()
   }
 }
 </script>
@@ -39,6 +43,7 @@ export default {
 <style lang="scss" scoped>
 .navbar {
   height: $navbar-height;
+  box-shadow: 0 .125rem 1rem 0 rgba(0,0,0,.05)!important;
   z-index: 201;
 
   &-search {

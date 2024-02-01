@@ -12,14 +12,15 @@
       }"
       @click="onNavClick"
     >
-      <template v-if="typeof item.icon === 'object'">
-        <Icon :name="item.icon.name" :color="activeClass ? '#FF0141' : item.icon.color" />
+      <Icon :name="item.icon.name || 'services'" :color="activeClass ? '#FF0141' : item.icon.color" />
+      <!-- <template v-if="typeof item.icon === 'object'">
+        <Icon :name="item.icon.name || 'services'" :color="activeClass ? '#FF0141' : item.icon.color" />
       </template>
       <template v-else>
         <span v-if="item.icon" class="icon-muted d-flex">
           <i :class="['sy-icon', item.icon]" />
         </span>
-      </template>
+      </template> -->
 
       <span class="nav-item-label" :class="{ 'ml-3': !isSubmenuItem }">
         {{ translatedTitle }}
@@ -98,8 +99,9 @@ export default {
 <style lang="scss" scoped>
 .nav-item {
   display: block;
-  margin-right: rem(16px);
+  // margin-right: rem(16px);
   margin-bottom: rem(4px);
+  min-width: 56px;
   cursor: pointer;
 
   &.subnav-item {
@@ -111,7 +113,7 @@ export default {
   color: $gray-color-7;
   width: 100%;
   text-decoration: none !important;
-  padding: 1rem 0.5rem;
+  padding: 18px 16px;
   font-size: $font-size-slg;
   height: rem(53px);
   border-radius: 10px;

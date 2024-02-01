@@ -84,13 +84,15 @@ export default {
      * раскрываем аккордеон. Если сайдбар свернут, то раскрываем сайдбар и аккордеон, а так же сворачиваем
      * все остальные пункты меню - с помощью collapse-all-menu-items устанавливаем для них isExpanded = false
      */
-    async handleMenuItemClick() {
-      this.$store.commit('ui/SET_SIDEBAR_ACTIVE_ITEM', this.item?.route || '')
+    handleMenuItemClick() {
+      // console.log('ITEM: ', this.item)
+      // console.log('ROUTER: ', this.$router, this.$route)
+      // this.$store.commit('ui/SET_SIDEBAR_ACTIVE_ITEM', this.item?.route || '')
       if (this.item.link) {
         window.open(this.item.link)
       } else if (this.item?.type === 'go2page' || this.item?.route) {
         if (this.$route.name !== this.item.route) {
-          await this.$router.push({ name: this?.item?.route })
+          this.$router.push({ name: this?.item?.route })
           this.$nextTick(() => {
             this.isExpanded = true
           })

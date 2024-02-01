@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container" :class="{ minimized: minimized }">
     <div class="sidebar-main">
-      <CustomScrollbar class="sidebar-menu-container d-flex flex-column align-content-start pl-3 py-3">
+      <CustomScrollbar class="sidebar-menu-container">
         <SidebarItem
           v-for="(item, index) in options"
           :key="`${item.route} ${index}`"
@@ -108,9 +108,16 @@ export default {
 }
 
 .sidebar-menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 100%;
   background: $white-color;
+  padding: 16px;
+  padding-right: 8px;
+
+  // d-flex flex-column align-content-start
 }
 
 .mobile-background {

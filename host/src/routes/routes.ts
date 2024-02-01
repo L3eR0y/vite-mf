@@ -10,6 +10,7 @@ export default [
     component: MainPage,
     children: [
       {
+        name: 'second',
         path: '/second',
         component: SecondPage
       }

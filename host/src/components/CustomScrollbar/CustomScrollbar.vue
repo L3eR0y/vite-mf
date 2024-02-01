@@ -18,6 +18,10 @@
   @include scroll();
 }
 
+.content {
+  width: 100%;
+}
+
 .content,
 .colored-scroll:hover,
 .colored-scroll:focus {

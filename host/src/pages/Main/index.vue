@@ -22,8 +22,10 @@
   const sidebar_menu_items: SidebarMenu = reactive<SidebarMenu>([
     {
       id: '1',
-      route: '/',
-      title: 'Пункт бокового меню'
+      name: 'second',
+      route: 'second',
+      title: 'Первый пункт меню',
+      icon: {}
     }
   ])
 
@@ -59,12 +61,17 @@
   }
 
   .main-view {
+    @include scroll();
+    
     background-color: #f5f5f5;
     display: flex;
     justify-content: center;
-    min-width: 0;
+    width: 100%;
     overflow: hidden;
     position: relative;
+    padding-bottom: 24px;
+    padding-top: 24px;
+    overflow-y: auto;
   }
 </style>
   
