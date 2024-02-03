@@ -1,7 +1,7 @@
 type SidebarMenuItem = {
-  id: string,
-  route: string,
-  title: string,
+  id?: string,
+  route?: string,
+  title?: string,
   name?: string,
   icon?: {
     name?: string,

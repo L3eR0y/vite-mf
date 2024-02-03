@@ -6,7 +6,7 @@
         :expanded-from-left-transition.sync="expandedFromLeftTransition"
       >
         <template #head>
-          <NavItem :item="item" :is-minimized="minimized" @click.native="handleMenuItemClick" />
+          <NavItem :item="item" :minimized="minimized" @click.native="handleMenuItemClick" />
         </template>
 
         <template #body>
@@ -14,7 +14,7 @@
             <NavItem
               v-for="(submenuItem, index) in item.submenu"
               :key="submenuItem.route + index"
-              :is-minimized="minimized"
+              :minimized="minimized"
               is-submenu-item
               class="submenu-item"
               :item="submenuItem"
@@ -143,5 +143,6 @@ export default {
 <style scoped lang="scss">
 .submenu-container {
   border-left: 1px solid $sidebar-color-vertical-separator;
+  width: 100%;
 }
 </style>

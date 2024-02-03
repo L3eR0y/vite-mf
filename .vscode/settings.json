@@ -1,0 +1,5 @@
+{
+    "vue.autoInsert.dotValue": true,
+    "vue.complete.casing.tags": "kebab",
+    "typescript.tsdk": "node_modules/typescript/lib"
+}

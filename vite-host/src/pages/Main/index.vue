@@ -10,14 +10,13 @@
 </template>
   
 <script setup lang="ts">
-  import { onMounted, getCurrentInstance, reactive } from 'vue'
+  import { reactive } from 'vue'
   import { useMainStore }  from '@/stores/main'
   import type { SidebarMenu } from '@/types/sidebar.type'
-  import Navbar from '../../components/Navbar/Navbar.vue'
+  import Navbar from '@/components/Navbar/Navbar.vue'
   import Sidebar from '@/components/Sidebar/Sidebar.vue'
 
   const store = useMainStore()
-  const app = getCurrentInstance()
 
   const sidebar_menu_items: SidebarMenu = reactive<SidebarMenu>([
     {

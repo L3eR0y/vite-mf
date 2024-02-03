@@ -7,7 +7,7 @@
       :class="{
         active: activeClass,
         disabled: !!disabled,
-        'is-minimized': isMinimized,
+        'minimized': minimized,
         'submenu-item': isSubmenuItem,
       }"
       @click="onNavClick"
@@ -44,7 +44,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    isMinimized: {
+    minimized: {
       type: Boolean,
       default: false,
     },
@@ -84,7 +84,7 @@ export default {
       return {
         'main-menu-nav active': this.activeClass && !this.isSubmenuItem,
         'subnav-item': this.isSubmenuItem,
-        'is-minimized': this.isMinimized,
+        'minimized': this.minimized,
       }
     },
   },
@@ -128,7 +128,7 @@ export default {
     text-decoration: none;
     background-color: $sidebar-color-item-hover;
 
-    &.is-minimized {
+    &.minimized {
       background-color: transparent;
     }
   }
@@ -158,7 +158,7 @@ export default {
     color: inherit;
   }
 
-  &.is-minimized {
+  &.minimized {
     .nav-item-label {
       opacity: 0;
       font-size: 0;

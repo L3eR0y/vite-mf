@@ -8,11 +8,11 @@
       :name="transitionName"
       @enter="start"
       @after-enter="end"
-      @before-leave="onBeforeLeave"
-      @before-enter="onBeforeEnter"
+      @before-leave="start"
+      @before-enter="start"
       @after-leave="end"
     >
-      <div ref="accordion-body" v-if="isExpanded" data-cy="accordion-body" class="text-break">
+      <div v-if="isExpanded" data-cy="accordion-body" class="text-break">
         <slot name="body" />
       </div>
     </transition>
@@ -35,8 +35,7 @@ export default {
   data () {
     return {
       isExpanded: this.expand,
-      isExpandedFromLeftTransition: this.expandedFromLeftTransition,
-      accordion_height: null
+      isExpandedFromLeftTransition: this.expandedFromLeftTransition
     }
   },
 
@@ -56,17 +55,10 @@ export default {
   },
 
   methods: {
-    onBeforeLeave(el) {
-      this.accordion_height = el.scrollHeight+'px'
-      el.style.height = el.scrollHeight+'px'
-    },
-    onBeforeEnter(el) {
-      el.style.height = el.scrollHeight+'px'
-    },
     start (el) {
-      el.style.height = this.accordion_height
+      el.style.height = `${el.scrollHeight}px`
     },
-    end (el) {
+    end () {
       this.$emit('update:expanded-from-left-transition', false)
     }
   }
@@ -74,11 +66,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .sidebar-accordion-item {
-//   display: flex;
-//   width: 100%;
-// }
-
 .accordion-enter-active,
 .accordion-leave-active {
   will-change: height, opacity;
@@ -95,7 +82,8 @@ export default {
 .from-left-enter-active,
 .from-left-leave-active {
   will-change: opacity, height;
-  transition: transform 0.15s 0.25s ease-out, opacity 0.15s 0.25s ease-out, height 0.3s ease;
+  transition: transform 0.15s 0.25s ease-out, opacity 0.15s 0.25s ease-out,
+    height 0.3s ease;
 }
 
 .from-left-enter,
