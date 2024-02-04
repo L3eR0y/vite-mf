@@ -1,31 +1,40 @@
 <template lang="pug">
 .accordion-wrapper
-    .accordion-wrapper__head(@click="onAccordionHeadClick") 
-        slot(name="head") {{ element.title }}
-    transition(name="accordion")
-        .accordion-body(v-if="element.submenu.length > 0 && submenu_visibility")
-            slot(name="body")
-                .accordion-submenu
-                    .accordion-submenu__element(v-for="(item, element) in element.submenu" :key="index") {{ item.title }}
+  .accordion-wrapper__head(@click="onAccordionHeadClick") 
+    slot(name="head") {{ item.title || 'Empty' }}
+  transition(name="accordion")
+    .accordion-body(v-if="item.submenu && item.submenu.length > 0 && expanded")
+      slot(name="body")
+        .accordion-submenu
+          .accordion-submenu__element(v-for="(subitem, index) in item.submenu" :key="index") {{ subitem.title }}
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { SidebarMenu } from '@/types/sidebar.type'
+import { ref, defineProps, onMounted, toRefs } from 'vue'
 
 const props = defineProps({
-    element: {
-        type: Object,
-        required: true,
-        default: () => {}
+    item: {
+      type: Object,
+      required: false,
+      default: () => {}
+    },
+    expanded: {
+      type: Boolean,
+      defaul: false
     }
 })
 
-let submenu_visibility: boolean = ref(false)
+const { expanded, item } = toRefs(props)
+
+let submenu_visibility = ref(false)
 
 function onAccordionHeadClick():void {
     submenu_visibility.value = !submenu_visibility.value
 }
+
+onMounted(() => {
+    console.log('EXPANDED: ', expanded.value, item.value)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -33,6 +42,10 @@ function onAccordionHeadClick():void {
     display: flex;
     flex-direction: column;
     width: 100%;
+
+    &__head {
+      width: 100%;
+    }
 }
 
 .accordion-body {

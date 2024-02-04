@@ -15,7 +15,7 @@
               v-for="(submenuItem, index) in item.submenu"
               :key="submenuItem.route + index"
               :minimized="minimized"
-              is-submenu-item
+              submenu-item
               class="submenu-item"
               :item="submenuItem"
               @click="handleSubmenuItemClick(submenuItem)"
@@ -85,9 +85,6 @@ export default {
      * все остальные пункты меню - с помощью collapse-all-menu-items устанавливаем для них isExpanded = false
      */
     handleMenuItemClick() {
-      // console.log('ITEM: ', this.item)
-      // console.log('ROUTER: ', this.$router, this.$route)
-      // this.$store.commit('ui/SET_SIDEBAR_ACTIVE_ITEM', this.item?.route || '')
       if (this.item.link) {
         window.open(this.item.link)
       } else if (this.item?.type === 'go2page' || this.item?.route) {
@@ -100,8 +97,6 @@ export default {
       } else if (this.item?.type === 'function') {
         this.item?.action()
       }
-
-      // this.$nuxt.$emit('collapse-all-menu-items', this.item)
 
       this.isExpanded = !this.isExpanded
     },

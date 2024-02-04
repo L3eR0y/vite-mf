@@ -4,7 +4,10 @@
     Navbar(@toggle-sidebar="onToggleSideBar")
   .main-layout__wrapper
     .sidebar
+      
       Sidebar(:minimized="store.sidebar.minimized" @toggle-sidebar="onToggleSideBar" :options="sidebar_menu_items")
+      SidebarV3(:minimized="store.sidebar.minimized" @toggle-sidebar="onToggleSideBar" :options="sidebar_menu_items")
+      //- SidebarItemV3(:item="sidebar_menu_items[0]" :minimized="store.sidebar.minimized")
     .main-view
       router-view
 </template>
@@ -15,6 +18,8 @@
   import type { SidebarMenu } from '@/types/sidebar.type'
   import Navbar from '@/components/Navbar/Navbar.vue'
   import Sidebar from '@/components/Sidebar/Sidebar.vue'
+  
+  import SidebarV3 from '@/components/Sidebar/SidebarV3.vue'
 
   const store = useMainStore()
 
@@ -25,7 +30,8 @@
       route: 'second',
       title: 'Первый пункт меню',
       icon: {
-        name: 'services'
+        name: 'services',
+        color: 'black'
       },
       submenu: [
         {

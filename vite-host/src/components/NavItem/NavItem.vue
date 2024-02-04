@@ -8,7 +8,7 @@
         active: activeClass,
         disabled: !!disabled,
         'minimized': minimized,
-        'submenu-item': isSubmenuItem,
+        'submenu-item': submenuItem,
       }"
       @click="onNavClick"
     >
@@ -22,7 +22,7 @@
         </span>
       </template> -->
 
-      <span class="nav-item-label" :class="{ 'ml-3': !isSubmenuItem }">
+      <span class="nav-item-label" :class="{ 'ml-3': !submenuItem }">
         {{ translatedTitle }}
       </span>
     </div>
@@ -40,7 +40,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    isSubmenuItem: {
+    submenuItem: {
       type: Boolean,
       default: false,
     },
@@ -72,7 +72,7 @@ export default {
     },
 
     translatedTitle() {
-      // if (this.isSubmenuItem) {
+      // if (this.submenuItem) {
       //   return this.item.locale
       //     ? this.$t(this.item.locale)
       //     : this.$t(`pages.${this.item.route.toLowerCase().split('-').join('.')}.title`)
@@ -82,8 +82,8 @@ export default {
 
     navItemStatus() {
       return {
-        'main-menu-nav active': this.activeClass && !this.isSubmenuItem,
-        'subnav-item': this.isSubmenuItem,
+        'main-menu-nav active': this.activeClass && !this.submenuItem,
+        'subnav-item': this.submenuItem,
         'minimized': this.minimized,
       }
     },

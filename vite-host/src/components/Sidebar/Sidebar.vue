@@ -95,8 +95,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: $sidebar-width;
-  position: fixed;
-  z-index: 100;
   top: $navbar-height;
   bottom: 0;
   left: 0;
