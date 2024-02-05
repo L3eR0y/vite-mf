@@ -8,16 +8,27 @@ export default defineConfig({
   plugins: [
     vue(),
     federation({
-      name: 'synergy-elka-host-app',
-      remotes: {
-        remote_app: "http://localhost:5173/assets/remoteEntry.js",
+      name: 'remote_app',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './HelloWorld': './src/components/HelloWorld.vue'
       },
       shared: ['vue']
     })
   ],
-  server: {
-    port: 3030
+  build: {
+    target: ["chrome89", "edge89", "firefox89", "safari15"],
+    minify: false,
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        minifyInternalExports: false
+      }
+    }
   },
+  // server: {
+  //   port: 3031
+  // },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -31,14 +42,4 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    target: 'esnext',
-    minify: false,
-    cssCodeSplit: true,
-    rollupOptions: {
-      output: {
-        minifyInternalExports: false
-      }
-    }
-  }
 })
