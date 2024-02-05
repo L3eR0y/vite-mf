@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { createI18n } from 'vue-i18n'
-import { createApp, defineAsyncComponent } from 'vue'
+import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+
+import Keycloak from 'keycloak-js'
+import { config, options } from '@/auth/keycloak'
 
 // Locales
 import ruLocale from '@/locales/ru.json'
@@ -21,9 +24,6 @@ import routes from  './routes/routes'
 // import RemoteLoaderPlugin from './src/plugins/remote-loader'
 import KeycloakPlugin from '@/plugins/keycloak'
 
-// Remotes
-const RemoteHelloWorld = defineAsyncComponent(() => import('remote_app/HelloWorld'))
-
 const i18n = createI18n({
     locale: 'ru',
     messages: {
@@ -41,9 +41,17 @@ const pinia = createPinia()
 
 const app = createApp(App)
 
-app.component("RemoteHelloWorld", RemoteHelloWorld)
 app.use(pinia)
-app.use(KeycloakPlugin)
 app.use(router)
 app.use(i18n)
-app.mount('#app');
+
+const _keycloak = new Keycloak(config)
+
+_keycloak.init(options).then((auth: boolean) => {
+    if(auth) {
+        app.use(KeycloakPlugin, {
+            keycloak: _keycloak
+        })
+        app.mount('#app');
+    }
+})

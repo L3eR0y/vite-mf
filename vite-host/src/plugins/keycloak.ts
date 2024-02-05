@@ -1,19 +1,13 @@
-import Keycloak, { KeycloakProfile } from 'keycloak-js'
-import { config, options } from '@/auth/keycloak'
+import { KeycloakProfile } from 'keycloak-js'
 import { useMainStore }  from '@/stores/main'
 
 export default {
-  install: () => {
+  install: (app: any, options: any) => {
     const store = useMainStore()
+    store.$auth = options.keycloak
 
-    const _keycloak = new Keycloak(config)
-    _keycloak.init(options).then((auth: boolean) => {
-      if(auth) {
-        store.$auth = _keycloak
-        _keycloak.loadUserInfo().then((user: KeycloakProfile)=>{
-          store.user = user
-        })
-      }
+    options.keycloak.loadUserInfo().then((user: KeycloakProfile)=>{
+      store.user = user
     })
   }
 }

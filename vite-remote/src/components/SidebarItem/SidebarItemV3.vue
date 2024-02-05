@@ -40,8 +40,6 @@
   const regExp = new RegExp(`^${item.value.route}`, 'gi')
 
   const routeEqual = computed(() => {
-    console.log(item.value.route, route.name)
-    console.log('Q', item.value.route && !!(route.name as string).match(regExp))
     return item.value.route && !!(route.name as string).match(regExp)
   })
   
