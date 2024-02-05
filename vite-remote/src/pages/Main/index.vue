@@ -47,12 +47,10 @@
   })
 
   function onBannerClick(banner: { [ key:string ]: any }): void {
-    console.log('Benner: ', banner)
     banner.url && window.open(banner.url)
   }
 
   function getBanners(): Promise<any> {
-    console.log('STORE: ', store)
     return new Promise((resolve, reject) =>
       fetch('https://dev-elka-common-banners-api.c4.syndev.ru/banners/display', {
         method: 'GET',
@@ -62,25 +60,11 @@
         },
       }).then((response) => response.json())
       .then(data => {
-        console.log('DATA: ', data)
         resolve(data)
       })
       .catch((e: any) => {
         reject(e)
       })
-
-
-      // this.$axios
-      //   .get(`${this.$config.BANNERS__API_URL}/banners/display`)
-      //   .then((response) => {
-      //     const result = (response?.data?.data || [])?.map(({ ...item }) => ({
-      //       ...item,
-      //       src: item?.images[1020]?.url || '',
-      //     }))
-
-      //     return resolve(result)
-      //   })
-      //   .catch((e) => reject(e)),
     )
   }
 
