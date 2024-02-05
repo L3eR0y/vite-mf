@@ -4,10 +4,7 @@
     Navbar(@toggle-sidebar="onToggleSideBar")
   .main-layout__wrapper
     .sidebar
-      
-      Sidebar(:minimized="store.sidebar.minimized" @toggle-sidebar="onToggleSideBar" :options="sidebar_menu_items")
       SidebarV3(:minimized="store.sidebar.minimized" @toggle-sidebar="onToggleSideBar" :options="sidebar_menu_items")
-      //- SidebarItemV3(:item="sidebar_menu_items[0]" :minimized="store.sidebar.minimized")
     .main-view
       router-view
 </template>
@@ -17,7 +14,6 @@
   import { useMainStore }  from '@/stores/main'
   import type { SidebarMenu } from '@/types/sidebar.type'
   import Navbar from '@/components/Navbar/Navbar.vue'
-  import Sidebar from '@/components/Sidebar/Sidebar.vue'
   
   import SidebarV3 from '@/components/Sidebar/SidebarV3.vue'
 
@@ -25,39 +21,13 @@
 
   const sidebar_menu_items: SidebarMenu = reactive<SidebarMenu>([
     {
-      id: '1',
-      name: 'second',
-      route: 'second',
-      title: 'Первый пункт меню',
+      name: 'main',
+      route: 'main',
+      title: 'Главная страница',
       icon: {
         name: 'services',
         color: 'black'
-      },
-      submenu: [
-        {
-          id: '11',
-          name: 'second11',
-          route: 'second11',
-          title: 'Подменю 1',
-          icon: {
-            
-          },
-        },
-        {
-          id: '12',
-          name: 'second12',
-          route: 'second11',
-          title: 'Подменю 2',
-          icon: {},
-        },
-        {
-          id: '13',
-          name: 'second13',
-          route: 'second11',
-          title: 'Подменю 3',
-          icon: {},
-        },
-      ]
+      }
     },
     {
       id: '2',

@@ -1,7 +1,7 @@
 <template lang="pug">
 .sidebar-menu-item()
   slot
-    Accordion(:expanded="!minimized" :item="item")
+    Accordion(:expanded="!minimized && routeEqual" :item="item")
       template(#head)
         NavItem(:item="item" :minimized="minimized" @click="onMenuItemClick")
       template(#body)
@@ -13,44 +13,56 @@
             submenu-item
             :item="submenuItem"
             @click="onSubmenuItemClick(submenuItem)")
-</template>
+  </template>
+  
+  <script setup lang="ts">
+  import { toRefs, computed } from 'vue'
+  import { useRouter, useRoute } from 'vue-router'
+  import type { SidebarMenuItem } from '@/types/sidebar.type'
+  
+  import Accordion from '@components/Accordion/Accordion.vue'
+  import NavItem from '@components/NavItem/NavItem.vue'
+  
+  const props = defineProps({
+    item: {
+      type: Object,
+      required: true
+    },
+    minimized: {
+      type: Boolean,
+      required: true
+    }
+  })
+  
+  const { item } = toRefs(props)
+  const router = useRouter()
+  const route = useRoute()
+  const regExp = new RegExp(`^${item.value.route}`, 'gi')
 
-<script setup lang="ts">
-import { toRefs } from 'vue'
-
-import type { SidebarMenuItem } from '@/types/sidebar.type'
-
-import Accordion from '@components/Accordion/Accordion.vue'
-import NavItem from '@components/NavItem/NavItem.vue'
-
-const props = defineProps({
-  item: {
-    type: Object,
-    required: true
-  },
-  minimized: {
-    type: Boolean,
-    required: true
+  const routeEqual = computed(() => {
+    return item.value.route && !!(route.name as string).match(regExp)
+  })
+  
+  function onMenuItemClick() {
+    router.push({
+      name: item.value.name || 'App'
+    })
   }
-})
-
-const { item } = toRefs(props)
-
-function onMenuItemClick() {
-  console.log('Menuitem: ', item.value)
-}
-
-function onSubmenuItemClick(submenuitem: SidebarMenuItem) {
-  console.log('Submenuitem: ', submenuitem)
-}
-</script>
-
-<style scoped lang="scss">
-  .submenu-container {
-    border-left: 1px solid $sidebar-color-vertical-separator;
-    margin-left: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    width: 100%;
+  
+  function onSubmenuItemClick(submenuitem: SidebarMenuItem) {
+    console.log('Submenuitem: ', submenuitem)
+    router.push({
+      name: submenuitem.name || 'App'
+    })
   }
-</style>
+  </script>
+  
+  <style scoped lang="scss">
+    .submenu-container {
+      border-left: 1px solid $sidebar-color-vertical-separator;
+      margin-left: 1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      width: 100%;
+    }
+  </style>

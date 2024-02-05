@@ -3,14 +3,16 @@
   .accordion-wrapper__head(@click="onAccordionHeadClick") 
     slot(name="head") {{ item.title || 'Empty' }}
   transition(name="accordion")
-    .accordion-body(v-if="item.submenu && item.submenu.length > 0 && expanded")
+    .accordion-body(v-if="item.submenu && item.submenu.length > 0 && expanded" @click="onAccordionBodyClick")
       slot(name="body")
         .accordion-submenu
           .accordion-submenu__element(v-for="(subitem, index) in item.submenu" :key="index") {{ subitem.title }}
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, onMounted, toRefs } from 'vue'
+import { defineProps, toRefs, defineEmits } from 'vue'
+
+const emit = defineEmits(['click:head', 'click:body'])
 
 const props = defineProps({
     item: {
@@ -26,15 +28,13 @@ const props = defineProps({
 
 const { expanded, item } = toRefs(props)
 
-let submenu_visibility = ref(false)
-
 function onAccordionHeadClick():void {
-    submenu_visibility.value = !submenu_visibility.value
+    emit('click:head')
 }
 
-onMounted(() => {
-    console.log('EXPANDED: ', expanded.value, item.value)
-})
+function onAccordionBodyClick():void {
+  emit('click:body')
+}
 </script>
 
 <style lang="scss" scoped>

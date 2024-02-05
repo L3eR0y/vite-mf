@@ -12,7 +12,7 @@
       }"
       @click="onNavClick"
     >
-      <Icon :name="item.icon && item.icon.name" :color="activeClass ? '#FF0141' : item.icon.color" />
+      <Icon v-if="item.icon && item.icon.name" :name="item.icon.name" :color="activeClass ? '#FF0141' : item.icon.color" />
       <!-- <template v-if="typeof item.icon === 'object'">
         <Icon :name="item.icon.name || 'services'" :color="activeClass ? '#FF0141' : item.icon.color" />
       </template>

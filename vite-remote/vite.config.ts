@@ -8,10 +8,10 @@ export default defineConfig({
   plugins: [
     vue(),
     federation({
-      name: 'remote_app',
+      name: 'synergy-elka-remote',
       filename: 'remoteEntry.js',
       exposes: {
-        './HelloWorld': './src/components/HelloWorld.vue'
+        './HelloWorld': './src/components/HelloWorld.vue',
       },
       shared: ['vue']
     })
@@ -26,9 +26,6 @@ export default defineConfig({
       }
     }
   },
-  // server: {
-  //   port: 3031
-  // },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

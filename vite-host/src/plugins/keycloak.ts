@@ -1,27 +1,16 @@
-import Keycloak from 'keycloak-js'
+import Keycloak, { KeycloakProfile } from 'keycloak-js'
+import { config, options } from '@/auth/keycloak'
 import { useMainStore }  from '@/stores/main'
 
-const keycloak_config: Keycloak.KeycloakConfig = {
-  url: 'https://authdev2.synergy.ru/auth',
-  clientId: 'public',
-  realm: 'clients',
-}
-
-const init_options: Keycloak.KeycloakInitOptions = {
-  flow: 'standard',
-  onLoad: 'login-required',
-  scope: ['openid', 'profile', 'email'].join(' ')
-}
-
 export default {
-  install: (app: any) => {
+  install: () => {
     const store = useMainStore()
 
-    const _keycloak = new Keycloak(keycloak_config)
-    _keycloak.init(init_options).then((auth: boolean) => {
+    const _keycloak = new Keycloak(config)
+    _keycloak.init(options).then((auth: boolean) => {
       if(auth) {
         store.$auth = _keycloak
-        _keycloak.loadUserInfo().then((user: Keycloak.KeycloakProfile)=>{
+        _keycloak.loadUserInfo().then((user: KeycloakProfile)=>{
           store.user = user
         })
       }
