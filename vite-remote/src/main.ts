@@ -2,10 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { createI18n } from 'vue-i18n'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { useMainStore }  from '@/stores/main'
-
-import Keycloak, { KeycloakProfile } from 'keycloak-js'
-import { config, options } from '@/auth/keycloak'
 
 // Locales
 import ruLocale from '@/locales/ru.json'
@@ -43,19 +39,8 @@ const pinia = createPinia()
 const app = createApp(App)
 
 app.use(pinia)
-// app.use(KeycloakPlugin)
+app.use(KeycloakPlugin)
 app.use(router)
 app.use(i18n)
 
-const _keycloak = new Keycloak(config)
-
-_keycloak.init(options).then((auth: boolean) => {
-    if(auth) {
-        app.use(KeycloakPlugin, {
-            keycloak: _keycloak
-        })
-        app.mount('#app');
-    }
-})
-
-// app.mount('#app');
+app.mount('#app');

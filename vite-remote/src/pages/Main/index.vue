@@ -7,7 +7,7 @@
           img.banner-img(:src="slide.src" @click="onBannerClick(slide)" :data-splide-lazy="slide.src")
     .groups
       .groups-tabs(v-if="groups.length")
-        .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }" @click="setActiveTab(group)")
+        .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }")
           .tab--indicator
             BaseIcon(name="dot" :color="active_group.id === group.id ? '#6DD22A' : '#BABCC2'" size="6")
           .tab--title {{ group.title }}
@@ -322,13 +322,13 @@
               margin-right: 12px;
 
               &-red {
-                background-image: url('@/assets/images/RedAvatar.svg');
+                background-image: url('@/assets/images/avatars/RedAvatar.svg');
                 background-repeat: no-repeat;
                 width: 100%;
                 height: 100%;
               }
               &-yellow {
-                background-image: url('@/assets/images/YellowAvatar.svg');
+                background-image: url('@/assets/images/avatars/YellowAvatar.svg');
                 // background-position: top left;
                 background-repeat: no-repeat;
                 width: 100%;

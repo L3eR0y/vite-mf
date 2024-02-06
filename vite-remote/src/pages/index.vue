@@ -105,8 +105,6 @@
     width: 100%;
     overflow: hidden;
     position: relative;
-    padding-bottom: 24px;
-    padding-top: 24px;
     overflow-y: auto;
   }
 </style>

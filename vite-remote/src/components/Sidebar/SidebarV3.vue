@@ -50,11 +50,8 @@ const props = defineProps({
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
     top: $navbar-height;
-    bottom: 0;
-    left: 0;
-    padding: 0;
-    height: calc(100% - #{$navbar-height});
     background: $white-color;
     transition: width 0.3s ease-out, left 0.3s 0.13s ease-out;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
