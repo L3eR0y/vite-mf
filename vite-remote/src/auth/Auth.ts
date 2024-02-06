@@ -16,15 +16,13 @@ export class Auth {
     }
   }
 
-  private init(init_options: KeycloakInitOptions): Promise<Keycloak> {
+  private init(init_options: KeycloakInitOptions): Promise<any> {
     return new Promise((resolve) => {
 
       //@ts-ignore
       !this.keycloak?.didInitialize && this.keycloak
       .init(init_options)
       .then((authenticated: boolean) => {
-        
-
         if(authenticated) {
           localStorage.setItem('access_token', this.keycloak.token || '')
           localStorage.setItem('refresh_token', this.keycloak.refreshToken || '')
@@ -50,17 +48,14 @@ export class Auth {
                   localStorage.setItem('exp', this.keycloak.tokenParsed?.exp?.toString() || '')
                 }
               })
-            }
+          }
         }
-        resolve(this.keycloak)
+        resolve(true)
       })
       .catch((e) => {
         console.error(e)
       })
     })
-
-    
-
   }
 
   private buildInitParams(onLoad: KeycloakOnLoad = 'login-required'): KeycloakInitOptions {
@@ -74,13 +69,18 @@ export class Auth {
     }
   }
 
-  public login(): Promise<any> {
-    return new Promise((resolve) => {
-      this.init(this.buildInitParams()).then((kc)=>{
-        this.store.$auth = kc
-        resolve(kc)
-      })
+  public login()  { 
+    const init_params = this.buildInitParams()   
+    this.init(init_params).then(() => {
+      this.store.$auth = this.keycloak
     })
+    // return new Promise(() => { 
+    //   const init_params = this.buildInitParams()
+    //   this.init(init_params).then((done: boolean)=>{
+    //     this.store.$auth = this.keycloak
+    //     return done
+    //   })
+    // })
   }
 
   public logout() {
@@ -89,43 +89,4 @@ export class Auth {
     localStorage.removeItem('exp');
     this.keycloak.logout();
   }
-
-
-  // _keycloak.init({...options, onLoad: 'login-required' }).then((auth: boolean) => {
-  //   if(auth) {
-      
-  //   localStorage.setItem(
-  //       this.localStorageMapping.refresh_token,
-  //       this.keycloak.refreshToken
-  //   );
-  //   }
-
-
-  //   if(!auth) {
-  //     console.log('FALSE!')
-  //     window.location.reload()
-  //   } else {
-  //     store.$auth = _keycloak
-  //     _keycloak.loadUserInfo().then((user: KeycloakProfile)=>{
-  //       store.user = user
-  //       console.log('USER: ', _keycloak)
-  //     })
-  //   }
-
-
-    
-  //   // store.$auth = _keycloak
-  //   // localStorage.setItem('kc_token', _keycloak.token || '');
-  //   // localStorage.setItem('kc_refreshToken', _keycloak.refreshToken || '');
-
-  //   // if(auth) {
-  //   //   console.log('AUTH: ', auth, _keycloak)
-  //   //   _keycloak.loadUserInfo().then((user: KeycloakProfile)=>{
-  //   //     store.user = user
-  //   //     store.some_string = _keycloak.authenticated
-  //   //   })
-  //   // } else {
-  //   //   console.log('AUTH: ', auth)
-  //   // }
-  // })
 }
