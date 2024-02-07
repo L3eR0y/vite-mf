@@ -1,14 +1,10 @@
-import { KeycloakProfile } from 'keycloak-js'
-import { useMainStore }  from '@/stores/main'
+import { Auth } from '@/auth/Auth'
+import { config } from '@/auth/keycloak'
 
 export default {
   // @ts-ignore
-  install: (app: any, options: any) => {
-    const store = useMainStore()
-    store.$auth = options.keycloak
-
-    options.keycloak.loadUserInfo().then((user: KeycloakProfile)=>{
-      store.user = user
-    })
+  install: async () => {    
+    const keycloak = new Auth(config)
+    keycloak.login()
   }
 }
