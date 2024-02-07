@@ -18,8 +18,10 @@ import "./assets/styles/app.scss"
 import routes from  './routes/routes'
 
 //Plugins
-// import RemoteLoaderPlugin from './src/plugins/remote-loader'
 import KeycloakPlugin from '@/plugins/keycloak'
+
+//Remotes
+import RemoteMainPage from 'main-page/MainPage'
 
 const i18n = createI18n({
     locale: 'ru',
@@ -37,6 +39,8 @@ const router = createRouter({
 const pinia = createPinia()
 
 const app = createApp(App)
+
+app.component('MainPage', RemoteMainPage)
 
 app.use(pinia)
 app.use(KeycloakPlugin)

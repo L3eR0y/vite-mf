@@ -11,11 +11,12 @@ export default defineConfig({
       name: 'synergy-elka-remote',
       filename: 'remoteEntry.js',
       exposes: {
-        './HelloWorld': './src/components/HelloWorld.vue',
+        './MainPage': './src/pages/Main/index.vue',
       },
-      shared: ['vue']
+      shared: ['vue', 'pinia']
     })
   ],
+  base: 'http://localhost:5173',
   build: {
     target: ["chrome89", "edge89", "firefox89", "safari15"],
     minify: false,

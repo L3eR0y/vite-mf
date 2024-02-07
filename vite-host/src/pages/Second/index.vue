@@ -1,6 +1,6 @@
 <template lang="pug">
 .second-page
-    RemoteHelloWorld
+    MainPage
 </template>
 
 <script setup lang="ts">

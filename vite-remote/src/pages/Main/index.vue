@@ -27,7 +27,7 @@
   const banners: Banners = reactive([
     {
       name: 'welcome_banner',
-      src: bannerPlaceholder
+      src: bannerPlaceholder 
     },
   ])
 
@@ -69,6 +69,7 @@
   }
 
   onMounted(() => {
+    console.log('META: ', import.meta.env)
     nextTick(() => {
       getBanners()
     })

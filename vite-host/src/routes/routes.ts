@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 
 import IndexPage from '../pages/index.vue'
+import SecondPage from '@/pages/Second/index.vue'
 
 export default [
   {
@@ -8,6 +9,11 @@ export default [
     name: 'App',
     component: IndexPage,
     children: [
+      {
+        name: 'second',
+        path: '/second',
+        component: SecondPage
+      }
     ]
   },
   

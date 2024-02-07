@@ -1,1 +1,1 @@
-declare module "remote_app/HelloWorld"
+declare module "main-page/*"
