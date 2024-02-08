@@ -61,6 +61,7 @@
       }).then((response) => response.json())
       .then(data => {
         resolve(data)
+        console.log('BANNERS: ', data)
       })
       .catch((e: any) => {
         reject(e)
