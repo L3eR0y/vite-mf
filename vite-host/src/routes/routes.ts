@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 
-import IndexPage from '../pages/index.vue'
-import SecondPage from '@/pages/Second/index.vue'
+import IndexPage from '@/pages/index.vue'
+import MainPage from '@/pages/Main/index.vue'
 
 export default [
   {
@@ -10,11 +10,10 @@ export default [
     component: IndexPage,
     children: [
       {
-        name: 'second',
-        path: '/second',
-        component: SecondPage
+        name: 'main',
+        path: '/main',
+        component: MainPage
       }
     ]
-  },
-  
+  },  
 ] as RouteRecordRaw[]

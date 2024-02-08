@@ -25,7 +25,7 @@
       route: 'main',
       title: 'Главная страница',
       icon: {
-        name: 'services',
+        name: 'main',
         color: 'black'
       }
     },
