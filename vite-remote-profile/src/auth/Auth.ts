@@ -53,6 +53,10 @@ export class Auth {
           this.keycloak.loadUserInfo().then((user) => {
             this.store.user = user
           })
+
+          // this.keycloak.loadUserProfile().then((user) => {
+          //   this.store.user = user
+          // })
         }
         resolve(true)
       })
