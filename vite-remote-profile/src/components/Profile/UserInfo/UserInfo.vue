@@ -1,7 +1,11 @@
 <template lang="pug">
 .user-info-wrapper
   .avatar
-    .av
+    .avatar-picker
+      img.avatar-picker__avatar(:src="avatar")
+      button.avatar-picker__button
+        svg(width="24" height="24")
+          use(xlink:href="@/assets/images/sprite.svg#camera")
   .initials
     .initials__second-name  {{ first_name }}
     .initials__first-name  {{ last_name }}
@@ -9,12 +13,25 @@
   .contacts
     .contacts__title Контактная иформация
     .contacts__list
-      .contact {{ email }}
-      .contact {{ phone }}
-      .contact {{ additional_phone }}
+      .contact 
+        .icon
+          svg(width="24" height="24")
+            use(xlink:href="@/assets/images/sprite.svg#mail")
+        .label {{ email }}
+      .contact 
+        .icon
+          svg(width="24" height="24")
+            use(xlink:href="@/assets/images/sprite.svg#communications")
+        .label {{ phone }}
+      .contact 
+        .icon
+          svg(width="24" height="24")
+            use(xlink:href="@/assets/images/sprite.svg#communications")
+        .label {{ additional_phone }}
 </template>
 
 <script setup lang="ts">
+import AvatarPlaceholder from '@/assets/images/profile/user-photo-placeholder.svg'
 import { useProfileStore }  from '@/stores/profile'
 import { computed } from 'vue'
 
@@ -43,6 +60,10 @@ const additional_phone = computed(() => {
 const email = computed(() => {
   return profile_store?.profile?.attributes?.email || ''
 })
+
+const avatar = computed(() => {
+  return profile_store?.profile?.attributes?.avatar?.url || AvatarPlaceholder
+})
 </script>
 
 <style scoped lang="scss">
@@ -56,17 +77,46 @@ const email = computed(() => {
   gap: 28px;
 }
 
+.avatar-picker {
+  position: relative;
+  height: 160px;
+  width: 160px;
+
+  &__avatar {
+    height: 100%;
+    width: 100%;
+  }
+
+  &__button {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    border-radius: 50%;
+    border: none;
+    bottom: 5px;
+    right: 5px;
+  }
+}
+
 .avatar {
   display: flex;
+  position: relative;
   justify-content: center;
   height: 160px;
   width: 100%;
 
-  & .av {
-    height: 160px;
-    width: 160px;
-    background-color: black;
+  &__button {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    overflow: hidden;
     border-radius: 50%;
+    border: none;
   }
 }
 
@@ -98,6 +148,7 @@ const email = computed(() => {
 .contact {
   display: flex;
   align-items: center;
+  gap: 12px;
   margin-bottom: rem(16);
   &:last-child {
     margin-bottom: 0;
