@@ -6,21 +6,54 @@
         template(#slide="{ slide }")
           img.banner-img(:src="slide.src" @click="onBannerClick(slide)" :data-splide-lazy="slide.src")
     .groups
-      .groups-tabs(v-if="groups.length")
-        .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }")
-          .tab--indicator
-            BaseIcon(name="dot" :color="active_group.id === group.id ? '#6DD22A' : '#BABCC2'" size="6")
-          .tab--title {{ group.title }}
+          .groups-tabs(v-if="groups.length > 0")
+              .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }")
+                  .tab--indicator
+                      BaseIcon(name="dot" :color="active_group.id === group.id ? '#6DD22A' : '#BABCC2'" size="6")
+                  .tab--title {{ group.title }}
+          .groups-content(:style="{ 'border-radius': groups_border_radius }")
+              | Привет Nastya!
+              .waving-hand
+    .news.main-block
+          .title-container
+              .title Новости луллл
+              .navigation(v-if="news.length")
+                  SButton.news-button(variant="secondary" size="small" ) Все новости
+                  .arrows()
+                      Icon(name="arrow_small_left" size='xs')
+                  .arrows()
+                      Icon(name="arrow_small_right" size='xs')
+          .cards-container
+              .cards(v-if="news.length")
+                  Splider(:slides="news" ref="news_slider")
+                      template(#slide="{ slide }")
+                          .card()
+                              .image-container
+                                  img.card-img(:src="bannerPlaceholder")
+                              .description {{ slide.title }}
+                              .date-container
+                                  .calendar-icon
+                                      Icon(name="calendar" size="tn")
+                                  .date {{ new Date(slide.pubDate).toLocaleDateString() }}
+              .empty-block(v-else)
+
+                  div Пока нет новостей
+          .card-actions
+              SButton.news-button(variant="secondary" size="small") Все новости
 </template>
-  
+
 <script setup lang="ts">
-  import { reactive, onMounted, nextTick } from 'vue'
-  import { useMainStore }  from '@/stores/main'
-  import Splider from '@components/Splider/Splider.vue'
-  import bannerPlaceholder from '@/assets/images/banners/banner-placeholder-1020.webp'
+import {reactive, nextTick, computed,onMounted,ref} from 'vue'
+import { useMainStore }  from '@/stores/main'
+import Splider from '@components/Splider/Splider.vue'
+import Icon from "@components/Icon/Icon.vue"
+import bannerPlaceholder from '@/assets/images/banners/banner-placeholder-1020.webp'
+import {useProfileStore} from "@/stores/profile";
+import { RSS_CREATOR,RSS_GUID,RSS_IMAGE,RSS_LINK,RSS_DESCRIPTION,RSS_CONTENT,RSS_SHOW_IN_PORTAL,RSS_PUB_DATE,RSS_TITLE } from "@/consts/news.ts";
 
 
-  const store = useMainStore()
+const store = useMainStore()
+const profile_store = useProfileStore();
 
   const active_group: Group = reactive({})
 
@@ -46,13 +79,13 @@
     rewind: true,
   })
 
-  function onBannerClick(banner: { [ key:string ]: any }): void {
+  const onBannerClick = (banner: { [ key:string ]: any }): void => {
     banner.url && window.open(banner.url)
   }
 
-  function getBanners(): Promise<any> {
+  const getBanners = (): Promise<any> => {
     return new Promise((resolve, reject) =>
-      fetch('https://dev-elka-common-banners-api.c4.syndev.ru/banners/display', {
+      fetch(`${import.meta.env.VUE_APP_BANNERS__API_URL}/banners/display`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -68,13 +101,53 @@
     )
   }
 
-  onMounted(() => {
-    nextTick(() => {
+  const groups_border_radius = computed(() => {
+      return groups.length > 0 ? '0px 8px 8px 8px' : '8px'
+  });
+
+
+const news = ref([]);
+const getNews = async () => {
+      try {
+          let response = await fetch(import.meta.env.VUE_APP_RSS_NEWS__API_URL);
+          const xml = await response.text().then(( str ) => {
+              return new DOMParser().parseFromString(str, 'text/xml');
+          });
+          return xml.querySelectorAll('item');
+      } catch (e) {
+          throw e
+      }
+}
+
+const newsFormatter = (items) => {
+    const news = []
+    items.forEach((el) => {
+        news.push({
+            title: el.querySelector(RSS_TITLE).innerHTML,
+            link: el.querySelector(RSS_LINK).innerHTML,
+            image: el.querySelector(RSS_IMAGE).innerHTML.match(/src=&quot;(.+\.(jpg|jpeg))&quot;/)?.[1] || '',
+            pubDate: el.querySelector(RSS_PUB_DATE).innerHTML,
+            showInPortal: el.querySelector(RSS_SHOW_IN_PORTAL).innerHTML,
+            guid: el.querySelector(RSS_GUID).innerHTML,
+            creator: el.querySelector(RSS_CREATOR).innerHTML,
+            description: el.querySelector(RSS_DESCRIPTION).innerHTML,
+            content: el.querySelector(RSS_CONTENT).innerHTML,
+        })
+    })
+    return news
+}
+
+
+  onMounted(async () => {
+      await getNews().then((items) => {
+         news.value = newsFormatter(items);
+      })
+    await nextTick(() => {
       getBanners()
     })
   })
 </script>
-  
+
 <style lang="scss" scoped>
 .main-page-wrapper {
   width: 100%;
@@ -665,4 +738,3 @@
   height: 100%;
 }
 </style>
-  

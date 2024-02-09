@@ -8,13 +8,13 @@
     .main-view
       router-view
 </template>
-  
+
 <script setup lang="ts">
   import { reactive } from 'vue'
   import { useMainStore }  from '@/stores/main'
   import type { SidebarMenu } from '@/types/sidebar.type'
   import Navbar from '@/components/Navbar/Navbar.vue'
-  
+
   import SidebarV3 from '@/components/Sidebar/SidebarV3.vue'
 
   const store = useMainStore()
@@ -44,7 +44,7 @@
           route: 'second11',
           title: 'Подменю 1',
           icon: {
-            
+
           },
         },
         {
@@ -68,28 +68,31 @@
   function onToggleSideBar(): void {
     store.sidebar.minimized ? store.showSidebar() : store.hideSidebar()
   }
+
+
+
 </script>
-  
+
 <style lang="scss" scoped>
   .main-layout {
     width: 100%;
     height: 100%;
-  
+
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-  
+
     &__navbar {
       width: 100%;
       position: relative;
     }
-  
+
     &__wrapper {
       display: flex;
       height: 100%;
     }
   }
-  
+
   .sidebar {
     display: flex;
     flex-shrink: 0;
@@ -108,4 +111,3 @@
     overflow-y: auto;
   }
 </style>
-  
