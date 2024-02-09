@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia'
-import { ProfileStore } from '@/types/stores.type'
+import ProfileStore from '@/types/Profile/profile.store.type'
 
-export const useMainStore = defineStore('profile', {
-  state: (): ProfileStore => ({}),
+export const useProfileStore = defineStore('profile', {
+  state: (): ProfileStore => ({
+    profile: {},
+    user: {}
+  }),
   getters: {},
   actions: {}
 })

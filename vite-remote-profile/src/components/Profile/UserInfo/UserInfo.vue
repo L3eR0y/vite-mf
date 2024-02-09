@@ -3,23 +3,46 @@
   .avatar
     .av
   .initials
-    .initials__second-name  {{ store.user.family_name }}
-    .initials__first-name  {{ store.user.given_name }}
-    .initials__middle-name  {{ '' }}
+    .initials__second-name  {{ first_name }}
+    .initials__first-name  {{ last_name }}
+    .initials__middle-name  {{ middle_name }}
   .contacts
     .contacts__title Контактная иформация
     .contacts__list
-      .contact vkovalev@synergy.ru
-      .contact +7 (967) 157-51-80
-      .contact +7 (967) 157-51-81
-      .contact +7 (967) 157-51-82
-
+      .contact {{ email }}
+      .contact {{ phone }}
+      .contact {{ additional_phone }}
 </template>
 
 <script setup lang="ts">
-import { useMainStore }  from '@/stores/main'
-const store = useMainStore()
+import { useProfileStore }  from '@/stores/profile'
+import { computed } from 'vue'
 
+const profile_store = useProfileStore()
+
+const first_name = computed(() => {
+  return profile_store?.profile?.attributes?.name?.first || ''
+})
+
+const last_name = computed(() => {
+  return profile_store?.profile?.attributes?.name?.last || ''
+})
+
+const middle_name = computed(() => {
+  return profile_store?.profile?.attributes?.name?.middle || ''
+})
+
+const phone = computed(() => {
+  return profile_store?.profile?.attributes?.phone || ''
+})
+
+const additional_phone = computed(() => {
+  return profile_store?.profile?.attributes?.additional_phone || ''
+})
+
+const email = computed(() => {
+  return profile_store?.profile?.attributes?.email || ''
+})
 </script>
 
 <style scoped lang="scss">

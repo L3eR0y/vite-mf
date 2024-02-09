@@ -5,13 +5,14 @@ import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envDir: './',
   plugins: [
     vue(),
     federation({
-      name: 'synergy-elka-remote',
+      name: 'synergy-elka-profile',
       filename: 'remoteEntry.js',
       exposes: {
-        './MainPage': './src/pages/Main/index.vue',
+        './Profile': './src/pages/Profile/index.vue',
       },
       shared: ['vue', 'pinia']
     })

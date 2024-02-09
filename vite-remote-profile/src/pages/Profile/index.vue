@@ -11,8 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
-
+import { ref, reactive, computed, onMounted } from 'vue'
+import { useMainStore }  from '@/stores/main'
+import { useProfileStore }  from '@/stores/profile'
 import UserInfo from '@components/Profile/UserInfo/UserInfo.vue'
 
 import coverBackground1 from '@/assets/images/profile/bg1.png'
@@ -20,6 +21,8 @@ import coverBackground2 from '@/assets/images/profile/bg2.png'
 import coverBackground3 from '@/assets/images/profile/bg3.png'
 
 const active_background_image_id = ref<number>(0)
+const store = useMainStore()
+const profile_store = useProfileStore()
 
 const background_images: any[] = reactive([
   coverBackground1,
@@ -40,6 +43,27 @@ function onCoverMenuClick() {
       : active_background_image_id.value = 0
   console.log('ID ->: ', active_background_image_id.value)
 }
+
+function searchProfile() {
+  return fetch(`${import.meta.env.VITE_PROFILE__API_URL}/users/profiles/?filter[relationships.user]=${ store.$auth.subject }`, {
+    method: 'GET',
+    headers: {
+      Authorization: store.$auth.token || '',
+    },
+  })
+  .then(resp => resp.json())
+  .then((data: any) => {
+    const profile = data?.data?.[0] || null
+    profile_store.profile = profile
+    return profile
+  })
+}
+
+onMounted(() => {
+  searchProfile().then((profile: Profile) => {
+    console.log('PROFILE: ', profile)
+  })
+})
 </script>
 
 <style scoped lang="scss">

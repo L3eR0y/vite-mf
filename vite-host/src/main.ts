@@ -21,7 +21,8 @@ import routes from  './routes/routes'
 import KeycloakPlugin from '@/plugins/keycloak'
 
 //Remotes
-import RemoteMainPage from 'main-page/MainPage'
+// import RemoteMainPage from 'main-page/MainPage'
+// import ProfileService from 'profile-service/Profile'
 
 const i18n = createI18n({
     locale: 'ru',
@@ -40,7 +41,7 @@ const pinia = createPinia()
 
 const app = createApp(App)
 
-app.component('MainPage', RemoteMainPage)
+// app.component('ProfileService', ProfileService)
 
 app.use(pinia)
 app.use(KeycloakPlugin)
