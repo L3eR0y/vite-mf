@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
-import MainStore from '@/types/main-store.type'
-import Keycloak, { KeycloakProfile } from 'keycloak-js'
+import { MainStore } from '@/types/stores.type'
+import Keycloak from 'keycloak-js'
 
 export const useMainStore = defineStore('main', {
   state: (): MainStore => ({
     $auth: {} as Keycloak,
-    user: {} as KeycloakProfile,
+    user: {} ,
     sidebar: {
       minimized: false
     },
