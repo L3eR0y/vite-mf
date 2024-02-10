@@ -8,6 +8,7 @@
     .user-info.column
       UserInfo
     .profile-tabs.column
+      ProfileTabs
 </template>
 
 <script setup lang="ts">
@@ -15,6 +16,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useMainStore }  from '@/stores/main'
 import { useProfileStore }  from '@/stores/profile'
 import UserInfo from '@components/Profile/UserInfo/UserInfo.vue'
+import ProfileTabs from '@components/Profile/ProfileTabs/ProfileTabs.vue'
 
 import coverBackground1 from '@/assets/images/profile/bg1.png'
 import coverBackground2 from '@/assets/images/profile/bg2.png'
@@ -124,6 +126,7 @@ onMounted(() => {
 .profile-tabs {
   width: 100%;
   max-width: 720px;
+  padding: 24px 20px;
 }
 
 .column {

@@ -1,11 +1,7 @@
 <template lang="pug">
 .user-info-wrapper
   .avatar
-    .avatar-picker
-      img.avatar-picker__avatar(:src="avatar")
-      button.avatar-picker__button
-        svg(width="24" height="24")
-          use(xlink:href="@/assets/images/sprite.svg#camera")
+    AvatarPicker(:src="avatar")
   .initials
     .initials__second-name  {{ first_name }}
     .initials__first-name  {{ last_name }}
@@ -31,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import AvatarPlaceholder from '@/assets/images/profile/user-photo-placeholder.svg'
+import AvatarPicker from '@/components/AvatarPicker/AvatarPicker.vue'
 import { useProfileStore }  from '@/stores/profile'
 import { computed } from 'vue'
 
@@ -62,7 +58,7 @@ const email = computed(() => {
 })
 
 const avatar = computed(() => {
-  return profile_store?.profile?.attributes?.avatar?.url || AvatarPlaceholder
+  return profile_store?.profile?.attributes?.avatar?.url || ''
 })
 </script>
 
@@ -75,30 +71,6 @@ const avatar = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 28px;
-}
-
-.avatar-picker {
-  position: relative;
-  height: 160px;
-  width: 160px;
-
-  &__avatar {
-    height: 100%;
-    width: 100%;
-  }
-
-  &__button {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    background-color: #f5f5f5;
-    overflow: hidden;
-    border-radius: 50%;
-    border: none;
-    bottom: 5px;
-    right: 5px;
-  }
 }
 
 .avatar {
