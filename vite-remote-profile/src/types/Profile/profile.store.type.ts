@@ -1,5 +1,5 @@
 type ProfileStore = {
-	profile?: Profile,
+	profile: Profile,
 	educationLevel?: string,
 	processState?: string,
 	documentTypes?: { [key: string]: any }[],
@@ -10,7 +10,6 @@ type ProfileStore = {
 		documentType: any,
 		noSnils: boolean,
 	},
-
 	documents?: { [key: string]: any }[],
 }
 

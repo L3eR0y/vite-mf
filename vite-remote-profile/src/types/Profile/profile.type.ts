@@ -1,6 +1,6 @@
 type Profile = {
 	attempts_left?: number,
-	attributes?: { [key: string]: any },
+	attributes?: ProfileAttributes,
 	id?: string,
 	lid?: number,
 	meta?: ProfileMeta,
@@ -77,4 +77,30 @@ type ProfileUserInfo = {
 	name?: string,
 	preferred_username?: string,
 	sub?: string,
+}
+
+type ProfileAttributes = {
+	[key: string]:any,
+	id: string,
+	additional_email?: string,
+	additional_phone?: string,
+	birgth?: string,
+	email?: string,
+	sex?: 'M' | 'F',
+	avatar?: {
+		url: string
+	},
+	socials?: {
+		vk?: string,
+		fb?: string,
+		tg?: string,
+		ok?: string,
+	},
+	name?: {
+		first?: string,
+		full?: string,
+		last?: string,
+		middle?: string,
+		without_middle?: boolean
+	}
 }

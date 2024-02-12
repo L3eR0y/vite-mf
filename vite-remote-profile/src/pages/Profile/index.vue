@@ -56,15 +56,15 @@ function searchProfile() {
   .then(resp => resp.json())
   .then((data: any) => {
     const profile = data?.data?.[0] || null
+    
     profile_store.profile = profile
+    console.log('SET STORE', profile_store.profile)
     return profile
   })
 }
 
 onMounted(() => {
-  searchProfile().then((profile: Profile) => {
-    console.log('PROFILE: ', profile)
-  })
+  searchProfile()
 })
 </script>
 

@@ -1,5 +1,6 @@
 {
     "vue.autoInsert.dotValue": true,
     "vue.complete.casing.tags": "kebab",
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.tabSize": 2
 }
