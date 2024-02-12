@@ -36,6 +36,7 @@ export default ({ mode }) => {
       }
     },
     resolve: {
+      extensions: ['.vue', '.ts', '.js'],
       alias: {
         '@': path.resolve(__dirname, './src'),
         "@components": path.resolve(__dirname, "./src/components")

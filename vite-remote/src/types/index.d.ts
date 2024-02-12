@@ -7,8 +7,20 @@ type Group = {
 
 type Banner = {
     name: string,
-    src: string
+    url: string,
+    images: Record<number, Image>[]
 }
+
+
+type Image = {
+    id:string,
+    url: string,
+    name:string,
+    filename: string,
+    content_type: string,
+    byte_size: number
+}
+
 
 type Groups = Group[]
 type Banners = Banner[]

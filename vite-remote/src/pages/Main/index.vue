@@ -5,6 +5,7 @@
       Splider(:slides="banners" :options="banner_splider_options")
         template(#slide="{ slide }")
           img.banner-img(:src="slide.src" @click="onBannerClick(slide)" :data-splide-lazy="slide.src")
+
     .groups
           .groups-tabs(v-if="groups.length > 0")
               .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }")
@@ -16,20 +17,20 @@
               .waving-hand
     .news.main-block
           .title-container
-              .title Новости луллл
+              .title Новости Университета
               .navigation(v-if="news.length")
                   SButton.news-button(variant="secondary" size="small" ) Все новости
-                  .arrows()
+                  .arrows(@click="onLeftArrowClick")
                       Icon(name="arrow_small_left" size='xs')
-                  .arrows()
+                  .arrows(@click="onRightArrowClick")
                       Icon(name="arrow_small_right" size='xs')
           .cards-container
               .cards(v-if="news.length")
-                  Splider(:slides="news" ref="news_slider")
+                  Splider(:slides="news" ref="news_slider" :options="news_splider_options")
                       template(#slide="{ slide }")
                           .card()
                               .image-container
-                                  img.card-img(:src="bannerPlaceholder")
+                                  img.card-img(:src="slide?.image")
                               .description {{ slide.title }}
                               .date-container
                                   .calendar-icon
@@ -44,8 +45,10 @@
 
 <script setup lang="ts">
 import {reactive, nextTick, computed,onMounted,ref} from 'vue'
+import '@splidejs/splide/dist/css/splide.min.css'
 import { useMainStore }  from '@/stores/main'
 import Splider from '@components/Splider/Splider.vue'
+import SButton from "@components/ui-kit/SButton.vue";
 import Icon from "@components/Icon/Icon.vue"
 import bannerPlaceholder from '@/assets/images/banners/banner-placeholder-1020.webp'
 import {useProfileStore} from "@/stores/profile";
@@ -54,6 +57,7 @@ import { RSS_CREATOR,RSS_GUID,RSS_IMAGE,RSS_LINK,RSS_DESCRIPTION,RSS_CONTENT,RSS
 
 const store = useMainStore()
 const profile_store = useProfileStore();
+
 
   const active_group: Group = reactive({})
 
@@ -94,6 +98,7 @@ const profile_store = useProfileStore();
       }).then((response) => response.json())
       .then(data => {
         resolve(data)
+          console.log(data)
       })
       .catch((e: any) => {
         reject(e)
@@ -136,6 +141,27 @@ const newsFormatter = (items) => {
     })
     return news
 }
+
+let news_slider = ref([]);
+
+const news_splider_options = {
+    type: 'loop',
+    autoWidth: true,
+    prePage: 1,
+    perMove: 1,
+    pagination: false,
+    arrows: false,
+    drag: true,
+    rewind: false,
+    gap: '16px',
+}
+
+const onLeftArrowClick = () => {
+    news_slider?.value.slideLeft()
+};
+const onRightArrowClick = () => {
+    news_slider?.value.slideRight()
+};
 
 
   onMounted(async () => {

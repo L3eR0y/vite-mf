@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@splidejs/splide": "^4.1.4",
+    "@splidejs/splide": "^2.4.21",
+    "@splidejs/vue-splide": "^0.3.5",
     "@synergy/lms-ui-kit": "^2.8.19",
     "keycloak-js": "^23.0.5",
     "pinia": "^2.1.7",

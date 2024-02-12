@@ -18,6 +18,14 @@ export default {
             required: false,
             default: () => [],
         },
+        extensions: {
+            type   : Object,
+            default: () => ( {} ),
+        },
+        transition: {
+            type   : Function,
+            default: null,
+        },
         options: {
             type: Object,
             required: false,
@@ -74,11 +82,16 @@ export default {
     methods: {
         slideRight() {
             this.splider.go('>')
-            this.splider.refresh()
+
+            //закомменть строчку ниже чтобы увидеть разницу в анимации
+           this.splider.refresh()
+
             // this.setArrowsVisibility()
         },
         slideLeft() {
             this.splider.go('<')
+
+            //закомменть строчку ниже чтобы увидеть разницу в анимации
             this.splider.refresh()
             // this.setArrowsVisibility()
         },
@@ -92,18 +105,21 @@ export default {
         bind() {
             this.EVENTS.forEach((event) => {
                 this.splider.on(event, (...args) => {
-                    this.$emit(`splide:${event}`, this.splide, ...args)
+                    this.$emit(`${event}`, this.splide, ...args)
                 })
             })
         },
     },
+
     mounted() {
         this.splider = new Splide(this.$el, this.options || {})
         this.bind()
-        this.splider.mount()
+        this.splider.mount(this.extensions, this.transition)
     },
     created() {},
 }
+
+
 </script>
 
 <style scoped lang="scss">
