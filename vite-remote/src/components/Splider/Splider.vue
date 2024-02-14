@@ -82,26 +82,22 @@ export default {
     methods: {
         slideRight() {
             this.splider.go('>')
-
-            //закомменть строчку ниже чтобы увидеть разницу в анимации
-           this.splider.refresh()
-
+            this.splider.refresh()
             // this.setArrowsVisibility()
         },
         slideLeft() {
             this.splider.go('<')
 
-            //закомменть строчку ниже чтобы увидеть разницу в анимации
             this.splider.refresh()
             // this.setArrowsVisibility()
         },
         refresh() {
             this.splider.options = this.options
-            // console.log('OPTIONS: ', this.options)
             this.$nextTick(() => {
                 this.splider.refresh()
             })
         },
+
         bind() {
             this.EVENTS.forEach((event) => {
                 this.splider.on(event, (...args) => {
@@ -116,6 +112,7 @@ export default {
         this.bind()
         this.splider.mount(this.extensions, this.transition)
     },
+
     created() {},
 }
 

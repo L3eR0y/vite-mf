@@ -39,7 +39,8 @@ export default ({ mode }) => {
       extensions: ['.vue', '.ts', '.js'],
       alias: {
         '@': path.resolve(__dirname, './src'),
-        "@components": path.resolve(__dirname, "./src/components")
+        "@components": path.resolve(__dirname, "./src/components"),
+        "@assets": path.resolve(__dirname, "src/assets"),
       },
     },
     css: {
@@ -54,5 +55,8 @@ export default ({ mode }) => {
       // @ts-ignore
       port: process.env.VITE_APP_PORT,
     },
+    types: [
+      "vite/client"
+    ],
   });
 }

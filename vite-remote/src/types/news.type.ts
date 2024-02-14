@@ -3,5 +3,7 @@ export type News = {
 }
 
 export type NewsStore = {
-
+    news:[]
 }
+
+

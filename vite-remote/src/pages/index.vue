@@ -10,14 +10,16 @@
 </template>
 
 <script setup lang="ts">
-  import { reactive } from 'vue'
+import {onMounted, onUnmounted, reactive} from 'vue'
   import { useMainStore }  from '@/stores/main'
   import type { SidebarMenu } from '@/types/sidebar.type'
   import Navbar from '@/components/Navbar/Navbar.vue'
 
   import SidebarV3 from '@/components/Sidebar/SidebarV3.vue'
+import emitter from "@/utils/event-bus.ts"
 
   const store = useMainStore()
+const event_bus = emitter();
 
   const sidebar_menu_items: SidebarMenu = reactive<SidebarMenu>([
     {
@@ -68,7 +70,6 @@
   function onToggleSideBar(): void {
     store.sidebar.minimized ? store.showSidebar() : store.hideSidebar()
   }
-
 
 
 </script>

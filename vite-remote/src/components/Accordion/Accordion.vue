@@ -28,9 +28,6 @@
 
   const { expanded, item } = toRefs(props)
 
-  console.log(item?.value)
-  console.log(expanded?.value)
-
   function onAccordionHeadClick():void {
       emit('click:head')
   }
