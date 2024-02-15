@@ -21,7 +21,7 @@ export default ({ mode }) => {
         exposes: {
           './HelloWorld': './src/components/HelloWorld.vue',
         },
-        shared: ['vue']
+        shared: ['vue', 'pinia']
       })
     ],
 

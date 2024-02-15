@@ -10,9 +10,10 @@ export default defineConfig({
     federation({
       name: 'synergy-elka-host-app',
       remotes: {
-        remote_app: "http://localhost:5173/assets/remoteEntry.js",
+        // 'main-page': "http://localhost:5173/assets/remoteEntry.js",
+        'profile-service': "http://localhost:5173/assets/remoteEntry.js",
       },
-      shared: ['vue']
+      shared: ['vue', 'pinia']
     })
   ],
   server: {

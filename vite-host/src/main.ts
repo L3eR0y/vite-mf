@@ -3,9 +3,6 @@ import { createI18n } from 'vue-i18n'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import Keycloak from 'keycloak-js'
-import { config, options } from '@/auth/keycloak'
-
 // Locales
 import ruLocale from '@/locales/ru.json'
 import enLocale from '@/locales/en.json'
@@ -21,8 +18,11 @@ import "./assets/styles/app.scss"
 import routes from  './routes/routes'
 
 //Plugins
-// import RemoteLoaderPlugin from './src/plugins/remote-loader'
 import KeycloakPlugin from '@/plugins/keycloak'
+
+//Remotes
+// import RemoteMainPage from 'main-page/MainPage'
+// import ProfileService from 'profile-service/Profile'
 
 const i18n = createI18n({
     locale: 'ru',
@@ -41,17 +41,11 @@ const pinia = createPinia()
 
 const app = createApp(App)
 
+// app.component('ProfileService', ProfileService)
+
 app.use(pinia)
+app.use(KeycloakPlugin)
 app.use(router)
 app.use(i18n)
 
-const _keycloak = new Keycloak(config)
-
-_keycloak.init(options).then((auth: boolean) => {
-    if(auth) {
-        app.use(KeycloakPlugin, {
-            keycloak: _keycloak
-        })
-        app.mount('#app');
-    }
-})
+app.mount('#app');

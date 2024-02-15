@@ -8,7 +8,7 @@
     .main-view
       router-view
 </template>
-  
+    
 <script setup lang="ts">
   import { reactive } from 'vue'
   import { useMainStore }  from '@/stores/main'
@@ -21,39 +21,13 @@
 
   const sidebar_menu_items: SidebarMenu = reactive<SidebarMenu>([
     {
-      id: '1',
-      name: 'second',
-      route: 'second',
-      title: 'Первый пункт меню',
+      name: 'main',
+      route: 'main',
+      title: 'Главная страница',
       icon: {
-        name: 'services',
+        name: 'main',
         color: 'black'
-      },
-      submenu: [
-        {
-          id: '11',
-          name: 'second-1',
-          route: 'second-1',
-          title: 'Подменю 1',
-          icon: {
-            
-          },
-        },
-        {
-          id: '12',
-          name: 'second-2',
-          route: 'second-2',
-          title: 'Подменю 2',
-          icon: {},
-        },
-        {
-          id: '13',
-          name: 'second-3',
-          route: 'second-3',
-          title: 'Подменю 3',
-          icon: {},
-        },
-      ]
+      }
     },
     {
       id: '2',
@@ -95,7 +69,7 @@
     store.sidebar.minimized ? store.showSidebar() : store.hideSidebar()
   }
 </script>
-  
+    
 <style lang="scss" scoped>
   .main-layout {
     width: 100%;
@@ -131,9 +105,7 @@
     width: 100%;
     overflow: hidden;
     position: relative;
-    padding-bottom: 24px;
-    padding-top: 24px;
     overflow-y: auto;
   }
 </style>
-  
+    

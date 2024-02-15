@@ -7,7 +7,7 @@
                         a(:href="slide.url" target='blank')
                             img.banner-img(:src="slide.src"  :data-splide-lazy="slide.src")
             .groups
-                .groups-tabs(v-if="groups.length > 0")
+                .groups-tabs(v-if="groups.length")
                     .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }" @click="setActiveTab(group)")
                         .tab--indicator
                             Icon(name="dot" :color="active_group.id === group.id ? '#6DD22A' : '#BABCC2'" size="6")
@@ -15,31 +15,31 @@
                 .groups-content(:style="{ 'border-radius': groups_border_radius }")
                     | Привет Nastya!
                     .waving-hand
-            //.helpers.main-block(v-if="managers.length > 0")
-            //    .title-container
-            //        .title К кому обратиться
-            //    .helpers-container
-            //        .helper(v-for="(manager, index) in managers" :key="index")
-            //            .profile
-            //                .avatar
-            //                    div(:class="[manager.rank === 'manager' ? 'avatar-red' : 'avatar-yellow']")
-            //                .information
-            //                    .name {{ manager.name }}
-            //                    .rank {{ manager.rank === 'manager' ? 'Тьютор' : 'Персональный куратор' }}
-            //            .phones
-            //                .phone(v-if="manager.contacts.mobile_phone")
-            //                    .icon
-            //                        BaseIcon(name="communication" size='tn' color="#BABCC2")
-            //                    .label {{ manager.contacts.mobile_phone }}
-            //                .phone(v-if="manager.contacts.phone")
-            //                    .icon
-            //                        BaseIcon(name="communication" size='tn' color="#BABCC2")
-            //                    .label {{ manager.contacts.phone }}
-            //            .emails
-            //                .email(v-if="manager.contacts.email")
-            //                    .icon
-            //                        BaseIcon(name="mail" size='tn' color="#BABCC2")
-            //                    .label {{ manager.contacts.email }}
+            .helpers.main-block(v-if="managers?.length")
+                .title-container
+                    .title К кому обратиться
+                .helpers-container
+                    .helper(v-for="(manager, index) in managers" :key="index")
+                        .profile
+                            .avatar
+                                div(:class="[manager.rank === 'manager' ? 'avatar-red' : 'avatar-yellow']")
+                            .information
+                                .name {{ manager.name }}
+                                .rank {{ manager.rank === 'manager' ? 'Тьютор' : 'Персональный куратор' }}
+                        .phones
+                            .phone(v-if="manager.contacts.mobile_phone")
+                                .icon
+                                    Icon(name="communication" size='tn' color="#BABCC2")
+                                .label {{ manager.contacts.mobile_phone }}
+                            .phone(v-if="manager.contacts.phone")
+                                .icon
+                                    Icon(name="communication" size='tn' color="#BABCC2")
+                                .label {{ manager.contacts.phone }}
+                        .emails
+                            .email(v-if="manager.contacts.email")
+                                .icon
+                                    Icon(name="mail" size='tn' color="#BABCC2")
+                                .label {{ manager.contacts.email }}
             .favorie-services.main-block(v-if="services.length" )
                 .title-container
                     .title Избранные сервисы
@@ -132,6 +132,7 @@ import Icon from "@components/Icon/Icon.vue";
 
 import { RSS_CREATOR,RSS_GUID,RSS_IMAGE,RSS_LINK,RSS_DESCRIPTION,RSS_CONTENT,RSS_SHOW_IN_PORTAL,RSS_PUB_DATE,RSS_TITLE } from "@/consts/news.ts";
 import type {Group, Groups} from "@/types";
+import type {User,JsonUser} from "@/types/user.type.ts";
 import {ImageSize} from "@/types/images.ts";
 import {
     banner_slider_options,
@@ -165,39 +166,43 @@ function onRightArrowClick (ref) {
     sliderArrowObj.value[ref].slideRight()
 }
 
-const active_group: Group = reactive({})
+const active_group = ref<Group>()
 const setActiveTab = (group) => {
-    active_group.id = group.id;
-    active_group.title = group.title
+    active_group.value = group
 }
 
-const groups = ref<Groups>([]);
+const groups = ref<Group[]>([]);
 const groups_border_radius = computed(() => {
     return groups.value.length ? '0px 8px 8px 8px' : '8px'
 });
 
-async function getStudentByEmail() {
-    const response = await fetch(`https://lms.synergy.ru/api/exchange/getStudentsByEmail?key=1029-xosJp-5820-Posm&email=${store.user.email}`);
+async function getStudentByEmail():Promise<User[]> {
+    // TODO: раскомментить при мерже в мастер/дев
+    // const response = await fetch(`https://lms.synergy.ru/api/exchange/getStudentsByEmail?key=1029-xosJp-5820-Posm&email=${store.user.email}`);
 
+    // TODO: удалить при мерже в мастер/дев
+    const response = await fetch(`https://lms.synergy.ru/api/exchange/getStudentsByEmail?key=1029-xosJp-5820-Posm&email=sshalamkov@yandex.ru`);
     try {
-        return await response.json();
+        const result: Promise<JsonUser> =  await response.json()
+        return (await result).result
     }catch (e) {
         throw new Error(e)
     }
 }
 
-function setStudentGroup(arr) {
-    // groups.value =
-    //     (arr.length &&
-    //         groups.value.map((item) => {
-    //             return {
-    //                 title: item.group,
-    //                 id: item.group,
-    //                 ...item,
-    //             }
-    //         })) ||
-    //     []
-    //groups.length && (active_group.title = groups[0])
+function setStudentGroup(arr:User[]) {
+    if(!arr.length) return;
+    groups.value =
+        (arr &&
+            arr.map((item) => {
+                return {
+                    title: item.group,
+                    id: item.group,
+                    ...item,
+                }
+            })) ||
+        []
+    groups.value.length && (active_group.value = groups.value[0])
 }
 
 
@@ -264,28 +269,34 @@ async function getBanners (): Promise<any> {
 }
 async function bannerFormatter (banner_arr) {
     if(!banner_arr.length) return;
-    const image_promises = <any>[];
+    const image_promises: any[] = [];
 
-    banner_arr.forEach((item) => {
-        image_promises.push(
-            new Promise((resolve, reject) => {
-                const image = new Image();
-                image.src = item.src
+    const myPromise = async (): Promise<string> => {
+        return banner_arr.forEach((item) => {
+            image_promises.push(
+                new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.src = item.src
 
-                image.onload = () => {
-                    resolve(item)
-                }
+                    image.onload = () => {
+                        resolve(item)
+                    }
 
-                image.onerror = () => {
-                    reject()
-                }
-            })
-        )
-    })
+                    image.onerror = () => {
+                        reject()
+                    }
+                })
+            )
+        })
+    };
+    await myPromise();
+
+
 
     const results = await Promise.allSettled(image_promises);
 
-    banners.value.push(...results.filter((item) => item.status === 'fulfilled').map((item) => item.value));
+    const response = ( banners.value.push(...results.filter((res) => res.status === "fulfilled").map((item) => item.value) as PromiseFulfilledResult<string> | undefined));
+
 
     //const usSuccessfulPromises:number = banners.value.push(...results.filter((item) => item.status === 'rejected').map((item) => item.reason));
 }
@@ -380,6 +391,23 @@ function onStudentLifeCardClick(slide) {
     // })
 }
 
+const managers = computed(() => {
+    if(active_group.value?.manager ||active_group.value?.personal_manager ) {
+        return Object.entries(active_group.value)
+            .reduce((acc, [key, val]) => {
+                if ((key === 'manager' || key === 'personal_manager') && val) {
+                    acc.push({
+                        name: val,
+                        rank: key,
+                        contacts: { ...active_group.value?.[`${key}_contacts`] },
+                    })
+                }
+                return acc
+            }, [])
+            .sort()
+            .reverse()
+    }
+})
 
 
 onMounted( async () => {
@@ -398,7 +426,8 @@ onMounted( async () => {
         await bannerFormatter(result_banners.value)
     }
     if(student_by_email.status === 'fulfilled' && student_by_email.value.status != 0) {
-        setStudentGroup(student_by_email)
+
+        setStudentGroup(student_by_email.value);
     }
     if(getting_available_services.status === 'fulfilled') {
         available_services.value = getting_available_services.value;

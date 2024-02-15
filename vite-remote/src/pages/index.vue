@@ -90,7 +90,7 @@ const event_bus = emitter();
 
     &__wrapper {
       display: flex;
-      height: 100%;
+      height: calc(100% - 3.5rem); //высота хедера
     }
   }
 

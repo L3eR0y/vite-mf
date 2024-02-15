@@ -4,11 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3030",
+    "serve": "vite preview --port 5173 --strictPort",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@splidejs/splide": "^4.1.4",
     "keycloak-js": "^23.0.5",
     "pinia": "^2.1.7",
     "pug": "^3.0.2",

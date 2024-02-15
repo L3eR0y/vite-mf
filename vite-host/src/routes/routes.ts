@@ -1,7 +1,8 @@
 import { RouteRecordRaw } from 'vue-router'
 
 import IndexPage from '@/pages/index.vue'
-import SecondPage from '../pages/Second/index.vue'
+import MainPage from '@/pages/Main/index.vue'
+import ProfileService from 'profile-service/Profile'
 
 export default [
   {
@@ -10,28 +11,15 @@ export default [
     component: IndexPage,
     children: [
       {
-        name: 'second',
-        path: '/second',
-        component: SecondPage,
-        children: [
-          {
-            name: 'second-1',
-            path: 'second-1',
-            component: SecondPage,
-          },
-          {
-            name: 'second-2',
-            path: 'second-2',
-            component: SecondPage,
-          },
-          {
-            name: 'second-3',
-            path: 'second-3',
-            component: SecondPage,
-          },
-        ]
+        name: 'main',
+        path: '/main',
+        component: MainPage
+      },
+      {
+        name: 'profile',
+        path: '/profile',
+        component: ProfileService
       }
     ]
-  },
-  
+  },  
 ] as RouteRecordRaw[]
