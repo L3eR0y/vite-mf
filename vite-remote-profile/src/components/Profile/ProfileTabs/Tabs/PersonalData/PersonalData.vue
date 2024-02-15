@@ -1,15 +1,20 @@
 <template lang="pug">
 .presonal-data-tab-wrapper 
   .fieldset
-    .fieldset__title Основная информация
+    .fieldset__title Основная информация {{ profile.id }}
     .fieldset__content
-      .field {{ profile.attributes?.name?.last || '' }}
-      .field {{ profile.attributes?.name?.first || '' }}
+      .field
+        SInput(name="last")
+      .field 
+        input(name="first")
+      .field
+        input(name="middle")
       //- .field {{ pr.attributes?.name?.middle || '' }}
 </template>
 
 <script setup lang="ts">
-import { toRefs, onMounted } from 'vue'
+import { toRefs, onMounted, isReactive } from 'vue'
+import SInput from '@components/ui-kit-v2/input/input.vue'
 
 // const props = defineProps<{
 //   profile: Profile
@@ -23,9 +28,8 @@ const { profile } = toRefs(props)
 
 
 onMounted(() => {
-  console.log('PROFILE: ', profile.value)
+  console.log('PROFILE: ', isReactive(props))
 })
-
 </script>
 
 <style scoped lang="scss">

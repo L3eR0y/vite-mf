@@ -9,41 +9,22 @@
 				@click="onTabClick(tab)") 
 					.tab__label {{ tab.title || '' }}
 	.profile-tabs-wrapper__body
-		div {{ profile_store.profile.attributes?.name?.first }} 
 		transition(name="slide")
 			KeepAlive
-				component(:is="component_tab" :profile="profile_store.profile")
+				component(:is="component_tab" :profile="{}")
 </template>
 
 <script setup lang="ts">
 import _ from 'lodash'
 import { ref, computed } from 'vue'
 import { useProfileStore }  from '@/stores/profile'
-import PersonalDoc from '@components/Profile/ProfileTabs/Tabs/PersonalDoc/PersonalDoc.vue'
-import PersonalData from '@components/Profile/ProfileTabs/Tabs/PersonalData/PersonalData.vue'
-import Addresses from '@components/Profile/ProfileTabs/Tabs/Addresses/Addresses.vue'
+
 
 const profile_store = useProfileStore()
 
 const active_tab = ref('PersonalData')
 
-const tabs: { [key: string]: { code: string, title: string, component: any } } = {
-	PersonalData: {
-		code: 'PersonalData',
-		title: 'Контактные данные',
-		component: PersonalData
-	},
-	PersonalDoc: {
-		code: 'PersonalDoc',
-		title: 'Документы',
-		component: PersonalDoc
-	},
-	Addresses: {
-		code: 'Addresses',
-		title: 'Адреса',
-		component: Addresses
-	}
-}
+
 
 const component_tab = computed(() => {
 	return tabs?.[active_tab.value]?.component || null
