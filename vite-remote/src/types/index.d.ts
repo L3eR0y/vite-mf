@@ -1,14 +1,21 @@
 declare module '*.webp'
+import type {Image,ImageSize} from "@/types/images.ts";
+import {User} from "@/types/user.type.ts";
 
-type Group = {
-    id?: string,
-    title?: string
+
+interface Group extends User {
+    id: string,
+    title: string
 }
 
-type Banner = {
+
+export type Banner = {
     name: string,
-    src: string
+    url: string,
+    src?:string,
+    images: Record<ImageSize, Image>[]
 }
 
-type Groups = Group[]
-type Banners = Banner[]
+
+export type Groups = Group[]
+export type Banners = Banner[]
