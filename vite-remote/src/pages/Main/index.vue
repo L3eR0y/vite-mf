@@ -1,139 +1,138 @@
 <template lang="pug">
-    .main-page-wrapper
-        .main-container
-            .banner.main-block
-                Splider(:slides="banners" :options="banner_slider_options" :key="banners.length")
-                    template(#slide="{ slide }")
-                        a(:href="slide.url" target='blank')
-                            img.banner-img(:src="slide.src"  :data-splide-lazy="slide.src")
-            .groups
-                .groups-tabs(v-if="groups.length")
-                    .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }" @click="setActiveTab(group)")
-                        .tab--indicator
-                            Icon(name="dot" :color="active_group.id === group.id ? '#6DD22A' : '#BABCC2'" size="6")
-                        .tab--title {{ group.title }}
-                .groups-content(:style="{ 'border-radius': groups_border_radius }")
-                    | Привет Nastya!
-                    .waving-hand
-            .helpers.main-block(v-if="managers?.length")
-                .title-container
-                    .title К кому обратиться
-                .helpers-container
-                    .helper(v-for="(manager, index) in managers" :key="index")
-                        .profile
-                            .avatar
-                                div(:class="[manager.rank === 'manager' ? 'avatar-red' : 'avatar-yellow']")
-                            .information
-                                .name {{ manager.name }}
-                                .rank {{ manager.rank === 'manager' ? 'Тьютор' : 'Персональный куратор' }}
-                        .phones
-                            .phone(v-if="manager.contacts.mobile_phone")
-                                .icon
-                                    Icon(name="communication" size='tn' color="#BABCC2")
-                                .label {{ manager.contacts.mobile_phone }}
-                            .phone(v-if="manager.contacts.phone")
-                                .icon
-                                    Icon(name="communication" size='tn' color="#BABCC2")
-                                .label {{ manager.contacts.phone }}
-                        .emails
-                            .email(v-if="manager.contacts.email")
-                                .icon
-                                    Icon(name="mail" size='tn' color="#BABCC2")
-                                .label {{ manager.contacts.email }}
-            .favorie-services.main-block(v-if="services.length" )
-                .title-container
-                    .title Избранные сервисы
-                    .navigation
-                        .arrows(@click="onLeftArrowClick('services_slider')")
-                            Icon(name="arrow_small_left" size='xs')
-                        .arrows(@click="onRightArrowClick('services_slider')")
-                            Icon(name="arrow_small_right" size='xs')
-                .cards-container
-                    .cards
-                        Splider(:slides="services" ref="services_slider" :options="favourites_slider_options")
-                            template(#slide="{ slide }")
-                                .card(v-if="slide.type !== 'adding_favourite'")
-                                    .card-header
-                                        .icon
-                                            Icon(name="heart" color="#FF0A47" size="tn")
-                                    .card-body
-                                        .title {{ slide.title }}
-                                        .description {{ slide.description }}
-                                .card(v-else @click="onAddFavoriteServiceClick")
-                                    .card-header
-                                    .card-body
-                                        .title(style="text-align: center;") {{ slide.title }}
-            .student-life.main-block
-                .title-container
-                    .title Студенческая жизнь
-                    //- button(@click="getStudentLifeNews") Get
-                    .navigation(v-if="news_store.news.length")
-                        SButton.news-button(variant="secondary" size="small" @click="onAllStudentsLifeClick") Все новости
-                        .arrows(@click="onLeftArrowClick('students_life_slider')")
-                            Icon(name="arrow_small_left" size='xs')
-                        .arrows(@click="onRightArrowClick('students_life_slider')")
-                            Icon(name="arrow_small_right" size='xs')
-                .cards-container
-                    .cards(v-if="news_store.news.length")
-                        Splider(:slides="news_store.news" ref="students_life_slider" :options="students_life_slider_options")
-                            template(#slide="{ slide }")
-                                .card(@click="onStudentLifeCardClick(slide)")
-                                    .image-container
-                                        img.card-img(:src="slide?.image || empty_news_image")
-                                    .description {{ slide.description || slide.title }}
-                                    .date-container
-                                        .calendar-icon
-                                            Icon(name="calendar" size="tn")
-                                        .date {{ new Date(slide.created).toLocaleDateString() }}
-                    .empty-block(v-else)
+.main-page-wrapper
+    .main-container
+        .banner.main-block
+          Splider(:slides="banners" :options="banner_slider_options" :key="banners.length")
+            template(#slide="{ slide }")
+              a(:href="slide.url" target='blank')
+                img.banner-img(:src="slide.src"  :data-splide-lazy="slide.src")
+        .groups
+          .groups-tabs(v-if="groups.length")
+            .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }" @click="setActiveTab(group)")
+              .tab--indicator
+                Icon(name="dot" :color="active_group.id === group.id ? '#6DD22A' : '#BABCC2'" size="6")
+              .tab--title {{ group.title }}
+          .groups-content(:style="{ 'border-radius': groups_border_radius }")
+            | Привет Nastya!
+            .waving-hand
+        .helpers.main-block(v-if="managers?.length")
+          .title-container
+            .title К кому обратиться
+          .helpers-container
+            .helper(v-for="(manager, index) in managers" :key="index")
+              .profile
+                .avatar
+                  div(:class="[manager.rank === 'manager' ? 'avatar-red' : 'avatar-yellow']")
+                .information
+                  .name {{ manager.name }}
+                  .rank {{ manager.rank === 'manager' ? 'Тьютор' : 'Персональный куратор' }}
+              .phones
+                .phone(v-if="manager.contacts.mobile_phone")
+                  .icon
+                    Icon(name="communication" size='tn' color="#BABCC2")
+                  .label {{ manager.contacts.mobile_phone }}
+                  .phone(v-if="manager.contacts.phone")
+                    .icon
+                      Icon(name="communication" size='tn' color="#BABCC2")
+                    .label {{ manager.contacts.phone }}
+              .emails
+                .email(v-if="manager.contacts.email")
+                  .icon
+                    Icon(name="mail" size='tn' color="#BABCC2")
+                  .label {{ manager.contacts.email }}
+        .favorie-services.main-block(v-if="services.length" )
+            .title-container
+              .title Избранные сервисы
+              .navigation
+                .arrows(@click="onLeftArrowClick('services_slider')")
+                  Icon(name="arrow_small_left" size='xs')
+                .arrows(@click="onRightArrowClick('services_slider')")
+                  Icon(name="arrow_small_right" size='xs')
+            .cards-container
+              .cards
+                Splider(:slides="services" ref="services_slider" :options="favourites_slider_options")
+                  template(#slide="{ slide }")
+                    .card(v-if="slide.type !== 'adding_favourite'")
+                      .card-header
+                        .icon
+                          Icon(name="heart" color="#FF0A47" size="tn")
+                      .card-body
+                        .title {{ slide.title }}
+                        .description {{ slide.description }}
+                    .card(v-else @click="onAddFavoriteServiceClick")
+                      .card-header
+                      .card-body
+                        .title(style="text-align: center;") {{ slide.title }}
+        .student-life.main-block
+          .title-container
+            .title Студенческая жизнь
+            //- button(@click="getStudentLifeNews") Get
+            .navigation(v-if="news_store.news.length")
+              SButton.news-button(variant="secondary" size="small" @click="onAllStudentsLifeClick") Все новости
+              .arrows(@click="onLeftArrowClick('students_life_slider')")
+                Icon(name="arrow_small_left" size='xs')
+              .arrows(@click="onRightArrowClick('students_life_slider')")
+                Icon(name="arrow_small_right" size='xs')
+            .cards-container
+              .cards(v-if="news_store.news.length")
+                Splider(:slides="news_store.news" ref="students_life_slider" :options="students_life_slider_options")
+                  template(#slide="{ slide }")
+                    .card(@click="onStudentLifeCardClick(slide)")
+                      .image-container
+                        img.card-img(:src="slide?.image || empty_news_image")
+                      .description {{ slide.description || slide.title }}
+                      .date-container
+                        .calendar-icon
+                          Icon(name="calendar" size="tn")
+                        .date {{ new Date(slide.created).toLocaleDateString() }}
+              .empty-block(v-else)
+                div Пока нет новостей
+            .card-actions
+                SButton.news-button(variant="secondary" size="small") Все новости
+        .news.main-block
+            .title-container
+                .title Новости Университета
+                .navigation(v-if="news.length")
+                    SButton.news-button(variant="secondary" size="small" @click="onAllNewsClick") Все новости
+                    .arrows(@click="onLeftArrowClick('news_slider')")
+                        Icon(name="arrow_small_left" size='xs')
+                    .arrows(@click="onRightArrowClick('news_slider')")
+                        Icon(name="arrow_small_right" size='xs')
+            .cards-container
+                .cards(v-if="news.length")
+                    Splider(:slides="news" ref="news_slider" :options="news_slider_options")
+                        template(#slide="{ slide }")
+                            .card()
+                                .image-container
+                                    img.card-img(:src="slide?.image || empty_news_image")
+                                .description {{ slide.title }}
+                                .date-container
+                                    .calendar-icon
+                                        Icon(name="calendar" size="tn")
+                                    .date {{ new Date(slide.pubDate).toLocaleDateString() }}
+                .empty-block(v-else)
 
-                        div Пока нет новостей
-                .card-actions
-                    SButton.news-button(variant="secondary" size="small") Все новости
-            .news.main-block
-                .title-container
-                    .title Новости Университета
-                    .navigation(v-if="news.length")
-                        SButton.news-button(variant="secondary" size="small" @click="onAllNewsClick") Все новости
-                        .arrows(@click="onLeftArrowClick('news_slider')")
-                            Icon(name="arrow_small_left" size='xs')
-                        .arrows(@click="onRightArrowClick('news_slider')")
-                            Icon(name="arrow_small_right" size='xs')
-                .cards-container
-                    .cards(v-if="news.length")
-                        Splider(:slides="news" ref="news_slider" :options="news_slider_options")
-                            template(#slide="{ slide }")
-                                .card()
-                                    .image-container
-                                        img.card-img(:src="slide?.image || empty_news_image")
-                                    .description {{ slide.title }}
-                                    .date-container
-                                        .calendar-icon
-                                            Icon(name="calendar" size="tn")
-                                        .date {{ new Date(slide.pubDate).toLocaleDateString() }}
-                    .empty-block(v-else)
-
-                        div Пока нет новостей
-                .card-actions
-                    SButton.news-button(variant="secondary" size="small") Все новости
+                    div Пока нет новостей
+            .card-actions
+                SButton.news-button(variant="secondary" size="small") Все новости
 </template>
 
 
 <script setup lang="ts">
-import {reactive, computed, onMounted, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 // TODO: раскомментить когда добавим роутер
 // import router from '@/router';
 import '@splidejs/splide/dist/css/splide.min.css';
 import { useMainStore }  from '@/stores/main';
-import {useNewsStore} from "@/stores/news.ts";
+import { useNewsStore } from "@/stores/news.ts";
 import Splider from '@components/Splider/Splider.vue';
 import SButton from "@components/ui-kit/SButton.vue";
 import Icon from "@components/Icon/Icon.vue";
 
 import { RSS_CREATOR,RSS_GUID,RSS_IMAGE,RSS_LINK,RSS_DESCRIPTION,RSS_CONTENT,RSS_SHOW_IN_PORTAL,RSS_PUB_DATE,RSS_TITLE } from "@/consts/news.ts";
-import type {Group, Groups} from "@/types";
-import type {User,JsonUser} from "@/types/user.type.ts";
-import {ImageSize} from "@/types/images.ts";
+import type { Group } from "@/types";
+import type { User,JsonUser } from "@/types/user.type.ts";
+import { ImageSize } from "@/types/images.ts";
 import {
     banner_slider_options,
     favourites_slider_options,
@@ -159,15 +158,16 @@ const sliderArrowObj = computed(() => {
     }
 })
 
-function onLeftArrowClick (ref) {
-    sliderArrowObj.value[ref].slideLeft()
+function onLeftArrowClick (ref: any): void {
+    sliderArrowObj?.value?.[ref]?.slideLeft?.()
 }
 function onRightArrowClick (ref) {
-    sliderArrowObj.value[ref].slideRight()
+    sliderArrowObj?.value?.[ref]?..slideRight?.()
 }
 
 const active_group = ref<Group>()
-const setActiveTab = (group) => {
+
+const setActiveTab = (group: any) => {
     active_group.value = group
 }
 
@@ -185,7 +185,7 @@ async function getStudentByEmail():Promise<User[]> {
     try {
         const result: Promise<JsonUser> =  await response.json()
         return (await result).result
-    }catch (e) {
+    }catch (e: any) {
         throw new Error(e)
     }
 }
@@ -206,8 +206,9 @@ function setStudentGroup(arr:User[]) {
 }
 
 
-const services = ref([]);
+const services = ref<any>([]);
 const available_services = ref<AvailableService[]>([]);
+
 function onAddFavoriteServiceClick() {
     console.log('router push onAddFavoriteServiceClick')
     // TODO: раскомментить когда добавим роутер
@@ -216,32 +217,34 @@ function onAddFavoriteServiceClick() {
 
 function getFavouriteServices() {
     services.value = [
-        ...available_services.value.filter((el) => el.is_favorites),
-        {
-            title: 'Добавить избранный сервис',
-            id: 'library17',
-            type: 'adding_favourite',
-            position: 999,
-        },
+      ...available_services.value.filter((el) => el.is_favorites),
+      {
+        title: 'Добавить избранный сервис',
+        id: 'library17',
+        type: 'adding_favourite',
+        position: 999,
+      },
     ]
 }
 
-async function getAvailableServices():Promise<AvailableService[]> {
-    // TODO: перенести в ui_store
+async function getAvailableServices(): Promise<AvailableService[]> {
+  // TODO: перенести в ui_store
 
-    const response = await fetch(`https://develop-elka-common-services.c4.syndev.ru/common/services/availables`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-            Authorization: store.auth.token || '',
-        }
-    })
-    try {
-        const result: Promise<JsonAvailableService> =  await response.json()
-        return (await result)?.data
-    } catch (e) {
-        console.error(e.message)
+  const response = await fetch(`https://develop-elka-common-services.c4.syndev.ru/common/services/availables`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      Authorization: store.auth.token || '',
     }
+  })
+
+  try {
+    const result: Promise<JsonAvailableService> =  await response.json()
+    return ((await result)?.data || []) as AvailableService[]
+  } catch (e: any) {
+    console.error(e.message)
+    return []
+  }
 }
 
 
@@ -263,16 +266,16 @@ async function getBanners (): Promise<any> {
             ...item,
             src: item?.images[ImageSize.LG]?.url || "",
         }))
-    }catch (e) {
+    }catch (e: any) {
        throw new Error(e)
     }
 }
-async function bannerFormatter (banner_arr) {
+async function bannerFormatter (banner_arr: any) {
     if(!banner_arr.length) return;
     const image_promises: any[] = [];
 
     const myPromise = async (): Promise<string> => {
-        return banner_arr.forEach((item) => {
+        return banner_arr.forEach((item: any) => {
             image_promises.push(
                 new Promise((resolve, reject) => {
                     const image = new Image();
@@ -293,9 +296,9 @@ async function bannerFormatter (banner_arr) {
 
 
 
-    const results = await Promise.allSettled(image_promises);
+    // const results = await Promise.allSettled(image_promises);
 
-    const response = ( banners.value.push(...results.filter((res) => res.status === "fulfilled").map((item) => item.value) as PromiseFulfilledResult<string> | undefined));
+    // const response = ( banners.value.push(...results.filter((res) => res.status === "fulfilled").map((item) => item.value) as PromiseFulfilledResult<string> | undefined));
 
 
     //const usSuccessfulPromises:number = banners.value.push(...results.filter((item) => item.status === 'rejected').map((item) => item.reason));
@@ -305,33 +308,33 @@ async function bannerFormatter (banner_arr) {
 const news = ref([]);
 
 async function getNews() {
-    try {
-        let response = await fetch(import.meta.env.VUE_APP_RSS_NEWS__API_URL);
-        const xml = await response.text().then(( str ) => {
-            return new DOMParser().parseFromString(str, 'text/xml');
-        });
-        return xml.querySelectorAll('item');
-    } catch (e) {
-        throw e
-    }
+  try {
+    let response = await fetch(import.meta.env.VUE_APP_RSS_NEWS__API_URL);
+    const xml = await response.text().then(( str ) => {
+        return new DOMParser().parseFromString(str, 'text/xml');
+    });
+    return xml.querySelectorAll('item');
+  } catch (e) {
+    throw e
+  }
 }
 
-function newsFormatter (items) {
-    const news = []
-    items.forEach((el) => {
-        news.push({
-            title: el.querySelector(RSS_TITLE).innerHTML,
-            link: el.querySelector(RSS_LINK).innerHTML,
-            image: el.querySelector(RSS_IMAGE).innerHTML.match(/src=&quot;(.+\.(jpg|jpeg))&quot;/)?.[1] || '',
-            pubDate: el.querySelector(RSS_PUB_DATE).innerHTML,
-            showInPortal: el.querySelector(RSS_SHOW_IN_PORTAL).innerHTML,
-            guid: el.querySelector(RSS_GUID).innerHTML,
-            creator: el.querySelector(RSS_CREATOR).innerHTML,
-            description: el.querySelector(RSS_DESCRIPTION).innerHTML,
-            content: el.querySelector(RSS_CONTENT).innerHTML,
-        })
+function newsFormatter (items: any) {
+  const news: any = []
+  items.forEach((el: any) => {
+    news.push({
+      title: el.querySelector(RSS_TITLE).innerHTML,
+      link: el.querySelector(RSS_LINK).innerHTML,
+      image: el.querySelector(RSS_IMAGE).innerHTML.match(/src=&quot;(.+\.(jpg|jpeg))&quot;/)?.[1] || '',
+      pubDate: el.querySelector(RSS_PUB_DATE).innerHTML,
+      showInPortal: el.querySelector(RSS_SHOW_IN_PORTAL).innerHTML,
+      guid: el.querySelector(RSS_GUID).innerHTML,
+      creator: el.querySelector(RSS_CREATOR).innerHTML,
+      description: el.querySelector(RSS_DESCRIPTION).innerHTML,
+      content: el.querySelector(RSS_CONTENT).innerHTML,
     })
-    return news
+  })
+  return news
 }
 
 function onAllNewsClick() {
@@ -353,17 +356,17 @@ function onAllStudentsLifeClick() {
 
 const student_life_page = ref(1)
 const callback_registry_ok = ref(false);
-const setNews = (data) => {
+const setNews = (data: any) => {
     news_store.news = data;
 }
 const removeNews = () => {
     news_store.news = [];
 }
-function getStudentLifeNews(onSuccess, onError) {
+function getStudentLifeNews(onSuccess: any, onError: any) {
     const callbackName = `cbSl${student_life_page.value}`;
     const url = `https://lms.synergy.ru/studylife/api?key=zx91lwlyBr6leOzeUytKjIrkPYLQDs3R&pageSize=30&pageNumber=${student_life_page.value}&callback=CallbackRegistry.${callbackName}`;
 
-    window.CallbackRegistry[callbackName] = function (data) {
+    window.CallbackRegistry[callbackName] = function (data: any) {
         callback_registry_ok.value = true;
         delete window.CallbackRegistry[callbackName];
         onSuccess(data.recordset);
@@ -381,7 +384,7 @@ function getStudentLifeNews(onSuccess, onError) {
     document.head.appendChild(script);
 }
 
-function onStudentLifeCardClick(slide) {
+function onStudentLifeCardClick(slide: any) {
     console.log('onStudentLifeCardClick rrouter push')
     // router.push({
     //     name: 'students_life-id',
@@ -392,48 +395,47 @@ function onStudentLifeCardClick(slide) {
 }
 
 const managers = computed(() => {
-    if(active_group.value?.manager ||active_group.value?.personal_manager ) {
-        return Object.entries(active_group.value)
-            .reduce((acc, [key, val]) => {
-                if ((key === 'manager' || key === 'personal_manager') && val) {
-                    acc.push({
-                        name: val,
-                        rank: key,
-                        contacts: { ...active_group.value?.[`${key}_contacts`] },
-                    })
-                }
-                return acc
-            }, [])
-            .sort()
-            .reverse()
-    }
+  if(active_group.value?.manager ||active_group.value?.personal_manager ) {
+    return Object.entries(active_group.value)
+      .reduce((acc, [key, val]) => {
+        if ((key === 'manager' || key === 'personal_manager') && val) {
+          acc.push({
+            name: val || '',
+            rank: key || '',
+            contacts: { ...(active_group.value?.[`${key}_contacts`] || []) } ,
+          })
+        }
+        return acc
+      }, [])
+      .sort()
+      .reverse()
+  }
 })
 
 
 onMounted( async () => {
-    const [result_news,result_banners,student_life_news,student_by_email,getting_available_services] = await Promise.allSettled(
-        [
-            getNews(),
-            getBanners(),
-            getStudentLifeNews(setNews,removeNews),
-            getStudentByEmail(),
-            getAvailableServices()]);
+  const [result_news,result_banners, student_life_news, student_by_email, getting_available_services] = await Promise.allSettled(
+    [
+      getNews(),
+      getBanners(),
+      getStudentLifeNews(setNews,removeNews),
+      getStudentByEmail(),
+      getAvailableServices()
+    ]);
 
-    if(result_news.status === 'fulfilled') {
-        news.value = newsFormatter(result_news.value);
-    }
-    if(result_banners.status === 'fulfilled') {
-        await bannerFormatter(result_banners.value)
-    }
-    if(student_by_email.status === 'fulfilled' && student_by_email.value.status != 0) {
-
-        setStudentGroup(student_by_email.value);
-    }
-    if(getting_available_services.status === 'fulfilled') {
-        available_services.value = getting_available_services.value;
-        getFavouriteServices();
-    }
-
+  if(result_news.status === 'fulfilled') {
+    news.value = newsFormatter(result_news.value);
+  }
+  if(result_banners.status === 'fulfilled') {
+    await bannerFormatter(result_banners.value)
+  }
+  if(student_by_email.status === 'fulfilled' && student_by_email.value.status != 0) {
+    setStudentGroup(student_by_email.value);
+  }
+  if(getting_available_services.status === 'fulfilled') {
+    available_services.value = getting_available_services.value;
+    getFavouriteServices();
+  }
 })
 </script>
 

@@ -28,7 +28,8 @@ export interface User {
     "manager":  string,
     "manager_contacts": ManagerContact,
     "personal_manager":  string,
-    "personal_manager_contacts": ManagerContact[]
+    "personal_manager_contacts": ManagerContact[],
+    "status": any
 }
 
 export interface JsonUser {
