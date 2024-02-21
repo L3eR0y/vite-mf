@@ -13,6 +13,7 @@ import App from './App.vue'
 // Styles
 import "./assets/styles/bootstrap.css"
 import "./assets/styles/app.scss"
+import "./assets/styles/style.css"
 
 // Routes
 import routes from  './routes/routes'

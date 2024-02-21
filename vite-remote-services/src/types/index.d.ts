@@ -1,6 +1,7 @@
 declare module '*.webp'
 declare module '@synergy/*'
 declare module 'ui-kit-bundler'
+declare module 'kit/*'
 
 type Group = {
     id?: string,

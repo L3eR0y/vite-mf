@@ -7,18 +7,17 @@ import { createPinia } from 'pinia'
 import ruLocale from '@/locales/ru.json'
 import enLocale from '@/locales/en.json'
 
-// import './style.css'
 import App from './App.vue'
 
 // Styles
 import "./assets/styles/bootstrap.css"
 import "./assets/styles/app.scss"
+// import "./assets/styles/style.css"
 
 // Routes
 import routes from  './routes/routes'
 
 //Plugins
-// import RemoteLoaderPlugin from './src/plugins/remote-loader'
 import KeycloakPlugin from '@/plugins/keycloak'
 
 const i18n = createI18n({
