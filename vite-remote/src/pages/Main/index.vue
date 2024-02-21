@@ -1,80 +1,444 @@
 <template lang="pug">
 .main-page-wrapper
-  .main-container
-    .banner.main-block
-      Splider(:slides="banners" :options="banner_splider_options")
-        template(#slide="{ slide }")
-          img.banner-img(:src="slide.src" @click="onBannerClick(slide)" :data-splide-lazy="slide.src")
-    .groups
-      .groups-tabs(v-if="groups.length")
-        .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }")
-          .tab--indicator
-            BaseIcon(name="dot" :color="active_group.id === group.id ? '#6DD22A' : '#BABCC2'" size="6")
-          .tab--title {{ group.title }}
+    .main-container
+        .banner.main-block
+          Splider(:slides="banners" :options="banner_slider_options" :key="banners.length")
+            template(#slide="{ slide }")
+              a(:href="slide.url" target='blank')
+                img.banner-img(:src="slide.src"  :data-splide-lazy="slide.src")
+        .groups
+          .groups-tabs(v-if="groups.length")
+            .tab(v-for="group in groups" :key="group.id" :class="{ 'active': active_group.id === group.id }" @click="setActiveTab(group)")
+              .tab--indicator
+                Icon(name="dot" :color="active_group.id === group.id ? '#6DD22A' : '#BABCC2'" size="6")
+              .tab--title {{ group.title }}
+          .groups-content(:style="{ 'border-radius': groups_border_radius }")
+            | Привет Nastya!
+            .waving-hand
+        .helpers.main-block(v-if="managers?.length")
+          .title-container
+            .title К кому обратиться
+          .helpers-container
+            .helper(v-for="(manager, index) in managers" :key="index")
+              .profile
+                .avatar
+                  div(:class="[manager.rank === 'manager' ? 'avatar-red' : 'avatar-yellow']")
+                .information
+                  .name {{ manager.name }}
+                  .rank {{ manager.rank === 'manager' ? 'Тьютор' : 'Персональный куратор' }}
+              .phones
+                .phone(v-if="manager.contacts.mobile_phone")
+                  .icon
+                    Icon(name="communication" size='tn' color="#BABCC2")
+                  .label {{ manager.contacts.mobile_phone }}
+                  .phone(v-if="manager.contacts.phone")
+                    .icon
+                      Icon(name="communication" size='tn' color="#BABCC2")
+                    .label {{ manager.contacts.phone }}
+              .emails
+                .email(v-if="manager.contacts.email")
+                  .icon
+                    Icon(name="mail" size='tn' color="#BABCC2")
+                  .label {{ manager.contacts.email }}
+        .favorie-services.main-block(v-if="services.length" )
+            .title-container
+              .title Избранные сервисы
+              .navigation
+                .arrows(@click="onLeftArrowClick('services_slider')")
+                  Icon(name="arrow_small_left" size='xs')
+                .arrows(@click="onRightArrowClick('services_slider')")
+                  Icon(name="arrow_small_right" size='xs')
+            .cards-container
+              .cards
+                Splider(:slides="services" ref="services_slider" :options="favourites_slider_options")
+                  template(#slide="{ slide }")
+                    .card(v-if="slide.type !== 'adding_favourite'")
+                      .card-header
+                        .icon
+                          Icon(name="heart" color="#FF0A47" size="tn")
+                      .card-body
+                        .title {{ slide.title }}
+                        .description {{ slide.description }}
+                    .card(v-else @click="onAddFavoriteServiceClick")
+                      .card-header
+                      .card-body
+                        .title(style="text-align: center;") {{ slide.title }}
+        .student-life.main-block
+          .title-container
+            .title Студенческая жизнь
+            //- button(@click="getStudentLifeNews") Get
+            .navigation(v-if="news_store.news.length")
+              SButton.news-button(variant="secondary" size="small" @click="onAllStudentsLifeClick") Все новости
+              .arrows(@click="onLeftArrowClick('students_life_slider')")
+                Icon(name="arrow_small_left" size='xs')
+              .arrows(@click="onRightArrowClick('students_life_slider')")
+                Icon(name="arrow_small_right" size='xs')
+            .cards-container
+              .cards(v-if="news_store.news.length")
+                Splider(:slides="news_store.news" ref="students_life_slider" :options="students_life_slider_options")
+                  template(#slide="{ slide }")
+                    .card(@click="onStudentLifeCardClick(slide)")
+                      .image-container
+                        img.card-img(:src="slide?.image || empty_news_image")
+                      .description {{ slide.description || slide.title }}
+                      .date-container
+                        .calendar-icon
+                          Icon(name="calendar" size="tn")
+                        .date {{ new Date(slide.created).toLocaleDateString() }}
+              .empty-block(v-else)
+                div Пока нет новостей
+            .card-actions
+                SButton.news-button(variant="secondary" size="small") Все новости
+        .news.main-block
+            .title-container
+                .title Новости Университета
+                .navigation(v-if="news.length")
+                    SButton.news-button(variant="secondary" size="small" @click="onAllNewsClick") Все новости
+                    .arrows(@click="onLeftArrowClick('news_slider')")
+                        Icon(name="arrow_small_left" size='xs')
+                    .arrows(@click="onRightArrowClick('news_slider')")
+                        Icon(name="arrow_small_right" size='xs')
+            .cards-container
+                .cards(v-if="news.length")
+                    Splider(:slides="news" ref="news_slider" :options="news_slider_options")
+                        template(#slide="{ slide }")
+                            .card()
+                                .image-container
+                                    img.card-img(:src="slide?.image || empty_news_image")
+                                .description {{ slide.title }}
+                                .date-container
+                                    .calendar-icon
+                                        Icon(name="calendar" size="tn")
+                                    .date {{ new Date(slide.pubDate).toLocaleDateString() }}
+                .empty-block(v-else)
+
+                    div Пока нет новостей
+            .card-actions
+                SButton.news-button(variant="secondary" size="small") Все новости
 </template>
-  
+
+
 <script setup lang="ts">
-  import { reactive, onMounted, nextTick } from 'vue'
-  import { useMainStore }  from '@/stores/main'
-  import Splider from '@components/Splider/Splider.vue'
-  import bannerPlaceholder from '@/assets/images/banners/banner-placeholder-1020.webp'
+import {computed, onMounted, ref} from 'vue';
+// TODO: раскомментить когда добавим роутер
+// import router from '@/router';
+import '@splidejs/splide/dist/css/splide.min.css';
+import { useMainStore }  from '@/stores/main';
+import { useNewsStore } from "@/stores/news.ts";
+import Splider from '@components/Splider/Splider.vue';
+import SButton from "@components/ui-kit/SButton.vue";
+import Icon from "@components/Icon/Icon.vue";
+
+import { RSS_CREATOR,RSS_GUID,RSS_IMAGE,RSS_LINK,RSS_DESCRIPTION,RSS_CONTENT,RSS_SHOW_IN_PORTAL,RSS_PUB_DATE,RSS_TITLE } from "@/consts/news.ts";
+import type { Group } from "@/types";
+import type { User,JsonUser } from "@/types/user.type.ts";
+import { ImageSize } from "@/types/images.ts";
+import {
+    banner_slider_options,
+    favourites_slider_options,
+    news_slider_options,
+    students_life_slider_options
+} from "@/consts/slider-options.ts";
+
+const store = useMainStore();
+const news_store = useNewsStore();
+
+const empty_news_image = Object.values(import.meta.glob('@assets/images/banners/EmptyNewsImage.svg', { eager: true, as: 'url' }))[0];
+const banner_placeholder = Object.values(import.meta.glob('@assets/images/banners/banner-placeholder-1020.webp', { eager: true, as: 'url' }))[0];
+
+let news_slider = ref(Splider.methods);
+let students_life_slider = ref(Splider.methods);
+let services_slider = ref(Splider.methods);
+
+const sliderArrowObj = computed(() => {
+    return {
+        'news_slider': news_slider.value,
+        'students_life_slider': students_life_slider.value,
+        'services_slider' : services_slider.value
+    }
+})
+
+function onLeftArrowClick (ref: any): void {
+    sliderArrowObj?.value?.[ref]?.slideLeft?.()
+}
+function onRightArrowClick (ref) {
+    sliderArrowObj?.value?.[ref]?..slideRight?.()
+}
+
+const active_group = ref<Group>()
+
+const setActiveTab = (group: any) => {
+    active_group.value = group
+}
+
+const groups = ref<Group[]>([]);
+const groups_border_radius = computed(() => {
+    return groups.value.length ? '0px 8px 8px 8px' : '8px'
+});
+
+async function getStudentByEmail():Promise<User[]> {
+    // TODO: раскомментить при мерже в мастер/дев
+    // const response = await fetch(`https://lms.synergy.ru/api/exchange/getStudentsByEmail?key=1029-xosJp-5820-Posm&email=${store.user.email}`);
+
+    // TODO: удалить при мерже в мастер/дев
+    const response = await fetch(`https://lms.synergy.ru/api/exchange/getStudentsByEmail?key=1029-xosJp-5820-Posm&email=sshalamkov@yandex.ru`);
+    try {
+        const result: Promise<JsonUser> =  await response.json()
+        return (await result).result
+    }catch (e: any) {
+        throw new Error(e)
+    }
+}
+
+function setStudentGroup(arr:User[]) {
+    if(!arr.length) return;
+    groups.value =
+        (arr &&
+            arr.map((item) => {
+                return {
+                    title: item.group,
+                    id: item.group,
+                    ...item,
+                }
+            })) ||
+        []
+    groups.value.length && (active_group.value = groups.value[0])
+}
 
 
-  const store = useMainStore()
+const services = ref<any>([]);
+const available_services = ref<AvailableService[]>([]);
 
-  const active_group: Group = reactive({})
+function onAddFavoriteServiceClick() {
+    console.log('router push onAddFavoriteServiceClick')
+    // TODO: раскомментить когда добавим роутер
+    //router.push({ name: 'services' })
+}
 
-  const banners: Banners = reactive([
-    {
-      name: 'welcome_banner',
-      src: bannerPlaceholder 
-    },
-  ])
+function getFavouriteServices() {
+    services.value = [
+      ...available_services.value.filter((el) => el.is_favorites),
+      {
+        title: 'Добавить избранный сервис',
+        id: 'library17',
+        type: 'adding_favourite',
+        position: 999,
+      },
+    ]
+}
 
-  const groups: Groups = reactive([])
+async function getAvailableServices(): Promise<AvailableService[]> {
+  // TODO: перенести в ui_store
 
-  const banner_splider_options = reactive({
-    type: 'loop',
-    interval: 5000,
-    // prePage: 1,
-    perMove: 1,
-    pagination: true,
-    paginationDirection: 'ltr',
-    arrows: false,
-    drag: true,
-    autoplay: true,
-    rewind: true,
+  const response = await fetch(`https://develop-elka-common-services.c4.syndev.ru/common/services/availables`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      Authorization: store.auth.token || '',
+    }
   })
 
-  function onBannerClick(banner: { [ key:string ]: any }): void {
-    banner.url && window.open(banner.url)
+  try {
+    const result: Promise<JsonAvailableService> =  await response.json()
+    return ((await result)?.data || []) as AvailableService[]
+  } catch (e: any) {
+    console.error(e.message)
+    return []
   }
+}
 
-  function getBanners(): Promise<any> {
-    return new Promise((resolve, reject) =>
-      fetch('https://dev-elka-common-banners-api.c4.syndev.ru/banners/display', {
+
+const banners = ref([{
+    name: 'welcome_banner',
+    src: banner_placeholder,
+}]);
+async function getBanners (): Promise<any> {
+    const response = await fetch(`${import.meta.env.VUE_APP_BANNERS__API_URL}/banners/display`, {
         method: 'GET',
         credentials: 'include',
         headers: {
-          Authorization: store.auth.token || '',
-        },
-      }).then((response) => response.json())
-      .then(data => {
-        resolve(data)
-      })
-      .catch((e: any) => {
-        reject(e)
-      })
-    )
-  }
+            Authorization: store.auth.token || '',
+        }});
 
-  onMounted(() => {
-    nextTick(() => {
-      getBanners()
+    try {
+        const banners = await response.json();
+        return banners.data.map(({ ...item }) => ({
+            ...item,
+            src: item?.images[ImageSize.LG]?.url || "",
+        }))
+    }catch (e: any) {
+       throw new Error(e)
+    }
+}
+async function bannerFormatter (banner_arr: any) {
+    if(!banner_arr.length) return;
+    const image_promises: any[] = [];
+
+    const myPromise = async (): Promise<string> => {
+        return banner_arr.forEach((item: any) => {
+            image_promises.push(
+                new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.src = item.src
+
+                    image.onload = () => {
+                        resolve(item)
+                    }
+
+                    image.onerror = () => {
+                        reject()
+                    }
+                })
+            )
+        })
+    };
+    await myPromise();
+
+
+
+    // const results = await Promise.allSettled(image_promises);
+
+    // const response = ( banners.value.push(...results.filter((res) => res.status === "fulfilled").map((item) => item.value) as PromiseFulfilledResult<string> | undefined));
+
+
+    //const usSuccessfulPromises:number = banners.value.push(...results.filter((item) => item.status === 'rejected').map((item) => item.reason));
+}
+
+
+const news = ref([]);
+
+async function getNews() {
+  try {
+    let response = await fetch(import.meta.env.VUE_APP_RSS_NEWS__API_URL);
+    const xml = await response.text().then(( str ) => {
+        return new DOMParser().parseFromString(str, 'text/xml');
+    });
+    return xml.querySelectorAll('item');
+  } catch (e) {
+    throw e
+  }
+}
+
+function newsFormatter (items: any) {
+  const news: any = []
+  items.forEach((el: any) => {
+    news.push({
+      title: el.querySelector(RSS_TITLE).innerHTML,
+      link: el.querySelector(RSS_LINK).innerHTML,
+      image: el.querySelector(RSS_IMAGE).innerHTML.match(/src=&quot;(.+\.(jpg|jpeg))&quot;/)?.[1] || '',
+      pubDate: el.querySelector(RSS_PUB_DATE).innerHTML,
+      showInPortal: el.querySelector(RSS_SHOW_IN_PORTAL).innerHTML,
+      guid: el.querySelector(RSS_GUID).innerHTML,
+      creator: el.querySelector(RSS_CREATOR).innerHTML,
+      description: el.querySelector(RSS_DESCRIPTION).innerHTML,
+      content: el.querySelector(RSS_CONTENT).innerHTML,
     })
   })
+  return news
+}
+
+function onAllNewsClick() {
+    console.log('router push onAllNewsClick')
+    // TODO: раскомментить когда добавим роутер
+    // router.push({
+    //     name: 'news',
+    // })
+}
+
+function onAllStudentsLifeClick() {
+    console.log('router push onAllStudentsLifeClick')
+    // TODO: раскомментить когда добавим роутер
+    // router.push({
+    //     name: 'students_life',
+    // })
+}
+
+
+const student_life_page = ref(1)
+const callback_registry_ok = ref(false);
+const setNews = (data: any) => {
+    news_store.news = data;
+}
+const removeNews = () => {
+    news_store.news = [];
+}
+function getStudentLifeNews(onSuccess: any, onError: any) {
+    const callbackName = `cbSl${student_life_page.value}`;
+    const url = `https://lms.synergy.ru/studylife/api?key=zx91lwlyBr6leOzeUytKjIrkPYLQDs3R&pageSize=30&pageNumber=${student_life_page.value}&callback=CallbackRegistry.${callbackName}`;
+
+    window.CallbackRegistry[callbackName] = function (data: any) {
+        callback_registry_ok.value = true;
+        delete window.CallbackRegistry[callbackName];
+        onSuccess(data.recordset);
+    }
+
+    function checkCallback() {
+        if (callback_registry_ok.value) return;
+        delete CallbackRegistry[callbackName];
+        onError(url);
+    }
+
+    const script = document.createElement('script');
+    script.onload = script.onerror = checkCallback;
+    script.src = url;
+    document.head.appendChild(script);
+}
+
+function onStudentLifeCardClick(slide: any) {
+    console.log('onStudentLifeCardClick rrouter push')
+    // router.push({
+    //     name: 'students_life-id',
+    //     params: {
+    //         id: slide.studylifeId,
+    //     },
+    // })
+}
+
+const managers = computed(() => {
+  if(active_group.value?.manager ||active_group.value?.personal_manager ) {
+    return Object.entries(active_group.value)
+      .reduce((acc, [key, val]) => {
+        if ((key === 'manager' || key === 'personal_manager') && val) {
+          acc.push({
+            name: val || '',
+            rank: key || '',
+            contacts: { ...(active_group.value?.[`${key}_contacts`] || []) } ,
+          })
+        }
+        return acc
+      }, [])
+      .sort()
+      .reverse()
+  }
+})
+
+
+onMounted( async () => {
+  const [result_news,result_banners, student_life_news, student_by_email, getting_available_services] = await Promise.allSettled(
+    [
+      getNews(),
+      getBanners(),
+      getStudentLifeNews(setNews,removeNews),
+      getStudentByEmail(),
+      getAvailableServices()
+    ]);
+
+  if(result_news.status === 'fulfilled') {
+    news.value = newsFormatter(result_news.value);
+  }
+  if(result_banners.status === 'fulfilled') {
+    await bannerFormatter(result_banners.value)
+  }
+  if(student_by_email.status === 'fulfilled' && student_by_email.value.status != 0) {
+    setStudentGroup(student_by_email.value);
+  }
+  if(getting_available_services.status === 'fulfilled') {
+    available_services.value = getting_available_services.value;
+    getFavouriteServices();
+  }
+})
 </script>
-  
+
 <style lang="scss" scoped>
 .main-page-wrapper {
   width: 100%;
@@ -130,6 +494,7 @@
           margin-right: 4px;
           cursor: pointer;
           border-radius: 8px;
+          user-select: none;
         }
 
         .arrows:nth-last-child(1) {
@@ -665,4 +1030,4 @@
   height: 100%;
 }
 </style>
-  
+
