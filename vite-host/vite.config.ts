@@ -11,7 +11,6 @@ export default defineConfig({
       name: 'synergy-elka-host-app',
       remotes: {
         // 'main-page': "http://localhost:5173/assets/remoteEntry.js",
-        'profile-service': "http://localhost:5173/assets/remoteEntry.js",
       },
       shared: ['vue', 'pinia']
     })

@@ -9,17 +9,6 @@ export default [
     path: '/',
     name: 'App',
     component: IndexPage,
-    children: [
-      {
-        name: 'main',
-        path: '/main',
-        component: MainPage
-      },
-      {
-        name: 'profile',
-        path: '/profile',
-        component: ProfileService
-      }
-    ]
+    children: []
   },  
 ] as RouteRecordRaw[]

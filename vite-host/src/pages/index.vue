@@ -1,111 +1,205 @@
 <template lang="pug">
 .main-layout
-  .main-layout__navbar
-    Navbar(@toggle-sidebar="onToggleSideBar")
-  .main-layout__wrapper
-    .sidebar
-      SidebarV3(:minimized="store.sidebar.minimized" @toggle-sidebar="onToggleSideBar" :options="sidebar_menu_items")
-    .main-view
-      router-view
+  .sidebar(:class="{ minimized: sidebar_minimized }")
+    .sidebar__switcher(@click="onSidebarSwitcherClick" :class="{ mirrored: sidebar_minimized }") 
+      svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+        path(fill-rule="evenodd" clip-rule="evenodd" d="M14.7364 6.93548C15.0879 7.28695 15.0879 7.8568 14.7364 8.20827L10.5728 12.3719L14.7364 16.5355C15.0879 16.887 15.0879 17.4568 14.7364 17.8083C14.3849 18.1597 13.8151 18.1597 13.4636 17.8083L8.6636 13.0083C8.31213 12.6568 8.31213 12.087 8.6636 11.7355L13.4636 6.93548C13.8151 6.58401 14.3849 6.58401 14.7364 6.93548Z" fill="#98989A")
+    .sidebar__logo 
+    .sidebar__menu
+      .menu-item.menu-item--active
+        .menu-item__icon
+          svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+            path(
+              fill-rule="evenodd" 
+              clip-rule="evenodd" 
+              d="M10.0132 4.80163C11.0828 3.63904 12.9176 3.63904 13.9872 4.80164L18.6119 9.82846C19.3761 10.6591 19.8002 11.7465 19.8002 12.8752V16.8711C19.8002 18.6937 18.3227 20.1711 16.5002 20.1711H14.4002C13.4061 20.1711 12.6002 19.3652 12.6002 18.3711V15.9711H11.4002V18.3711C11.4002 19.3652 10.5943 20.1711 9.60019 20.1711H7.5002C5.67766 20.1711 4.2002 18.6937 4.2002 16.8711V12.8752C4.2002 11.7465 4.62433 10.6591 5.38851 9.82846L10.0132 4.80163ZM12.6625 6.02034C12.306 5.6328 11.6944 5.6328 11.3379 6.02034L6.71318 11.0472C6.25468 11.5455 6.0002 12.198 6.0002 12.8752V16.8711C6.0002 17.6995 6.67177 18.3711 7.5002 18.3711H9.60019V15.9711C9.60019 14.977 10.4061 14.1711 11.4002 14.1711H12.6002C13.5943 14.1711 14.4002 14.977 14.4002 15.9711V18.3711H16.5002C17.3286 18.3711 18.0002 17.6995 18.0002 16.8711V12.8752C18.0002 12.198 17.7457 11.5455 17.2872 11.0472L12.6625 6.02034Z" 
+              fill="white")
+        .menu-item__label
+          span Label
+      .menu-item
+        .menu-item__icon
+          svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+            path(
+              fill-rule="evenodd" 
+              clip-rule="evenodd" 
+              d="M10.0132 4.80163C11.0828 3.63904 12.9176 3.63904 13.9872 4.80164L18.6119 9.82846C19.3761 10.6591 19.8002 11.7465 19.8002 12.8752V16.8711C19.8002 18.6937 18.3227 20.1711 16.5002 20.1711H14.4002C13.4061 20.1711 12.6002 19.3652 12.6002 18.3711V15.9711H11.4002V18.3711C11.4002 19.3652 10.5943 20.1711 9.60019 20.1711H7.5002C5.67766 20.1711 4.2002 18.6937 4.2002 16.8711V12.8752C4.2002 11.7465 4.62433 10.6591 5.38851 9.82846L10.0132 4.80163ZM12.6625 6.02034C12.306 5.6328 11.6944 5.6328 11.3379 6.02034L6.71318 11.0472C6.25468 11.5455 6.0002 12.198 6.0002 12.8752V16.8711C6.0002 17.6995 6.67177 18.3711 7.5002 18.3711H9.60019V15.9711C9.60019 14.977 10.4061 14.1711 11.4002 14.1711H12.6002C13.5943 14.1711 14.4002 14.977 14.4002 15.9711V18.3711H16.5002C17.3286 18.3711 18.0002 17.6995 18.0002 16.8711V12.8752C18.0002 12.198 17.7457 11.5455 17.2872 11.0472L12.6625 6.02034Z" 
+              fill="white")
+        .menu-item__label
+          span Label
+      .menu-item
+        .menu-item__icon
+          svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+            path(
+              fill-rule="evenodd" 
+              clip-rule="evenodd" 
+              d="M10.0132 4.80163C11.0828 3.63904 12.9176 3.63904 13.9872 4.80164L18.6119 9.82846C19.3761 10.6591 19.8002 11.7465 19.8002 12.8752V16.8711C19.8002 18.6937 18.3227 20.1711 16.5002 20.1711H14.4002C13.4061 20.1711 12.6002 19.3652 12.6002 18.3711V15.9711H11.4002V18.3711C11.4002 19.3652 10.5943 20.1711 9.60019 20.1711H7.5002C5.67766 20.1711 4.2002 18.6937 4.2002 16.8711V12.8752C4.2002 11.7465 4.62433 10.6591 5.38851 9.82846L10.0132 4.80163ZM12.6625 6.02034C12.306 5.6328 11.6944 5.6328 11.3379 6.02034L6.71318 11.0472C6.25468 11.5455 6.0002 12.198 6.0002 12.8752V16.8711C6.0002 17.6995 6.67177 18.3711 7.5002 18.3711H9.60019V15.9711C9.60019 14.977 10.4061 14.1711 11.4002 14.1711H12.6002C13.5943 14.1711 14.4002 14.977 14.4002 15.9711V18.3711H16.5002C17.3286 18.3711 18.0002 17.6995 18.0002 16.8711V12.8752C18.0002 12.198 17.7457 11.5455 17.2872 11.0472L12.6625 6.02034Z" 
+              fill="white")
+        .menu-item__label
+          span Label
+      .menu-item
+        .menu-item__icon
+          svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+            path(
+              fill-rule="evenodd" 
+              clip-rule="evenodd" 
+              d="M10.0132 4.80163C11.0828 3.63904 12.9176 3.63904 13.9872 4.80164L18.6119 9.82846C19.3761 10.6591 19.8002 11.7465 19.8002 12.8752V16.8711C19.8002 18.6937 18.3227 20.1711 16.5002 20.1711H14.4002C13.4061 20.1711 12.6002 19.3652 12.6002 18.3711V15.9711H11.4002V18.3711C11.4002 19.3652 10.5943 20.1711 9.60019 20.1711H7.5002C5.67766 20.1711 4.2002 18.6937 4.2002 16.8711V12.8752C4.2002 11.7465 4.62433 10.6591 5.38851 9.82846L10.0132 4.80163ZM12.6625 6.02034C12.306 5.6328 11.6944 5.6328 11.3379 6.02034L6.71318 11.0472C6.25468 11.5455 6.0002 12.198 6.0002 12.8752V16.8711C6.0002 17.6995 6.67177 18.3711 7.5002 18.3711H9.60019V15.9711C9.60019 14.977 10.4061 14.1711 11.4002 14.1711H12.6002C13.5943 14.1711 14.4002 14.977 14.4002 15.9711V18.3711H16.5002C17.3286 18.3711 18.0002 17.6995 18.0002 16.8711V12.8752C18.0002 12.198 17.7457 11.5455 17.2872 11.0472L12.6625 6.02034Z" 
+              fill="white")
+        .menu-item__label
+          span Label
+      .menu-item
+        .menu-item__icon
+          svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+            path(
+              fill-rule="evenodd" 
+              clip-rule="evenodd" 
+              d="M10.0132 4.80163C11.0828 3.63904 12.9176 3.63904 13.9872 4.80164L18.6119 9.82846C19.3761 10.6591 19.8002 11.7465 19.8002 12.8752V16.8711C19.8002 18.6937 18.3227 20.1711 16.5002 20.1711H14.4002C13.4061 20.1711 12.6002 19.3652 12.6002 18.3711V15.9711H11.4002V18.3711C11.4002 19.3652 10.5943 20.1711 9.60019 20.1711H7.5002C5.67766 20.1711 4.2002 18.6937 4.2002 16.8711V12.8752C4.2002 11.7465 4.62433 10.6591 5.38851 9.82846L10.0132 4.80163ZM12.6625 6.02034C12.306 5.6328 11.6944 5.6328 11.3379 6.02034L6.71318 11.0472C6.25468 11.5455 6.0002 12.198 6.0002 12.8752V16.8711C6.0002 17.6995 6.67177 18.3711 7.5002 18.3711H9.60019V15.9711C9.60019 14.977 10.4061 14.1711 11.4002 14.1711H12.6002C13.5943 14.1711 14.4002 14.977 14.4002 15.9711V18.3711H16.5002C17.3286 18.3711 18.0002 17.6995 18.0002 16.8711V12.8752C18.0002 12.198 17.7457 11.5455 17.2872 11.0472L12.6625 6.02034Z" 
+              fill="white")
+        .menu-item__label
+          span Label
+    .sidebar__footer
+      .menu-item.footer-item
+        .menu-item__icon
+          svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+            path(
+              fill-rule="evenodd" 
+              clip-rule="evenodd" 
+              d="M10.0132 4.80163C11.0828 3.63904 12.9176 3.63904 13.9872 4.80164L18.6119 9.82846C19.3761 10.6591 19.8002 11.7465 19.8002 12.8752V16.8711C19.8002 18.6937 18.3227 20.1711 16.5002 20.1711H14.4002C13.4061 20.1711 12.6002 19.3652 12.6002 18.3711V15.9711H11.4002V18.3711C11.4002 19.3652 10.5943 20.1711 9.60019 20.1711H7.5002C5.67766 20.1711 4.2002 18.6937 4.2002 16.8711V12.8752C4.2002 11.7465 4.62433 10.6591 5.38851 9.82846L10.0132 4.80163ZM12.6625 6.02034C12.306 5.6328 11.6944 5.6328 11.3379 6.02034L6.71318 11.0472C6.25468 11.5455 6.0002 12.198 6.0002 12.8752V16.8711C6.0002 17.6995 6.67177 18.3711 7.5002 18.3711H9.60019V15.9711C9.60019 14.977 10.4061 14.1711 11.4002 14.1711H12.6002C13.5943 14.1711 14.4002 14.977 14.4002 15.9711V18.3711H16.5002C17.3286 18.3711 18.0002 17.6995 18.0002 16.8711V12.8752C18.0002 12.198 17.7457 11.5455 17.2872 11.0472L12.6625 6.02034Z" 
+              fill="white")
+        .menu-item__label
+          span Help
+      .menu-item.footer-item
+        .menu-item__icon
+          svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
+            path(
+              fill-rule="evenodd" 
+              clip-rule="evenodd" 
+              d="M10.0132 4.80163C11.0828 3.63904 12.9176 3.63904 13.9872 4.80164L18.6119 9.82846C19.3761 10.6591 19.8002 11.7465 19.8002 12.8752V16.8711C19.8002 18.6937 18.3227 20.1711 16.5002 20.1711H14.4002C13.4061 20.1711 12.6002 19.3652 12.6002 18.3711V15.9711H11.4002V18.3711C11.4002 19.3652 10.5943 20.1711 9.60019 20.1711H7.5002C5.67766 20.1711 4.2002 18.6937 4.2002 16.8711V12.8752C4.2002 11.7465 4.62433 10.6591 5.38851 9.82846L10.0132 4.80163ZM12.6625 6.02034C12.306 5.6328 11.6944 5.6328 11.3379 6.02034L6.71318 11.0472C6.25468 11.5455 6.0002 12.198 6.0002 12.8752V16.8711C6.0002 17.6995 6.67177 18.3711 7.5002 18.3711H9.60019V15.9711C9.60019 14.977 10.4061 14.1711 11.4002 14.1711H12.6002C13.5943 14.1711 14.4002 14.977 14.4002 15.9711V18.3711H16.5002C17.3286 18.3711 18.0002 17.6995 18.0002 16.8711V12.8752C18.0002 12.198 17.7457 11.5455 17.2872 11.0472L12.6625 6.02034Z" 
+              fill="white")
+        .menu-item__label
+            span Log out
+  .content
+    .content__navbar 
+    .content__view
 </template>
     
 <script setup lang="ts">
-  import { reactive } from 'vue'
+  import { ref } from 'vue'
   import { useMainStore }  from '@/stores/main'
-  import type { SidebarMenu } from '@/types/sidebar.type'
-  import Navbar from '@/components/Navbar/Navbar.vue'
-  
-  import SidebarV3 from '@/components/Sidebar/SidebarV3.vue'
-
   const store = useMainStore()
 
-  const sidebar_menu_items: SidebarMenu = reactive<SidebarMenu>([
-    {
-      name: 'main',
-      route: 'main',
-      title: 'Главная страница',
-      icon: {
-        name: 'main',
-        color: 'black'
-      }
-    },
-    {
-      id: '2',
-      name: 'third',
-      route: 'third',
-      title: 'Второй пункт меню',
-      icon: {
-        name: 'services'
-      },
-      submenu: [
-        {
-          id: '21',
-          name: 'second11',
-          route: 'second11',
-          title: 'Подменю 1',
-          icon: {
-            
-          },
-        },
-        {
-          id: '22',
-          name: 'second12',
-          route: 'second11',
-          title: 'Подменю 2',
-          icon: {},
-        },
-        {
-          id: '23',
-          name: 'second13',
-          route: 'second11',
-          title: 'Подменю 3',
-          icon: {},
-        },
-      ]
-    }
-  ])
+  const sidebar_minimized = ref(false)
 
-  function onToggleSideBar(): void {
-    store.sidebar.minimized ? store.showSidebar() : store.hideSidebar()
+  function onSidebarSwitcherClick() {
+    sidebar_minimized.value = !sidebar_minimized.value
   }
 </script>
     
 <style lang="scss" scoped>
-  .main-layout {
+.main-layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: $bg-main;
+}
+
+.sidebar {
+  position: relative;
+  width: 340px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  background-color: $bg-second;
+  border-right: 1px $br-main solid;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+
+  transition: width 0.7s;
+
+  &__switcher {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $bg-second;
+    border: 1px $br-main solid;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    right: calc(0px - 16px);
+    top: 26px;
+    transition: transform 0.7s;
+  }
+
+  &__logo {
+    height: 44px;
+    width: 100%;
+    // background-color: $bg-main;
+    margin-bottom: 24px;
+    border-radius: $br-radius-main;
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
-  
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-  
-    &__navbar {
-      width: 100%;
-      position: relative;
-    }
-  
-    &__wrapper {
-      display: flex;
-      height: 100%;
-    }
-  }
-  
-  .sidebar {
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
   }
 
-  .main-view {
-    @include scroll();
-
-    background-color: #f5f5f5;
+  &__footer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     width: 100%;
-    overflow: hidden;
-    position: relative;
-    overflow-y: auto;
+    border-top: 1px $br-main solid;
+    padding-top: 16px;
+    gap: 8px;
   }
+}
+
+.menu-item {
+  display: flex;
+  height: 48px;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  border-radius: $br-radius-main;
+  color: white;
+  background-color: transparent;
+  // background-color: #5575F2;
+  cursor: pointer;
+  line-height: 24px;
+  font-size: 15px;
+  overflow: hidden;
+
+  &--active {
+    background-color: #5575F2;
+  }  
+}
+
+.footer-item {
+  background-color: transparent;
+}
+
+.minimized {
+  width: 84px;
+}
+
+.mirrored {
+  transform: rotate(180deg);
+}
+
+
+.content {
+  width: 100%;
+
+  &__navbar {
+    width: 100%;
+    height: 84px;
+    background-color: $bg-second;
+    border-bottom: 1px $br-main solid;
+  }
+}
 </style>
     
