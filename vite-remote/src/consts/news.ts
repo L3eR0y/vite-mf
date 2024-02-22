@@ -1,9 +1,0 @@
-export const RSS_TITLE = "title";
-export const RSS_LINK = "link";
-export const RSS_IMAGE= "encoded";
-export const RSS_PUB_DATE= "pubDate";
-export const RSS_SHOW_IN_PORTAL= "showInPortal";
-export const RSS_GUID= "guid";
-export const RSS_CREATOR= "creator";
-export const RSS_DESCRIPTION= "description";
-export const RSS_CONTENT= "encoded";
