@@ -6,8 +6,13 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
 
+    "types": [
+      "vite/client"
+    ],
+
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "allowJs": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -19,18 +24,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
-    "vueCompilerOptions": {
-      "plugins": [
-        "@vue/language-plugin-pug"
-      ]
-    },
-
     "baseUrl": ".",
 
     "paths": {
       "@/*": ["src/*"],
-      "@types/*": ["types/*"],
+      "@app-types/*": ["types/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"]
     },

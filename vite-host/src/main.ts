@@ -19,7 +19,7 @@ import "./assets/styles/style.css"
 import routes from  './routes/routes'
 
 //Plugins
-import KeycloakPlugin from '@/plugins/keycloak'
+// import KeycloakPlugin from '@/plugins/keycloak'
 
 //Remotes
 // import RemoteMainPage from 'main-page/MainPage'
@@ -45,7 +45,7 @@ const app = createApp(App)
 // app.component('ProfileService', ProfileService)
 
 app.use(pinia)
-app.use(KeycloakPlugin)
+// app.use(KeycloakPlugin)
 app.use(router)
 app.use(i18n)
 
