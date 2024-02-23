@@ -12,7 +12,8 @@
       SBMenuItem(:item="{title: 'Help'}" :active="sidebar_menu_item_selected({title: 'Help'})" @click="onSidebarMenuItemClick({title: 'Help'})")
       SBMenuItem(:item="{title: 'Log out'}" :active="sidebar_menu_item_selected({title: 'Log out'})" @click="onSidebarMenuItemClick({title: 'Log out'})")
   .content
-    .content__navbar 
+    .content__navbar
+      NavBar 
     .content__view
 </template>
     
@@ -25,6 +26,7 @@
 
   // Components
   import SBMenuItem from '@components/SidebarMenuItem/SidebarMenuItem.vue'
+  import NavBar from '@components/NavigationBar/NavigationBar.vue'
 
   const store = useMainStore()
 
