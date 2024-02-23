@@ -19,6 +19,7 @@ import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
   display: flex;
   align-items: center;
   padding: 10px 12px;
+  gap: 8px;
 
   &__input {
     width: 100%;
