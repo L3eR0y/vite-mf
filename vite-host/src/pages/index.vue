@@ -15,6 +15,7 @@
     .content__navbar
       NavBar 
     .content__view
+      RouterView
 </template>
     
 <script setup lang="ts">
@@ -144,13 +145,24 @@
 
 
 .content {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  height: 100%;
 
   &__navbar {
     width: 100%;
     height: 84px;
     background-color: $bg-second;
     border-bottom: 1px $br-main solid;
+  }
+
+  &__view {
+    padding: 40px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
 }
 </style>
