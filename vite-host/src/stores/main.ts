@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import MainStore from '@/types/main-store.type'
+import MainStore from '@app-types/main-store.type'
 import Keycloak from 'keycloak-js'
 
 export const useMainStore = defineStore('main', {

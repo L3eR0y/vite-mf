@@ -5,18 +5,28 @@ import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envDir: './',
   plugins: [
     vue(),
     federation({
-      name: 'synergy-elka-host-app',
+      name: 'vite-mf-host',
+      exposes: {},
       remotes: {
-        // 'main-page': "http://localhost:5173/assets/remoteEntry.js",
+        'vite-mf-remote': "http://localhost:5173/assets/remoteEntry.js",
       },
-      shared: ['vue', 'pinia']
+      shared: ['vue', 'pinia', 'vue-router']
     })
   ],
-  server: {
-    port: 3030
+  base: 'http://localhost:5173',
+  build: {
+    target: ["chrome89", "edge89", "firefox89", "safari15"],
+    minify: false,
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        minifyInternalExports: false
+      }
+    }
   },
   resolve: {
     alias: {
@@ -32,14 +42,4 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    target: 'esnext',
-    minify: false,
-    cssCodeSplit: true,
-    rollupOptions: {
-      output: {
-        minifyInternalExports: false
-      }
-    }
-  }
 })

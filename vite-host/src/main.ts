@@ -21,10 +21,6 @@ import routes from  './routes/routes'
 //Plugins
 // import KeycloakPlugin from '@/plugins/keycloak'
 
-//Remotes
-// import RemoteMainPage from 'main-page/MainPage'
-// import ProfileService from 'profile-service/Profile'
-
 const i18n = createI18n({
     locale: 'ru',
     messages: {

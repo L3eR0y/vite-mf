@@ -1,2 +1,1 @@
-declare module "main-page/*"
-declare module 'profile-service/*'
+declare module 'vite-mf-remote/*'
