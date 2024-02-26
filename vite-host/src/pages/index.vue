@@ -7,10 +7,21 @@
     .sidebar__logo 
     .sidebar__menu
       template(v-for="(el, _index) in sidebar_menu" :key="`smi-${_index}`")
-        SBMenuItem(:item="el" :active="sidebar_menu_item_selected(el)" @click="onSidebarMenuItemClick(el)")
+        Accordion(:item="el" :active="sidebar_menu_item_selected(el)")
+          template(#head)
+            SBMenuItem(:item="el" :active="sidebar_menu_item_selected(el)" @click="onSidebarMenuItemClick(el)")
+          template(#body v-if="el.submenu")
+            SBMenuItem(
+              v-for="(sb_item, _index) in el.submenu"
+              :active="sidebar_menu_item_selected(sb_item)"
+              :key="_index"
+              :item="sb_item"
+              @click="onSidebarMenuItemClick(sb_item)"
+            )
+        //- SBMenuItem(:item="el" :active="sidebar_menu_item_selected(el)" @click="onSidebarMenuItemClick(el)")
     .sidebar__footer
-      SBMenuItem(:item="{title: 'Help'}" :active="sidebar_menu_item_selected({title: 'Help'})" @click="onSidebarMenuItemClick({title: 'Help'})")
-      SBMenuItem(:item="{title: 'Log out'}" :active="sidebar_menu_item_selected({title: 'Log out'})" @click="onSidebarMenuItemClick({title: 'Log out'})")
+      SBMenuItem(:item="{title: 'Help', type: 'item'}" :active="sidebar_menu_item_selected({title: 'Help', type: 'item'})" @click="onSidebarMenuItemClick({title: 'Help', type: 'item'})")
+      SBMenuItem(:item="{title: 'Log out', type: 'item'}" :active="sidebar_menu_item_selected({title: 'Log out', type: 'item'})" @click="onSidebarMenuItemClick({title: 'Log out', type: 'item'})")
   .content
     .content__navbar
       NavBar 
@@ -20,35 +31,65 @@
     
 <script setup lang="ts">
   import { ref, reactive, onMounted } from 'vue'
-  import { useMainStore }  from '@/stores/main'
+  // import { useMainStore }  from '@/stores/main'
   import { useRouter} from 'vue-router'
   // Types
   import type { SidebarMenuItem } from '@app-types/sidebar.type'
 
   // Components
   import SBMenuItem from '@components/SidebarMenuItem/SidebarMenuItem.vue'
+  import Accordion from '@components/Accordion/Accordion.vue'
   import NavBar from '@components/NavigationBar/NavigationBar.vue'
 
-  const store = useMainStore()
+  // const store = useMainStore()
   const router = useRouter()
 
   const selected_menu_item = reactive<SidebarMenuItem>({
-    title: undefined
+    title: 'Accordion',
+    type: 'item'
   })
 
   const sidebar_minimized = ref(false)
 
-  const sidebar_menu = ref<SidebarMenuItem[]>([])
+  const sidebar_menu = ref<SidebarMenuItem[]>([
+    {
+      name: 'accordion',
+      route: 'accordion',
+      title: 'Accordion',
+      type: 'item',
+      submenu: [
+        {
+          name: 'acc1',
+          title: 'Acc1 Submenu',
+          route: 'acc1',
+          type: 'submenu_item'
+        },
+        {
+          name: 'acc2',
+          title: 'Acc2 Submenu',
+          route: 'acc2',
+          type: 'submenu_item'
+        },
+        {
+          name: 'acc3',
+          title: 'Acc3 Submenu',
+          route: 'acc3',
+          type: 'submenu_item'
+        }
+      ]
+    }
+  ])
 
   const services = router.getRoutes().filter((route) => route.name === 'services')?.pop()
 
-  services?.children.forEach((route) => {
-    sidebar_menu.value.push({
-      route: `/services/${route.path}`,
-      name: route.name as string,
-      title: route.name as string,
-    })
-  })
+  // services?.children.forEach((route) => {
+  //   sidebar_menu.value.push({
+  //     route: `/services/${route.path}`,
+  //     name: route.name as string,
+  //     title: route.name as string,
+  //     type: 'item'
+  //   })
+  // })
 
   function onSidebarSwitcherClick() {
     sidebar_minimized.value = !sidebar_minimized.value
@@ -56,7 +97,7 @@
 
   function onSidebarMenuItemClick(element: SidebarMenuItem) {
     selected_menu_item.title = element.title
-    element?.route && router.push({ path: element.route })
+    element?.route && router.push({ name: element.route })
   }
 
   function sidebar_menu_item_selected(element: SidebarMenuItem): boolean {

@@ -8,6 +8,7 @@ type SidebarMenuItem = {
     [key: string]: any
   },
   position?: number,
+  type: 'submenu_item' | 'item',
   submenu?: SidebarMenuItem[]
 }
 

@@ -1,6 +1,6 @@
 <template lang="pug">
 .menu-item(:class="{ 'menu-item--active': active }")
-  .menu-item__icon
+  .menu-item__icon(v-if="item?.type === 'item'")
     svg(width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg")
       path(
         fill-rule="evenodd" 
@@ -38,7 +38,7 @@
   background-color: transparent;
   cursor: pointer;
   line-height: 24px;
-  font-size: 15px;
+  // font-size: 15px;
   overflow: hidden;
 
   &__label {
